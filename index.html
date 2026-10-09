@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jilbert Burgers &middot; Comida r&aacute;pida en Maracay</title>
+<meta name="description" content="Hamburguesas, salchipapas, bebidas y combos. Pide por WhatsApp en Maracay, Aragua.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<!-- Cabecera -->
+<header class="cabecera">
+  <a href="index.html" class="logo" style="text-decoration:none;color:inherit;">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <circle cx="50" cy="50" r="48" fill="#FFC107" stroke="#D32F2F" stroke-width="4"/>
+      <text x="50" y="46" text-anchor="middle" font-family="-apple-system, sans-serif" font-weight="900" font-size="24" fill="#D32F2F">JB</text>
+      <text x="50" y="72" text-anchor="middle" font-family="-apple-system, sans-serif" font-weight="700" font-size="12" fill="#D32F2F">BURGERS</text>
+    </svg>
+    <span>Jilbert Burgers</span>
+  </a>
+  <nav>
+    <a href="index.html">Inicio</a>
+  </nav>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <h1>&iexcl;Las mejores <span>hamburguesas</span> de Maracay!</h1>
+  <p>Pide f&aacute;cil por WhatsApp. Elige tu categor&iacute;a, agrega al carrito y env&iacute;a tu pedido en segundos.</p>
+</section>
+
+<!-- Categorias -->
+<h2 class="seccion-titulo">Nuestro Men&uacute;</h2>
+<section class="categorias">
+  <a class="categoria-card" href="hamburguesas.html">
+    <span class="emoji">&#127828;</span>
+    <span class="label">Hamburguesas</span>
+    <span class="sub">De res, pollo y dobles</span>
+  </a>
+  <a class="categoria-card" href="salchipapas.html">
+    <span class="emoji">&#127839;</span>
+    <span class="label">Salchipapas</span>
+    <span class="sub">Cl&aacute;sicas y especiales</span>
+  </a>
+  <a class="categoria-card" href="bebidas.html">
+    <span class="emoji">&#129380;</span>
+    <span class="label">Bebidas</span>
+    <span class="sub">Refrescos y jugos</span>
+  </a>
+  <a class="categoria-card" href="combos.html">
+    <span class="emoji">&#127869;</span>
+    <span class="label">Combos</span>
+    <span class="sub">Comida + papas + bebida</span>
+  </a>
+</section>
+
+<!-- Boton carrito flotante -->
+<button class="carrito-btn" id="carrito-btn" aria-label="Ver carrito">
+  <span class="icono">&#128722;</span>
+  <span>Mi pedido</span>
+  <span class="badge" id="carrito-badge" style="display:none;">0</span>
+</button>
+
+<!-- Panel del carrito -->
+<aside class="carrito-panel" id="carrito-panel" aria-label="Carrito de compras">
+  <header>
+    <h2>Tu Pedido</h2>
+    <button id="carrito-cerrar" aria-label="Cerrar">&times;</button>
+  </header>
+  <div class="carrito-lista" id="carrito-lista"></div>
+  <div class="carrito-pie">
+    <div class="total"><span>Total</span><span id="carrito-total">$0.00</span></div>
+    <button class="btn-wa" id="carrito-enviar">Enviar pedido por WhatsApp</button>
+    <button class="btn-vaciar" id="carrito-vaciar">Vaciar carrito</button>
+  </div>
+</aside>
+
+<!-- Pie -->
+<footer class="pie">
+  <strong>Jilbert Burgers</strong>
+  <p class="direccion">Barrio San Luis, calle Juan Borges N&deg; 11-B, Maracay, Aragua</p>
+  <p>WhatsApp <a href="https://wa.me/584124409025" target="_blank" rel="noopener">0412-440-9025</a></p>
+  <p>Facebook <a href="https://www.facebook.com/search/top?q=jilbert%20burgers" target="_blank" rel="noopener">Jilbert Burgers</a> &middot; <a href="mailto:jilbertburgers@gmail.com">jilbertburgers@gmail.com</a></p>
+  <p class="copy">&copy; 2026 Jilbert Burgers. Todos los derechos reservados.</p>
+</footer>
+
+<script src="assets/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+{
+  "whatsapp": "584124409025",
+  "moneda": "USD",
+  "simbolo": "$",
+  "categorias": {
+    "hamburguesas": {
+      "titulo": "Hamburguesas",
+      "emoji": "\uD83C\uDF54",
+      "productos": [
+        { "id": "h1", "nombre": "Hamburguesa Clasica", "desc": "Carne 100% res, queso, lechuga, tomate y salsa de la casa.", "precio": 5.00, "emoji": "\uD83C\uDF54" },
+        { "id": "h2", "nombre": "Hamburguesa Doble", "desc": "Doble carne, doble queso, tocineta y salsa especial.", "precio": 7.50, "emoji": "\uD83C\uDF54" },
+        { "id": "h3", "nombre": "Hamburguesa BBQ", "desc": "Carne de res, queso cheddar, cebolla crispy y salsa BBQ.", "precio": 6.50, "emoji": "\uD83C\uDF54" },
+        { "id": "h4", "nombre": "Hamburguesa de Pollo", "desc": "Pechuga de pollo a la plancha, queso y vegetales frescos.", "precio": 5.50, "emoji": "\uD83C\uDF57" }
+      ]
+    },
+    "salchipapas": {
+      "titulo": "Salchipapas",
+      "emoji": "\uD83C\uDF5F",
+      "productos": [
+        { "id": "s1", "nombre": "Salchipapa Clasica", "desc": "Papas fritas con salchicha, queso rallado y salsas.", "precio": 4.00, "emoji": "\uD83C\uDF5F" },
+        { "id": "s2", "nombre": "Salchipapa Especial", "desc": "Papas, salchicha, carne, pollo, queso y salsas de la casa.", "precio": 6.00, "emoji": "\uD83C\uDF5F" },
+        { "id": "s3", "nombre": "Salchipapa Mixta", "desc": "Papas, salchicha, tocineta y queso cheddar fundido.", "precio": 5.00, "emoji": "\uD83C\uDF5F" }
+      ]
+    },
+    "bebidas": {
+      "titulo": "Bebidas",
+      "emoji": "\uD83E\uDD64",
+      "productos": [
+        { "id": "b1", "nombre": "Refresco 350ml", "desc": "Coca-Cola, Pepsi, Fanta o Sprite bien fria.", "precio": 1.50, "emoji": "\uD83E\uDD64" },
+        { "id": "b2", "nombre": "Agua Mineral 500ml", "desc": "Agua natural o con gas.", "precio": 1.00, "emoji": "\uD83D\uDCA7" },
+        { "id": "b3", "nombre": "Jugo Natural", "desc": "Jugo de naranja, parchita o mora natural.", "precio": 2.00, "emoji": "\uD83C\uDF4A" },
+        { "id": "b4", "nombre": "Malta", "desc": "Malta bien fria 355ml.", "precio": 1.80, "emoji": "\uD83C\uDF7E" }
+      ]
+    },
+    "combos": {
+      "titulo": "Combos",
+      "emoji": "\uD83C\uDF7D",
+      "productos": [
+        { "id": "c1", "nombre": "Combo Clasico", "desc": "Hamburguesa clasica + papas + refresco 350ml.", "precio": 7.00, "emoji": "\uD83C\uDF7D" },
+        { "id": "c2", "nombre": "Combo Doble", "desc": "Hamburguesa doble + papas + refresco 350ml.", "precio": 9.50, "emoji": "\uD83C\uDF7D" },
+        { "id": "c3", "nombre": "Combo Familiar", "desc": "2 hamburguesas clasicas + 2 papas + 2 refrescos.", "precio": 14.00, "emoji": "\uD83C\uDF7D" }
+      ]
+    }
+  }
+}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Salchipapas | Jilbert Burgers</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-categoria="salchipapas">
+
+<header class="cabecera">
+  <a class="logo" href="index.html" aria-label="Jilbert Burgers">
+    <svg viewBox="0 0 48 48" width="40" height="40" aria-hidden="true">
+      <rect x="6" y="10" width="36" height="8" rx="4" fill="#FFC107"/>
+      <rect x="6" y="20" width="36" height="8" rx="3" fill="#D32F2F"/>
+      <rect x="6" y="30" width="36" height="8" rx="4" fill="#FFC107"/>
+    </svg>
+    <span>Jilbert Burgers</span>
+  </a>
+  <nav class="nav">
+    <a href="index.html">Men&uacute;</a>
+  </nav>
+</header>
+
+<main class="contenedor">
+  <a class="volver" href="index.html">&larr; Volver al men&uacute;</a>
+
+  <h2 class="seccion-titulo">Salchipapas</h2>
+  <p class="seccion-sub">Papas doradas, salchicha y salsas de la casa.</p>
+
+  <section class="productos" id="lista-productos">
+    <!-- Los productos se cargan desde assets/menu.json -->
+  </section>
+</main>
+
+<!-- Carrito flotante -->
+<button class="carrito-pill" id="carrito-pill" aria-label="Ver mi pedido">
+  <span>&#128722; Mi pedido</span>
+  <span class="badge" id="carrito-badge">0</span>
+</button>
+
+<!-- Panel lateral -->
+<aside class="panel" id="panel-carrito" aria-hidden="true">
+  <div class="panel-cabecera">
+    <h3>Mi pedido</h3>
+    <button class="panel-cerrar" id="panel-cerrar" aria-label="Cerrar">&times;</button>
+  </div>
+  <ul class="panel-lista" id="panel-lista"></ul>
+  <div class="panel-pie">
+    <div class="panel-total">Total: <strong id="panel-total">$0.00</strong></div>
+    <button class="btn-whatsapp" id="btn-whatsapp">Enviar pedido por WhatsApp</button>
+    <button class="btn-vaciar" id="btn-vaciar">Vaciar carrito</button>
+  </div>
+</aside>
+
+<footer class="pie">
+  <p><strong>Jilbert Burgers</strong></p>
+  <p>Barrio San Luis, calle Juan Borges N 11-B, Maracay, Aragua.</p>
+  <p>
+    <a href="https://wa.me/584124409025" target="_blank" rel="noopener">WhatsApp: 0412-440-9025</a>
+    &nbsp;|&nbsp;
+    <a href="https://facebook.com/jilbertburgers" target="_blank" rel="noopener">Facebook</a>
+    &nbsp;|&nbsp;
+    <a href="mailto:jilbertburgers@gmail.com">jilbertburgers@gmail.com</a>
+  </p>
+</footer>
+
+<script src="assets/script.js"></script>
+</body>
+</html>

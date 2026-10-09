@@ -1,0 +1,19 @@
+# Sistema / editor
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# PowerShell / temporales
+*.tmp
+*.log
+*.bak
+
+# Sesion local (no publicar notas internas)
+_sesion/
+
+# Node (por si acaso, no se usa)
+node_modules/
+npm-debug.log*
+
+# VS Code (opcional, local)
+.vscode/
