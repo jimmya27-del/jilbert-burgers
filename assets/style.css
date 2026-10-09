@@ -471,3 +471,135 @@ a:hover { color: var(--rojo-oscuro); }
   .carrito-pie { padding: 16px 18px 20px; }
 }
 
+
+/* ============================================================
+   PASO 21 - Tarjeta toggle: seleccionado, contador y boton "-"
+   ============================================================ */
+.producto { cursor: pointer; user-select: none; }
+.producto .acciones {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+.producto .acciones .contador {
+  min-width: 28px;
+  text-align: center;
+  font-weight: 800;
+  font-size: 15px;
+  color: var(--negro);
+  opacity: 0;
+  transform: scale(.7);
+  transition: all var(--trans);
+}
+.producto .acciones .btn-menos {
+  width: 40px;
+  padding: 12px 0;
+  background: var(--gris-claro);
+  color: var(--negro);
+  border: 0;
+  border-radius: var(--radio-sm);
+  font-weight: 800;
+  font-size: 16px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all var(--trans);
+  opacity: 0;
+  pointer-events: none;
+}
+.producto .acciones .btn-menos:hover { background: #E5E5E5; }
+.producto .acciones .btn-menos:disabled { opacity: 0 !important; pointer-events: none; }
+.producto .acciones .btn-agregar { flex-grow: 1; margin-top: 0; }
+
+.producto.seleccionado {
+  border-color: var(--rojo);
+  box-shadow: 0 8px 24px rgba(211,47,47,.14);
+  transform: translateY(-2px);
+}
+.producto.seleccionado .acciones .contador {
+  opacity: 1;
+  transform: scale(1);
+  color: var(--rojo);
+}
+.producto.seleccionado .acciones .btn-menos {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@keyframes jilbertPop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+.producto.pop { animation: jilbertPop .28s cubic-bezier(.4,0,.2,1); }
+
+@media (max-width: 480px) {
+  .producto .acciones .btn-menos { width: 36px; padding: 10px 0; }
+  .producto .acciones .contador { font-size: 14px; }
+}
+
+/* ============================================================
+   PASO 21 - Tarjeta toggle: seleccionado, contador y boton "-"
+   ============================================================ */
+.producto { cursor: pointer; user-select: none; }
+.producto .acciones {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+.producto .acciones .contador {
+  min-width: 28px;
+  text-align: center;
+  font-weight: 800;
+  font-size: 15px;
+  color: var(--negro);
+  opacity: 0;
+  transform: scale(.7);
+  transition: all var(--trans);
+}
+.producto .acciones .btn-menos {
+  width: 40px;
+  padding: 12px 0;
+  background: var(--gris-claro);
+  color: var(--negro);
+  border: 0;
+  border-radius: var(--radio-sm);
+  font-weight: 800;
+  font-size: 16px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all var(--trans);
+  opacity: 0;
+  pointer-events: none;
+}
+.producto .acciones .btn-menos:hover { background: #E5E5E5; }
+.producto .acciones .btn-menos:disabled { opacity: 0 !important; pointer-events: none; }
+.producto .acciones .btn-agregar { flex-grow: 1; margin-top: 0; }
+
+.producto.seleccionado {
+  border-color: var(--rojo);
+  box-shadow: 0 8px 24px rgba(211,47,47,.14);
+  transform: translateY(-2px);
+}
+.producto.seleccionado .acciones .contador {
+  opacity: 1;
+  transform: scale(1);
+  color: var(--rojo);
+}
+.producto.seleccionado .acciones .btn-menos {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@keyframes jilbertPop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+.producto.pop { animation: jilbertPop .28s cubic-bezier(.4,0,.2,1); }
+
+@media (max-width: 480px) {
+  .producto .acciones .btn-menos { width: 36px; padding: 10px 0; }
+  .producto .acciones .contador { font-size: 14px; }
+}
