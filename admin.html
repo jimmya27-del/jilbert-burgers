@@ -1033,7 +1033,7 @@
       var form = '';
       form += '<div class="form-edicion">';
       form +=   '<div class="fila-doble">';
-      form +=     '<label>Foto (ruta .svg del repo)<input type="text" data-campo="foto" value="' + escaparHTML(p.foto || '') + '" placeholder="assets/img/productos/ejemplo.svg" spellcheck="false"></label>';
+      form +=     '<label>Foto (ruta .svg del repo)<input type="text" data-campo="foto" value="' + escaparHTML(p.foto || '') + '" placeholder="assets/img/productos/ejemplo.svg" spellcheck="false"><button type="button" class="btn-secundario" data-accion="subir-foto" style="margin-top:6px;">Subir foto desde PC</button></label>';
       form +=     '<label>Nombre<input type="text" data-campo="nombre" value="' + escaparHTML(p.nombre || '') + '"></label>';
       form +=   '</div>';
       form +=   '<div class="foto-preview" data-foto-preview></div>';
@@ -1307,6 +1307,36 @@
     });
   }
   window.__jbRedim = redimensionarImagen;
+  document.addEventListener('click', function(ev){
+    var t = ev.target;
+    if (!t || !t.closest) return;
+    var btnF = t.closest('[data-accion="subir-foto"]');
+    if (!btnF) return;
+    ev.preventDefault();
+    var tarjeta = btnF.closest('.tarjeta-producto');
+    if (!tarjeta) return;
+    var inp = document.createElement('input');
+    inp.type = 'file';
+    inp.accept = 'image/*';
+    inp.style.display = 'none';
+    document.body.appendChild(inp);
+    inp.addEventListener('change', function(){
+      var f = inp.files && inp.files[0];
+      if (!f) { inp.remove(); return; }
+      redimensionarImagen(f, 600, 0.8).then(function(dataUrl){
+        var input = tarjeta.querySelector('[data-campo="foto"]');
+        if (input) {
+          input.value = dataUrl;
+          input.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+        inp.remove();
+      }).catch(function(err){
+        alert('Error al procesar la imagen: ' + err.message);
+        inp.remove();
+      });
+    });
+    inp.click();
+  });
 
   document.addEventListener('click', function(ev){
     var t = ev.target;
