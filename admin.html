@@ -653,6 +653,18 @@
       html +=   `<label>Logo del negocio<input type="text" data-negocio="logo" value="${escaparHTML(logo)}" placeholder="assets/img/logo.svg" spellcheck="false"></label>`;
       html +=   `<div style="margin-top:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;"><button type="button" class="btn-secundario" data-accion="subir-logo">Elegir logo desde mi computadora</button><span style="font-size:12px;opacity:.7;">Redimensiona a 600px lado mayor (JPEG q0.8) y guarda base64 en menu.json.</span></div>`;
       html +=   `<div class="foto-preview" data-logo-preview></div>`;
+      html +=   `<div style="margin-top:12px;padding:12px;background:#f5f5f5;border-radius:8px;">`;
+      html +=     `<div style="font-weight:600;margin-bottom:8px;">Ajustar logo en la banda</div>`;
+      html +=     `<div data-logo-banda-preview style="background:#000;border-radius:12px;height:200px;position:relative;overflow:hidden;margin-bottom:12px;">`;
+      html +=       `<img data-logo-preview-img alt="" style="display:none;position:absolute;left:50%;top:50%;max-width:100%;max-height:100%;width:auto;height:auto;transform:translate(-50%,-50%) scale(1);">`;
+      html +=     `</div>`;
+      html +=     `<label style="display:block;margin-bottom:4px;font-size:13px;">Tamano: <span data-logo-escala-val>1.00</span></label>`;
+      html +=     `<input type="range" min="0.2" max="2" step="0.05" value="1" data-logo-escala style="width:100%;">`;
+      html +=     `<label style="display:block;margin:8px 0 4px 0;font-size:13px;">Mover a los lados: <span data-logo-x-val>0</span>%</label>`;
+      html +=     `<input type="range" min="-50" max="50" step="1" value="0" data-logo-x style="width:100%;">`;
+      html +=     `<label style="display:block;margin:8px 0 4px 0;font-size:13px;">Mover arriba/abajo: <span data-logo-y-val>0</span>%</label>`;
+      html +=     `<input type="range" min="-50" max="50" step="1" value="0" data-logo-y style="width:100%;">`;
+      html +=   `</div>`;
       html +=   `<hr style="margin:16px 0;border:none;border-top:1px solid var(--borde);">`;
       html +=   `<h3 style="margin:0 0 8px 0;">Portada (lo primero que se ve arriba)</h3>`;
       html +=   `<label>T&iacute;tulo grande (portada)<input type="text" data-hero="titulo" value="${escaparHTML(hTit)}" placeholder="Ej: Las mejores hamburguesas de Maracay" maxlength="200"></label>`;
@@ -664,7 +676,49 @@
       html += `</div>`;
 
       contenidoAdmin.innerHTML = html;
+      inicializarLogoPos();
       if(logo){ actualizarPreviewLogo(); }
+    }
+
+    function inicializarLogoPos(){
+      var pos = (menuCache.negocio && menuCache.negocio.logo_pos) ? menuCache.negocio.logo_pos : {};
+      var esc = (pos.escala != null) ? Number(pos.escala) : 1;
+      var x   = (pos.x != null) ? Number(pos.x) : 0;
+      var y   = (pos.y != null) ? Number(pos.y) : 0;
+      if (isNaN(esc) || esc <= 0) esc = 1;
+      if (isNaN(x)) x = 0;
+      if (isNaN(y)) y = 0;
+      var escEl = contenidoAdmin.querySelector("[data-logo-escala]");
+      var xEl   = contenidoAdmin.querySelector("[data-logo-x]");
+      var yEl   = contenidoAdmin.querySelector("[data-logo-y]");
+      if (escEl) escEl.value = esc;
+      if (xEl)   xEl.value = x;
+      if (yEl)   yEl.value = y;
+      aplicarLogoPosEnPreview();
+    }
+
+    function aplicarLogoPosEnPreview(){
+      var img = contenidoAdmin.querySelector("[data-logo-preview-img]");
+      if (!img) return;
+      var escEl = contenidoAdmin.querySelector("[data-logo-escala]");
+      var xEl   = contenidoAdmin.querySelector("[data-logo-x]");
+      var yEl   = contenidoAdmin.querySelector("[data-logo-y]");
+      var esc = escEl ? Number(escEl.value) : 1;
+      var x   = xEl ? Number(xEl.value) : 0;
+      var y   = yEl ? Number(yEl.value) : 0;
+      var logoInput = contenidoAdmin.querySelector('[data-negocio="logo"]');
+      var src = logoInput ? (logoInput.value || "").trim() : "";
+      if (src) { img.src = src; img.style.display = "block"; }
+      else { img.style.display = "none"; }
+      img.style.transform = "translate(-50%, -50%) scale(" + esc + ")";
+      img.style.left = "calc(50% + " + x + "%)";
+      img.style.top  = "calc(50% + " + y + "%)";
+      var eVal = contenidoAdmin.querySelector("[data-logo-escala-val]");
+      var xVal = contenidoAdmin.querySelector("[data-logo-x-val]");
+      var yVal = contenidoAdmin.querySelector("[data-logo-y-val]");
+      if (eVal) eVal.textContent = esc.toFixed(2);
+      if (xVal) xVal.textContent = x;
+      if (yVal) yVal.textContent = y;
     }
 
     function guardarNegocio(){
@@ -679,7 +733,18 @@
       if(!wa){ alert("El WhatsApp no puede estar vacio."); return; }
       if(mail && mail.indexOf("@") === -1){ alert("El correo no parece valido."); return; }
 
-      menuCache.negocio = { whatsapp: wa, direccion: dir, facebook: fb, correo: mail, logo: logo };
+      var escEl = contenidoAdmin.querySelector("[data-logo-escala]");
+      var xEl   = contenidoAdmin.querySelector("[data-logo-x]");
+      var yEl   = contenidoAdmin.querySelector("[data-logo-y]");
+      var logoPos = {
+        escala: escEl ? Number(escEl.value) : 1,
+        x: xEl ? Number(xEl.value) : 0,
+        y: yEl ? Number(yEl.value) : 0
+      };
+      if (isNaN(logoPos.escala) || logoPos.escala <= 0) logoPos.escala = 1;
+      if (isNaN(logoPos.x)) logoPos.x = 0;
+      if (isNaN(logoPos.y)) logoPos.y = 0;
+      menuCache.negocio = { whatsapp: wa, direccion: dir, facebook: fb, correo: mail, logo: logo, logo_pos: logoPos };
 
       var hTitEl = contenidoAdmin.querySelector(`[data-hero="titulo"]`);
       var hSubEl = contenidoAdmin.querySelector(`[data-hero="subtitulo"]`);
@@ -1272,6 +1337,10 @@
       var el = e.target;
       if(el && el.getAttribute && el.getAttribute('data-negocio') === 'logo'){
         actualizarPreviewLogo();
+        aplicarLogoPosEnPreview();
+      }
+      if(el && el.hasAttribute && (el.hasAttribute('data-logo-escala') || el.hasAttribute('data-logo-x') || el.hasAttribute('data-logo-y'))){
+        aplicarLogoPosEnPreview();
       }
     });
   })();
@@ -1354,7 +1423,7 @@
       if (!f) { inp.remove(); return; }
       redimensionarImagen(f, 600, 0.8).then(function(dataUrl){
         var input = document.querySelector('[data-negocio="logo"]');
-        if (input) input.value = dataUrl;
+        if (input) { input.value = dataUrl; input.dispatchEvent(new Event('input', { bubbles: true })); }
         var prev = document.querySelector('[data-logo-preview]');
         if (prev) prev.innerHTML = '<img src="' + dataUrl + '" style="max-width:160px;max-height:160px;border-radius:8px;margin-top:8px;">';
         inp.remove();

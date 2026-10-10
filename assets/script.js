@@ -173,6 +173,24 @@
     });
   }
 
+  function aplicarLogoPos() {
+    if (!menuData) return;
+    var neg = menuData.negocio || menuData;
+    var pos = neg.logo_pos || {};
+    var escala = (pos.escala != null) ? Number(pos.escala) : 1;
+    var x = (pos.x != null) ? Number(pos.x) : 0;
+    var y = (pos.y != null) ? Number(pos.y) : 0;
+    if (isNaN(escala) || escala <= 0) escala = 1;
+    if (isNaN(x)) x = 0;
+    if (isNaN(y)) y = 0;
+    var bandas = document.querySelectorAll(".logo-banda");
+    Array.prototype.forEach.call(bandas, function (b) {
+      b.style.setProperty("--logo-escala", escala);
+      b.style.setProperty("--logo-x", x + "%");
+      b.style.setProperty("--logo-y", y + "%");
+    });
+  }
+
   function aplicarHero() {
     if (!menuData) return;
     var h = menuData.hero;
@@ -279,6 +297,7 @@
       .then(function (data) {
         menuData = data;
         aplicarNegocio();
+        aplicarLogoPos();
         aplicarHero();
         var cat = document.body.getAttribute('data-categoria');
         if (cat) pintarProductos(cat);
