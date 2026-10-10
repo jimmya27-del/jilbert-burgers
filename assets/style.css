@@ -80,6 +80,23 @@ a:hover { color: var(--rojo-oscuro); }
   text-decoration: none;
 }
 
+/* ---------- Logo del negocio (portada) ---------- */
+.logo-portada {
+  text-align: center;
+  padding: 8px 20px 0;
+}
+.logo-portada .logo-grande {
+  display: inline-block;
+  width: auto;
+  max-width: 90%;
+  max-height: 320px;
+  height: auto;
+}
+.logo-portada .logo-grande:not([src]),
+.logo-portada .logo-grande[src=""] {
+  display: none;
+}
+
 /* ---------- Hero ---------- */
 .hero {
   text-align: center;
