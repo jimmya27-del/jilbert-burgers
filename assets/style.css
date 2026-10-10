@@ -80,21 +80,29 @@ a:hover { color: var(--rojo-oscuro); }
   text-decoration: none;
 }
 
-/* ---------- Logo del negocio (portada) ---------- */
-.logo-portada {
+/* ---------- Logo del negocio (banda negra) ---------- */
+.logo-banda {
+  max-width: 1000px;
+  margin: 24px auto 0;
+  background: var(--negro);
+  padding: 28px 24px;
   text-align: center;
-  padding: 8px 20px 0;
+  border-radius: 14px;
 }
-.logo-portada .logo-grande {
+.logo-banda .logo-banda-img {
   display: inline-block;
-  width: auto;
-  max-width: 90%;
-  max-height: 320px;
+  max-width: 100%;
+  max-height: 260px;
   height: auto;
+  width: auto;
 }
-.logo-portada .logo-grande:not([src]),
-.logo-portada .logo-grande[src=""] {
+.logo-banda .logo-banda-img:not([src]),
+.logo-banda .logo-banda-img[src=""] {
   display: none;
+}
+@media (max-width: 600px) {
+  .logo-banda { margin: 14px 12px 0; padding: 16px 14px; border-radius: 10px; }
+  .logo-banda .logo-banda-img { max-height: 160px; }
 }
 
 /* ---------- Hero ---------- */
