@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin &mdash; Jilbert Burgers</title>
+<style>
+  :root{
+    --amarillo:#FFC107; --amarillo-suave:#FFF3C4;
+    --rojo:#D32F2F; --rojo-oscuro:#B71C1C;
+    --negro:#111111; --gris-texto:#6B6B6B;
+    --gris-claro:#F5F5F5; --fondo:#FAFAFA; --borde:#EAEAEA;
+    --verde:#2E7D32;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family: system-ui,-apple-system,"Segoe UI",Inter,Roboto,sans-serif;
+    background:var(--fondo); color:var(--negro); min-height:100vh;
+  }
+
+  #pantalla-login{
+    min-height:100vh; display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(135deg,var(--amarillo) 0%,var(--rojo) 100%);
+    padding:20px;
+  }
+  .tarjeta-login{
+    background:#fff; border-radius:16px; padding:32px 28px;
+    width:100%; max-width:420px; box-shadow:0 12px 40px rgba(0,0,0,.25);
+  }
+  .tarjeta-login h1{
+    font-size:1.5rem; margin-bottom:6px; color:var(--negro); text-align:center;
+  }
+  .tarjeta-login p.sub{
+    color:var(--gris-texto); font-size:.9rem; margin-bottom:24px; text-align:center;
+  }
+  .logo-login{ width:64px; height:64px; margin:0 auto 16px; display:block; }
+  .campo{ margin-bottom:16px; }
+  .campo label{
+    display:block; text-align:left; font-size:.85rem;
+    color:var(--gris-texto); margin-bottom:6px; font-weight:600;
+  }
+  .campo input{
+    width:100%; padding:12px 14px; border:2px solid var(--borde);
+    border-radius:10px; font-size:1rem; outline:none;
+    transition:border-color .2s; font-family:inherit;
+  }
+  .campo input:focus{ border-color:var(--amarillo); }
+  .campo .ayuda{
+    display:block; font-size:.78rem; color:var(--gris-texto);
+    margin-top:6px; line-height:1.4;
+  }
+  .campo .ayuda a{ color:var(--rojo); text-decoration:none; }
+  .campo .ayuda a:hover{ text-decoration:underline; }
+  .tarjeta-login button.principal{
+    width:100%; margin-top:8px; padding:13px 16px;
+    background:var(--rojo); color:#fff; border:none; border-radius:10px;
+    font-size:1rem; font-weight:700; cursor:pointer; font-family:inherit;
+    transition:background .2s,transform .1s;
+  }
+  .tarjeta-login button.principal:hover{ background:var(--rojo-oscuro); }
+  .tarjeta-login button.principal:active{ transform:scale(.98); }
+  .tarjeta-login button.principal:disabled{ background:#ccc; cursor:not-allowed; }
+  .mensaje{
+    display:none; margin-top:14px; padding:10px 12px;
+    border-radius:8px; font-size:.85rem; font-weight:600; text-align:left;
+  }
+  .mensaje.visible{ display:block; }
+  .mensaje.error{ background:#FFEBEE; color:var(--rojo-oscuro); }
+  .mensaje.ok{ background:#E8F5E9; color:var(--verde); }
+  .mensaje.info{ background:var(--amarillo-suave); color:var(--negro); }
+
+  #pantalla-admin{ display:none; min-height:100vh; flex-direction:column; }
+  #pantalla-admin.visible{ display:flex; }
+
+  .admin-header{
+    background:var(--negro); color:#fff; padding:14px 20px;
+    display:flex; align-items:center; justify-content:space-between;
+    box-shadow:0 2px 8px rgba(0,0,0,.15); flex-wrap:wrap; gap:10px;
+  }
+  .admin-header .marca{
+    display:flex; align-items:center; gap:10px; font-weight:700;
+  }
+  .admin-header .marca .punto{
+    width:10px; height:10px; border-radius:50%; background:var(--amarillo);
+  }
+  .admin-header .acciones{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+  .admin-header button{
+    background:transparent; color:#fff; border:1px solid rgba(255,255,255,.3);
+    padding:8px 14px; border-radius:8px; cursor:pointer; font-family:inherit;
+    font-size:.85rem; transition:background .2s;
+  }
+  .admin-header button:hover{ background:rgba(255,255,255,.1); }
+  .admin-header .estado-token{
+    font-size:.75rem; color:#B0BEC5; margin-right:6px;
+  }
+  .admin-header .estado-token.ok{ color:#81C784; }
+  .admin-header .estado-token.mal{ color:#E57373; }
+
+  .admin-cuerpo{
+    flex:1; display:grid; grid-template-columns:240px 1fr; gap:0;
+  }
+  .admin-sidebar{
+    background:#fff; border-right:1px solid var(--borde); padding:20px 14px;
+  }
+  .admin-sidebar h2{
+    font-size:.75rem; text-transform:uppercase; letter-spacing:.08em;
+    color:var(--gris-texto); margin-bottom:12px; padding-left:8px;
+  }
+  .admin-sidebar ul{ list-style:none; }
+  .admin-sidebar li{
+    padding:10px 12px; border-radius:8px; cursor:pointer;
+    font-size:.92rem; color:var(--negro); margin-bottom:4px;
+    transition:background .15s; display:flex; justify-content:space-between;
+    align-items:center; gap:6px;
+  }
+  .admin-sidebar li:hover{ background:var(--gris-claro); }
+  .admin-sidebar li.activo{ background:var(--amarillo-suave); font-weight:700; }
+  .admin-sidebar #listaConfig{ margin-bottom:20px; }
+  .admin-sidebar li .cuenta{
+    font-size:.75rem; color:var(--gris-texto); background:var(--gris-claro);
+    padding:2px 8px; border-radius:10px;
+  }
+
+  .admin-contenido{ padding:28px 32px; overflow-y:auto; }
+  .admin-contenido h1{ font-size:1.6rem; margin-bottom:6px; }
+  .admin-contenido p.desc{
+    color:var(--gris-texto); margin-bottom:24px; font-size:.95rem;
+  }
+
+  .estado-panel{
+    background:#fff; border:2px dashed var(--borde); border-radius:14px;
+    padding:48px 24px; text-align:center; color:var(--gris-texto);
+  }
+  .estado-panel .icono{ font-size:2.4rem; margin-bottom:12px; display:block; }
+  .estado-panel strong{ color:var(--negro); display:block; margin-bottom:6px; }
+  .estado-panel.ok{ border-color:var(--verde); border-style:solid; }
+  .estado-panel.error{ border-color:var(--rojo); border-style:solid; }
+
+  .cabecera-categoria{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:12px; margin-bottom:18px; flex-wrap:wrap;
+  }
+  .cabecera-categoria h1{ font-size:1.5rem; margin:0; }
+  .cabecera-categoria .contador{
+    font-size:.85rem; color:var(--gris-texto);
+  }
+
+  .lista-productos{
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+    gap:16px;
+  }
+  .tarjeta-producto{
+    background:#fff; border:1px solid var(--borde); border-radius:12px;
+    padding:16px; display:flex; flex-direction:column; gap:8px;
+    transition:border-color .2s, box-shadow .2s;
+  }
+  .tarjeta-producto:hover{
+    border-color:var(--amarillo); box-shadow:0 4px 14px rgba(0,0,0,.06);
+  }
+  .tarjeta-producto .fila-sup{
+    display:flex; align-items:center; gap:10px;
+  }
+  .tarjeta-producto .emoji{
+    font-size:1.6rem; line-height:1; background:var(--gris-claro);
+    border-radius:8px; padding:6px 10px;
+  }
+  .tarjeta-producto .nombre{
+    font-weight:700; font-size:1rem; flex:1; word-break:break-word;
+  }
+  .tarjeta-producto .precio{
+    color:var(--rojo); font-weight:800; font-size:1.05rem;
+  }
+  .tarjeta-producto .descripcion{
+    color:var(--gris-texto); font-size:.88rem; line-height:1.4;
+    min-height:2.4em;
+  }
+  .tarjeta-producto .meta{
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:.78rem; color:var(--gris-texto); border-top:1px solid var(--borde);
+    padding-top:8px; margin-top:auto;
+  }
+  .tarjeta-producto .meta .estado-activo{
+    color:var(--verde); font-weight:700;
+  }
+  .tarjeta-producto .meta .estado-inactivo{
+    color:var(--rojo); font-weight:700;
+  }
+  .tarjeta-producto.inactivo{ opacity:.55; }
+
+  /* PASO 29 - Vista previa de foto (solo modo edicion) */
+  .foto-preview{
+    display:none; margin-top:4px; padding:10px; border:1px dashed var(--borde);
+    border-radius:8px; background:var(--gris-claro); text-align:center;
+  }
+  .foto-preview.visible{ display:block; }
+  .foto-preview img{
+    max-width:96px; max-height:96px; object-fit:contain; display:inline-block;
+  }
+  .foto-preview .error{
+    color:var(--rojo); font-size:.78rem; display:block; padding:4px;
+  }
+
+  .vacio{
+    grid-column:1/-1; padding:32px; text-align:center;
+    color:var(--gris-texto); background:#fff; border-radius:12px;
+    border:2px dashed var(--borde);
+  }
+
+  @media (max-width:720px){
+    .admin-cuerpo{ grid-template-columns:1fr; }
+    .admin-sidebar{ border-right:none; border-bottom:1px solid var(--borde); }
+    .admin-contenido{ padding:20px 16px; }
+  }
+
+  /* PASO 25-B - Modo lectura: acciones tarjeta */
+  .acciones-tarjeta{
+    display:flex; gap:8px; margin-top:12px; padding-top:12px;
+    border-top:1px solid var(--borde);
+  }
+  .btn-editar{
+    background:var(--negro); color:#fff; border:0; border-radius:8px;
+    padding:7px 14px; font-size:13px; font-weight:600; cursor:pointer;
+    transition:background .2s;
+  }
+  .btn-editar:hover{ background:var(--rojo); }
+
+  /* PASO 26 - Acciones de producto */
+  .btn-borrar{
+    background:#fff; color:var(--rojo); border:1px solid var(--rojo);
+    border-radius:8px; padding:7px 14px; font-size:13px; font-weight:600; cursor:pointer;
+    transition:background .2s, color .2s;
+  }
+  .btn-borrar:hover{ background:var(--rojo); color:#fff; }
+  .btn-toggle{
+    background:transparent; border:1px solid var(--borde); border-radius:8px;
+    padding:7px 12px; font-size:13px; font-weight:600; cursor:pointer;
+    color:var(--gris-texto); transition:background .2s; font-family:inherit;
+  }
+  .btn-toggle:hover{ background:var(--gris-claro); }
+  .btn-toggle.inactivo{ color:var(--rojo); border-color:var(--rojo); }
+  .btn-agregar{
+    background:var(--rojo); color:#fff; border:0; border-radius:10px;
+    padding:10px 18px; font-size:14px; font-weight:700; cursor:pointer;
+    transition:background .2s; font-family:inherit;
+  }
+  .btn-agregar:hover{ background:var(--rojo-oscuro); }
+
+  /* PASO 25-B - Modo edicion: formulario inline */
+  .tarjeta-producto.editando{
+    border:2px solid var(--rojo);
+    background:#fff;
+    box-shadow:0 6px 20px rgba(211,47,47,.15);
+  }
+  .tarjeta-producto.editando .fila-sup,
+  .tarjeta-producto.editando .descripcion,
+  .tarjeta-producto.editando .meta,
+  .tarjeta-producto.editando .acciones-tarjeta{
+    display:none;
+  }
+  .form-edicion{
+    display:grid; gap:12px;
+  }
+  .form-edicion label{
+    display:flex; flex-direction:column; gap:4px;
+    font-size:12px; font-weight:600; color:var(--gris-texto);
+    text-transform:uppercase; letter-spacing:.4px;
+  }
+  .form-edicion input,
+  .form-edicion select,
+  .form-edicion textarea{
+    font:inherit; font-size:14px; color:var(--negro);
+    background:#fff; border:1px solid var(--borde); border-radius:8px;
+    padding:9px 12px; outline:none;
+    transition:border-color .2s;
+    width:100%; min-width:0; max-width:100%;
+  }
+  .form-edicion input:focus,
+  .form-edicion select:focus,
+  .form-edicion textarea:focus{
+    border-color:var(--rojo);
+  }
+  .form-edicion textarea{ resize:vertical; min-height:60px; }
+  .form-edicion .fila-doble{
+    display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:12px;
+  }
+  .form-edicion .fila-doble > label{
+    min-width:0; overflow:hidden;
+  }
+  .form-edicion .fila-doble > label > input,
+  .form-edicion .fila-doble > label > select{
+    display:block;
+    width:100%;
+    min-width:0;
+    max-width:100%;
+    box-sizing:border-box;
+  }
+  .tarjeta-producto .badge{ display:inline-block; font-size:11px; font-weight:700; letter-spacing:.3px; text-transform:uppercase; padding:3px 8px; border-radius:999px; margin-right:8px; vertical-align:middle; line-height:1.2; }
+  .badge-nuevo{ background:#2E7D32; color:#fff; }
+  .badge-top{ background:#D32F2F; color:#fff; }
+  .badge-promo{ background:#FFC107; color:#111111; }
+
+  .form-edicion input[data-campo="nombre"]{
+    min-width:0; width:100%; max-width:100%;
+    text-overflow:ellipsis;
+  }
+  .form-edicion .acciones{
+    display:flex; gap:8px; padding-top:6px;
+  }
+  .btn-mover{ padding:4px 10px; font-size:12px; line-height:1; min-width:32px; }
+  .btn-mover:disabled{ opacity:.35; cursor:not-allowed; }
+
+  .btn-guardar{
+    background:var(--verde); color:#fff; border:0; border-radius:8px;
+    padding:9px 18px; font-size:14px; font-weight:700; cursor:pointer;
+    transition:filter .2s;
+  }
+  .btn-guardar:hover{ filter:brightness(1.1); }
+  .btn-cancelar{
+    background:var(--gris-claro); color:var(--negro); border:1px solid var(--borde);
+    border-radius:8px; padding:9px 18px; font-size:14px; font-weight:600; cursor:pointer;
+    transition:background .2s;
+  }
+  .btn-cancelar:hover{ background:#e8e8e8; }
+
+  /* Feedback visual boton Guardar (PASO 27) */
+  .btn-guardar.guardado{
+    background:#1B5E20;
+    box-shadow:0 0 0 4px rgba(46,125,50,.25);
+    transform:scale(1.03);
+    transition:transform .15s, box-shadow .15s, background .15s;
+  }
+  .btn-guardar:disabled{
+    cursor:default;
+    opacity:.98;
+  }
+
+  /* PASO 25-B - Badge borrador en header */
+  .badge-borrador{
+    display:inline-block; margin-left:10px; padding:3px 10px;
+    background:var(--amarillo); color:var(--negro); border-radius:12px;
+    font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.5px;
+  }
+</style>
+</head>
+<body>
+
+<section id="pantalla-login">
+  <div class="tarjeta-login">
+    <svg class="logo-login" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <circle cx="32" cy="32" r="30" fill="#FFC107"/>
+      <path d="M18 26 h28 a4 4 0 0 1 4 4 v6 a4 4 0 0 1 -4 4 h-28 a4 4 0 0 1 -4 -4 v-6 a4 4 0 0 1 4 -4 z" fill="#D32F2F"/>
+      <rect x="18" y="40" width="28" height="8" rx="3" fill="#111111"/>
+      <circle cx="24" cy="30" r="1.4" fill="#FFF3C4"/>
+      <circle cx="32" cy="30" r="1.4" fill="#FFF3C4"/>
+      <circle cx="40" cy="30" r="1.4" fill="#FFF3C4"/>
+    </svg>
+    <h1>Panel de Administraci&oacute;n</h1>
+    <p class="sub">Jilbert Burgers &mdash; acceso restringido</p>
+
+    <div class="campo">
+      <label for="clave">Clave de administrador</label>
+      <input type="password" id="clave" placeholder="Ingresa tu clave" autocomplete="current-password">
+    </div>
+
+    <div class="campo">
+      <label for="token">Token de GitHub (Personal Access Token)</label>
+      <input type="password" id="token" placeholder="github_pat_..." autocomplete="off" spellcheck="false">
+      <span class="ayuda">
+        Se guarda solo en este navegador (localStorage). Nunca se env&iacute;a a un servidor externo.
+        <a href="https://github.com/settings/tokens?type=beta" target="_blank" rel="noopener">Crear/ver token</a>
+      </span>
+    </div>
+
+    <button type="button" class="principal" id="btnEntrar">Entrar</button>
+
+    <div class="mensaje" id="mensajeLogin"></div>
+  </div>
+</section>
+
+<section id="pantalla-admin">
+  <header class="admin-header">
+    <div class="marca"><span class="punto"></span> Jilbert Burgers &mdash; Admin</div>
+    <div class="acciones">
+      <span class="estado-token" id="estadoToken">Token: &mdash;</span>
+      <button type="button" id="btnRecargar">Recargar men&uacute;</button>
+      <button type="button" id="btnGuardarGH">Guardar en GitHub</button>
+      <button type="button" id="btnCambiarToken">Cambiar token</button>
+      <button type="button" id="btnSalir">Cerrar sesi&oacute;n</button>
+    </div>
+  </header>
+
+  <div class="admin-cuerpo">
+    <aside class="admin-sidebar">
+      <h2>Configuraci&oacute;n</h2>
+      <ul id="listaConfig">
+        <li id="itemNegocio"><span>&#9881;&#65039; Datos del negocio</span></li>
+      </ul>
+      <h2>Categor&iacute;as</h2>
+      <ul id="listaCategorias"></ul>
+    </aside>
+
+    <main class="admin-contenido" id="contenidoAdmin">
+      <div class="estado-panel" id="estadoPanel">
+        <span class="icono">&#8987;</span>
+        <strong>Cargando men&uacute; desde GitHub&hellip;</strong>
+        Esto toma 1 o 2 segundos.
+      </div>
+    </main>
+  </div>
+</section>
+
+<script>
+  // PASO 24-bis - Adaptado a menu.json con categorias como OBJETO
+  (function(){
+    'use strict';
+
+    var CLAVE_ADMIN = 'jimmy*03';
+    var STORAGE_KEY = 'jilbert_gh_token';
+    var OWNER       = 'jimmya27-del';
+    var REPO        = 'jilbert-burgers';
+    var BRANCH      = 'main';
+    var RUTA_JSON   = 'assets/menu.json';
+
+    var pantallaLogin = document.getElementById('pantalla-login');
+    var pantallaAdmin = document.getElementById('pantalla-admin');
+    var inputClave    = document.getElementById('clave');
+    var inputToken    = document.getElementById('token');
+    var btnEntrar     = document.getElementById('btnEntrar');
+    var btnSalir      = document.getElementById('btnSalir');
+    var btnCambiar    = document.getElementById('btnCambiarToken');
+    var btnGuardarGH  = document.getElementById('btnGuardarGH');
+    var btnRecargar   = document.getElementById('btnRecargar');
+    var mensaje       = document.getElementById('mensajeLogin');
+    var estadoToken   = document.getElementById('estadoToken');
+    var listaCategorias = document.getElementById('listaCategorias');
+    var itemNegocio     = document.getElementById('itemNegocio');
+    var vistaActiva     = 'categoria';
+    var contenidoAdmin  = document.getElementById('contenidoAdmin');
+
+    var menuCache = null;
+    var categoriaActiva = null;
+    var idEditando = null;
+    var STORAGE_DRAFT = 'jilbert_menu_draft_v1';
+    var menuSha = null;
+
+    function mostrarMensaje(tipo, texto){
+      mensaje.className = 'mensaje visible ' + tipo;
+      mensaje.textContent = texto;
+    }
+    function limpiarMensaje(){
+      mensaje.className = 'mensaje';
+      mensaje.textContent = '';
+    }
+    function getTokenGuardado(){
+      try { return localStorage.getItem(STORAGE_KEY) || ''; }
+      catch(e){ return ''; }
+    }
+    function guardarToken(t){ try { localStorage.setItem(STORAGE_KEY, t); return true; } catch(e){ return false; } }
+    function borrarToken(){ try { localStorage.removeItem(STORAGE_KEY); } catch(e){} }
+
+    function headersGH(token){
+      return {
+        'Authorization': 'Bearer ' + token,
+        'Accept': 'application/vnd.github+json',
+        'X-GitHub-Api-Version': '2022-11-28'
+      };
+    }
+
+    function validarToken(token){
+      return fetch('https://api.github.com/repos/' + OWNER + '/' + REPO, {
+        headers: headersGH(token)
+      }).then(function(r){
+        if(r.ok){ return r.json().then(function(d){ return { ok:true, data:d }; }); }
+        if(r.status === 401){ return { ok:false, msg:'Token invalido o expirado.' }; }
+        if(r.status === 403){ return { ok:false, msg:'Token sin permisos suficientes.' }; }
+        if(r.status === 404){ return { ok:false, msg:'Token sin acceso al repositorio.' }; }
+        return { ok:false, msg:'Error de GitHub (codigo ' + r.status + ').' };
+      }).catch(function(){
+        return { ok:false, msg:'Sin conexion con GitHub.' };
+      });
+    }
+
+    function leerMenuJSON(token){
+      var url = 'https://api.github.com/repos/' + OWNER + '/' + REPO + '/contents/' + RUTA_JSON + '?ref=' + BRANCH;
+      return fetch(url, { headers: headersGH(token) }).then(function(r){
+        if(r.ok){ return r.json(); }
+        if(r.status === 404){ throw new Error('No se encontro ' + RUTA_JSON + ' en el repo.'); }
+        if(r.status === 401){ throw new Error('Token invalido al leer menu.json.'); }
+        throw new Error('Error al leer menu.json (codigo ' + r.status + ').');
+      }).then(function(data){
+        var b64 = (data.content || '').replace(/\s/g, '');
+        var binario = atob(b64);
+        var bytes = new Uint8Array(binario.length);
+        for(var i = 0; i < binario.length; i++){ bytes[i] = binario.charCodeAt(i); }
+        var texto = new TextDecoder('utf-8').decode(bytes);
+        return { json: JSON.parse(texto), sha: data.sha, size: data.size };
+      });
+    }
+
+    var ETIQUETAS_BADGE = { nuevo:'Nuevo', top:'M\u00E1s vendido', promo:'Promo' };
+    function etiquetaBadge(b){
+      var k = String(b || '').toLowerCase();
+      return ETIQUETAS_BADGE[k] || '';
+    }
+
+    function escaparHTML(s){
+      return String(s == null ? '' : s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function formatearPrecio(p, simbolo){
+      if(p === null || p === undefined || p === ''){ return '\u2014'; }
+      var n = Number(p);
+      if(isNaN(n)){ return escaparHTML(p); }
+      var s = (simbolo || '$') + n.toFixed(2).replace('.', ',');
+      return s;
+    }
+
+    // Convierte {slug: {titulo, emoji, productos}} a lista ordenada
+    function categoriasComoLista(menu){
+      var cats = menu.categorias || {};
+      var lista = [];
+      Object.keys(cats).forEach(function(slug){
+        var c = cats[slug] || {};
+        lista.push({
+          slug: slug,
+          titulo: c.titulo || slug,
+          emoji: c.emoji || '',
+          productos: c.productos || []
+        });
+      });
+      return lista;
+    }
+
+    function contarProductos(menu){
+      var total = 0;
+      var cats = menu.categorias || {};
+      Object.keys(cats).forEach(function(slug){
+        var arr = (cats[slug] && cats[slug].productos) || [];
+        total += arr.length;
+      });
+      return total;
+    }
+
+    function pintarSidebar(menu){
+      listaCategorias.innerHTML = '';
+      categoriasComoLista(menu).forEach(function(cat){
+        var li = document.createElement('li');
+        li.dataset.slug = cat.slug;
+        li.innerHTML = '<span>' + escaparHTML(cat.emoji + ' ' + cat.titulo) + '</span>' +
+                       '<span class="cuenta">' + cat.productos.length + '</span>';
+        li.addEventListener('click', function(){ seleccionarCategoria(cat.slug); });
+        listaCategorias.appendChild(li);
+      });
+    }
+
+    function seleccionarCategoria(slug){
+      categoriaActiva = slug;
+      vistaActiva = 'categoria';
+      if(itemNegocio){ itemNegocio.classList.remove('activo'); }
+      Array.prototype.forEach.call(listaCategorias.children, function(li){
+        li.classList.toggle('activo', li.dataset.slug === slug);
+      });
+      pintarCategoria(slug);
+    }
+
+    function pintarCategoria(slug){
+      if(!menuCache){ return; }
+      var cats = menuCache.categorias || {};
+      var cat = cats[slug];
+      if(!cat){
+        contenidoAdmin.innerHTML = '<div class="estado-panel error"><strong>Categoria no encontrada</strong></div>';
+        return;
+      }
+      var productos = cat.productos || [];
+      var simbolo = menuCache.simbolo || '$';
+
+      var html = '';
+      html += '<div class="cabecera-categoria">';
+      html +=   '<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">';
+      html +=     '<h1>' + escaparHTML((cat.emoji || '') + ' ' + (cat.titulo || slug)) + '</h1>';
+      html +=     '<span class="contador">' + productos.length + ' producto' + (productos.length === 1 ? '' : 's') + '</span>';
+      html +=   '</div>';
+      html +=   '<button type="button" class="btn-agregar" data-accion="nuevo">&#10133; Agregar producto</button>';
+      html += '</div>';
+
+      if(productos.length === 0){
+        html += '<div class="vacio">Esta categor&iacute;a no tiene productos todav&iacute;a.</div>';
+        contenidoAdmin.innerHTML = html;
+        return;
+      }
+
+      html += '<div class="lista-productos">';
+      productos.forEach(function(p, idx){
+        var activo = (p.activo !== false);
+        var pid = escaparHTML(p.id || '');
+        html += '<div class="tarjeta-producto' + (activo ? '' : ' inactivo') + '" data-id="' + pid + '">';
+        html +=   '<div class="fila-sup">';
+        var badgeTxt = etiquetaBadge(p.badge);
+        var badgeKey = String(p.badge || '').toLowerCase();
+        var badgeHTML = badgeTxt ? '<span class="badge badge-' + badgeKey + '">' + escaparHTML(badgeTxt) + '</span>' : '';
+        html +=     '<span class="nombre">' + badgeHTML + escaparHTML(p.nombre) + '</span>';
+        html +=     '<span class="precio">' + formatearPrecio(p.precio, simbolo) + '</span>';
+        html +=   '</div>';
+        html +=   '<div class="descripcion">' + escaparHTML(p.desc || p.descripcion || '') + '</div>';
+        html +=   '<div class="meta">';
+        html +=     '<span class="id">id: ' + pid + '</span>';
+        html +=     '<span class="' + (activo ? 'estado-activo' : 'estado-inactivo') + '">' +
+                      (activo ? 'Activo' : 'Inactivo') + '</span>';
+        html +=   '</div>';
+        html +=   '<div class="acciones-tarjeta">';
+        html +=     '<button type="button" class="btn-mover btn-subir" data-accion="subir" data-id="' + pid + '"' + (idx === 0 ? ' disabled' : '') + ' title="Subir">\u25B2</button>';
+        html +=     '<button type="button" class="btn-mover btn-bajar" data-accion="bajar" data-id="' + pid + '"' + (idx === productos.length - 1 ? ' disabled' : '') + ' title="Bajar">\u25BC</button>';
+        html +=     '<button type="button" class="btn-editar" data-id="' + pid + '">\u270F\uFE0F Editar</button>';
+        html +=     '<button type="button" class="btn-toggle' + (activo ? '' : ' inactivo') + '" data-id="' + pid + '">' + (activo ? 'Desactivar' : 'Activar') + '</button>';
+        html +=     '<button type="button" class="btn-borrar" data-id="' + pid + '">\uD83D\uDDD1\uFE0F Borrar</button>';
+        html +=   '</div>';
+        html += '</div>';
+      });
+      html += '</div>';
+
+      contenidoAdmin.innerHTML = html;
+    }
+
+    function pintarNegocio(){
+      if(!menuCache){ return; }
+      vistaActiva = "negocio";
+      Array.prototype.forEach.call(listaCategorias.children, function(li){
+        li.classList.remove("activo");
+      });
+      if(itemNegocio){ itemNegocio.classList.add("activo"); }
+
+      var n    = menuCache.negocio || {};
+      var wa   = (n.whatsapp  != null && n.whatsapp  !== "") ? n.whatsapp  : (menuCache.whatsapp || "");
+      var dir  = (n.direccion != null && n.direccion !== "") ? n.direccion : "Barrio San Luis, calle Juan Borges N\u00B0 11-B, Maracay, Aragua";
+      var fb   = (n.facebook  != null && n.facebook  !== "") ? n.facebook  : "https://www.facebook.com/profile.php?id=61577202209424";
+      var mail = (n.correo    != null && n.correo    !== "") ? n.correo    : "jilbertburgers@gmail.com";
+      var logo = (n.logo      != null && n.logo      !== "") ? n.logo      : "";
+
+      var html = "";
+      html += `<div class="cabecera-categoria">`;
+      html +=   `<h1>&#9881;&#65039; Datos del negocio</h1>`;
+      html += `</div>`;
+      html += `<div class="form-edicion" style="max-width:560px;background:#fff;border:1px solid var(--borde);border-radius:12px;padding:20px;">`;
+      html +=   `<label>WhatsApp<input type="text" data-negocio="whatsapp" value="${escaparHTML(wa)}" placeholder="584124409025 o 0412-440-9025"></label>`;
+      html +=   `<label>Direcci&oacute;n<input type="text" data-negocio="direccion" value="${escaparHTML(dir)}" maxlength="200"></label>`;
+      html +=   `<label>Facebook<input type="text" data-negocio="facebook" value="${escaparHTML(fb)}" placeholder="https://www.facebook.com/..."></label>`;
+      html +=   `<label>Correo<input type="email" data-negocio="correo" value="${escaparHTML(mail)}" placeholder="correo@ejemplo.com"></label>`;
+      html +=   `<label>Logo (ruta .svg del repo)<input type="text" data-negocio="logo" value="${escaparHTML(logo)}" placeholder="assets/img/logo.svg" spellcheck="false"></label>`;
+      html +=   `<div class="foto-preview" data-logo-preview></div>`;
+      html +=   `<div class="acciones">`;
+      html +=     `<button type="button" class="btn-guardar" data-accion="guardar-negocio">\uD83D\uDCBE Guardar</button>`;
+      html +=     `<button type="button" class="btn-cancelar" data-accion="cancelar-negocio">Cancelar</button>`;
+      html +=   `</div>`;
+      html += `</div>`;
+
+      contenidoAdmin.innerHTML = html;
+      if(logo){ actualizarPreviewLogo(); }
+    }
+
+    function guardarNegocio(){
+      var waEl = contenidoAdmin.querySelector(`[data-negocio="whatsapp"]`);
+      if(!waEl){ return; }
+      var wa   = waEl.value.trim();
+      var dir  = contenidoAdmin.querySelector(`[data-negocio="direccion"]`).value.trim();
+      var fb   = contenidoAdmin.querySelector(`[data-negocio="facebook"]`).value.trim();
+      var mail = contenidoAdmin.querySelector(`[data-negocio="correo"]`).value.trim();
+      var logo = contenidoAdmin.querySelector(`[data-negocio="logo"]`).value.trim();
+
+      if(!wa){ alert("El WhatsApp no puede estar vacio."); return; }
+      if(mail && mail.indexOf("@") === -1){ alert("El correo no parece valido."); return; }
+
+      menuCache.negocio = { whatsapp: wa, direccion: dir, facebook: fb, correo: mail, logo: logo };
+      guardarDraftLocal();
+      marcarDraftEnHeader();
+
+      var aviso = document.createElement("div");
+      aviso.textContent = "Datos del negocio guardados en borrador local.";
+
+      // Feedback visual en el boton Guardar (PASO 27)
+      var btnFB = contenidoAdmin.querySelector('[data-accion="guardar-negocio"]');
+      if(btnFB){
+        btnFB.textContent = '\u2713 Guardado';
+        btnFB.classList.add('guardado');
+        btnFB.disabled = true;
+        setTimeout(function(){
+          btnFB.textContent = '\uD83D\uDCBE Guardar';
+          btnFB.classList.remove('guardado');
+          btnFB.disabled = false;
+        }, 2000);
+      }
+      aviso.style.cssText = "position:fixed;bottom:24px;right:24px;background:var(--verde);color:#fff;padding:12px 20px;border-radius:10px;font-weight:600;font-size:14px;box-shadow:0 6px 20px rgba(0,0,0,.2);z-index:9999;";
+      document.body.appendChild(aviso);
+      setTimeout(function(){ if(aviso.parentNode) aviso.parentNode.removeChild(aviso); }, 2200);
+    }
+
+    function mostrarCargando(){
+      contenidoAdmin.innerHTML =
+        '<div class="estado-panel">' +
+          '<span class="icono">&#8987;</span>' +
+          '<strong>Cargando men&uacute; desde GitHub&hellip;</strong>' +
+          'Esto toma 1 o 2 segundos.' +
+        '</div>';
+    }
+
+    function mostrarError(texto){
+      contenidoAdmin.innerHTML =
+        '<div class="estado-panel error">' +
+          '<span class="icono">&#9888;</span>' +
+          '<strong>No se pudo cargar el men&uacute;</strong>' +
+          escaparHTML(texto) +
+        '</div>';
+    }
+
+    function leerDraftLocal(){
+      try {
+        var rawD = localStorage.getItem(STORAGE_DRAFT);
+        if(!rawD){ return null; }
+        var obj = JSON.parse(rawD);
+        if(!obj || typeof obj !== 'object'){ return null; }
+        return obj;
+      } catch(e){ return null; }
+    }
+
+    function fusionarDraft(remoto, draft){
+      if(!draft || typeof draft !== 'object'){ return remoto; }
+      var out = {};
+      out.negocio = (draft.negocio && typeof draft.negocio === 'object') ? draft.negocio : (remoto.negocio || {});
+      out.categorias = {};
+      var catsRemoto = (remoto.categorias && typeof remoto.categorias === 'object') ? remoto.categorias : {};
+      var catsDraft  = (draft.categorias  && typeof draft.categorias  === 'object') ? draft.categorias  : {};
+      Object.keys(catsRemoto).forEach(function(slug){
+        var catR = catsRemoto[slug] || {};
+        var catD = catsDraft[slug];
+        if(!catD || typeof catD !== 'object'){
+          out.categorias[slug] = catR;
+          return;
+        }
+        var prodsDraft = Array.isArray(catD.productos) ? catD.productos.slice() : [];
+        var idsDraft = {};
+        prodsDraft.forEach(function(p){ if(p && p.id != null){ idsDraft[String(p.id)] = true; } });
+        var prodsRemoto = Array.isArray(catR.productos) ? catR.productos : [];
+        prodsRemoto.forEach(function(p){
+          if(p && p.id != null && !idsDraft[String(p.id)]){ prodsDraft.push(p); }
+        });
+        var merged = {};
+        Object.keys(catR).forEach(function(k){ if(k !== 'productos'){ merged[k] = catR[k]; } });
+        Object.keys(catD).forEach(function(k){ if(k !== 'productos'){ merged[k] = catD[k]; } });
+        merged.productos = prodsDraft;
+        out.categorias[slug] = merged;
+      });
+      Object.keys(catsDraft).forEach(function(slug){
+        if(!out.categorias[slug]){ out.categorias[slug] = catsDraft[slug]; }
+      });
+      return out;
+    }
+
+    function mostrarAviso(texto, tipo){
+      var color = (tipo === 'error') ? '#D32F2F' : 'var(--verde)';
+      var aviso = document.createElement('div');
+      aviso.textContent = texto;
+      aviso.style.cssText = 'position:fixed;bottom:24px;right:24px;background:' + color + ';color:#fff;padding:12px 20px;border-radius:10px;font-weight:600;font-size:14px;box-shadow:0 6px 20px rgba(0,0,0,.2);z-index:9999;';
+      document.body.appendChild(aviso);
+      setTimeout(function(){ if(aviso.parentNode) aviso.parentNode.removeChild(aviso); }, 2600);
+    }
+
+    function subirMenuAGitHub(token, sha, commitMsg){
+      var url = 'https://api.github.com/repos/' + OWNER + '/' + REPO + '/contents/' + RUTA_JSON;
+      var texto = JSON.stringify(menuCache, null, 2);
+      var b64 = btoa(unescape(encodeURIComponent(texto)));
+      var h = headersGH(token);
+      h['Content-Type'] = 'application/json';
+      var body = {
+        message: commitMsg || 'admin: actualizar menu.json',
+        content: b64,
+        branch: BRANCH,
+        sha: sha
+      };
+      return fetch(url, {
+        method: 'PUT',
+        headers: h,
+        body: JSON.stringify(body)
+      });
+    }
+
+    function limpiarDraftTrasSubida(){
+      try { localStorage.removeItem(STORAGE_DRAFT); } catch(e){}
+      var marca = document.querySelector('.admin-header .marca');
+      if(marca){
+        var b = marca.querySelector('.badge-borrador');
+        if(b && b.parentNode){ b.parentNode.removeChild(b); }
+      }
+    }
+
+    function guardarEnGitHub(){
+      var token = getTokenGuardado();
+      if(!token){ mostrarAviso('No hay token guardado.', 'error'); return; }
+      if(!menuCache){ mostrarAviso('No hay menu cargado.', 'error'); return; }
+      if(!menuSha){ mostrarAviso('Falta el sha del menu.json.', 'error'); return; }
+      if(btnGuardarGH){ btnGuardarGH.disabled = true; }
+
+      subirMenuAGitHub(token, menuSha, 'admin: actualizar menu.json').then(function(r){
+        if(r.ok){
+          return r.json().then(function(d){
+            if(d && d.content && d.content.sha){ menuSha = d.content.sha; }
+            limpiarDraftTrasSubida();
+            mostrarAviso('Guardado en GitHub', 'ok');
+            if(btnGuardarGH){ btnGuardarGH.disabled = false; }
+          });
+        }
+        if(r.status === 409 || r.status === 422){
+          return leerMenuJSON(token).then(function(res){
+            menuSha = res.sha || null;
+            if(!menuSha){ throw new Error('sha ausente tras reintento'); }
+            var draft = leerDraftLocal();
+            menuCache = draft ? fusionarDraft(res.json, draft) : res.json;
+            return subirMenuAGitHub(token, menuSha, 'admin: actualizar menu.json (reintento)');
+          }).then(function(r2){
+            if(r2.ok){
+              return r2.json().then(function(d){
+                if(d && d.content && d.content.sha){ menuSha = d.content.sha; }
+                limpiarDraftTrasSubida();
+                mostrarAviso('Guardado en GitHub (reintento)', 'ok');
+                if(btnGuardarGH){ btnGuardarGH.disabled = false; }
+              });
+            }
+            throw new Error('Reintento fallo (codigo ' + r2.status + ')');
+          });
+        }
+        throw new Error('PUT fallo (codigo ' + r.status + ')');
+      }).catch(function(err){
+        mostrarAviso('Error al guardar: ' + (err && err.message ? err.message : 'desconocido'), 'error');
+        if(btnGuardarGH){ btnGuardarGH.disabled = false; }
+      });
+    }
+
+    function cargarMenu(){
+      var token = getTokenGuardado();
+      if(!token){
+        mostrarError('No hay token guardado. Vuelve a iniciar sesion.');
+        return;
+      }
+      mostrarCargando();
+      leerMenuJSON(token).then(function(res){
+        menuSha = res.sha || null;
+        var remoto = res.json;
+        var draft = leerDraftLocal();
+        menuCache = draft ? fusionarDraft(remoto, draft) : remoto;
+        pintarSidebar(menuCache);
+        var lista = categoriasComoLista(menuCache);
+        if(lista.length > 0){
+          seleccionarCategoria(lista[0].slug);
+        } else {
+          contenidoAdmin.innerHTML = '<div class="estado-panel"><strong>El men&uacute; no tiene categor&iacute;as.</strong></div>';
+        }
+        var totalCat = lista.length;
+        var totalProd = contarProductos(menuCache);
+        estadoToken.textContent = 'OK \u00b7 ' + totalCat + ' cat \u00b7 ' + totalProd + ' prod';
+        estadoToken.className = 'estado-token ok';
+      }).catch(function(err){
+        mostrarError(err.message || 'Error desconocido.');
+      });
+    }
+
+    function mostrarAdmin(){
+      pantallaLogin.style.display = 'none';
+      pantallaAdmin.classList.add('visible');
+      estadoToken.textContent = 'Token: OK';
+      estadoToken.className = 'estado-token ok';
+      inputToken.value = '';
+      inputClave.value = '';
+      limpiarMensaje();
+      cargarMenu();
+    }
+
+    function volverLogin(motivo){
+      pantallaAdmin.classList.remove('visible');
+      pantallaLogin.style.display = 'flex';
+      estadoToken.textContent = 'Token: \u2014';
+      estadoToken.className = 'estado-token';
+      listaCategorias.innerHTML = '';
+      contenidoAdmin.innerHTML = '';
+      menuCache = null;
+      categoriaActiva = null;
+      vistaActiva = 'categoria';
+      if(itemNegocio){ itemNegocio.classList.remove('activo'); }
+      if(motivo){ mostrarMensaje('info', motivo); }
+      inputClave.focus();
+    }
+
+    function intentarEntrar(){
+      limpiarMensaje();
+      var clave = inputClave.value.trim();
+      var token = inputToken.value.trim() || getTokenGuardado();
+
+      if(clave !== CLAVE_ADMIN){
+        mostrarMensaje('error', 'Clave incorrecta. Intenta de nuevo.');
+        inputClave.value = '';
+        inputClave.focus();
+        return;
+      }
+      if(!token){
+        mostrarMensaje('error', 'Falta el token de GitHub. Pegalo arriba.');
+        inputToken.focus();
+        return;
+      }
+
+      btnEntrar.disabled = true;
+      btnEntrar.textContent = 'Verificando...';
+      mostrarMensaje('info', 'Conectando con GitHub...');
+
+      validarToken(token).then(function(res){
+        btnEntrar.disabled = false;
+        btnEntrar.textContent = 'Entrar';
+        if(res.ok){
+          guardarToken(token);
+          mostrarAdmin();
+        } else {
+          mostrarMensaje('error', res.msg);
+          if(res.msg.indexOf('invalido') !== -1 || res.msg.indexOf('expirado') !== -1 || res.msg.indexOf('acceso') !== -1){
+            borrarToken();
+          }
+        }
+      });
+    }
+
+    btnEntrar.addEventListener('click', intentarEntrar);
+    inputClave.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ inputToken.focus(); } });
+    inputToken.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ intentarEntrar(); } });
+
+    btnSalir.addEventListener('click', function(){
+      volverLogin('Sesion cerrada. Tu token sigue guardado.');
+    });
+    btnCambiar.addEventListener('click', function(){
+      borrarToken();
+      volverLogin('Token borrado. Ingresa uno nuevo.');
+      inputToken.value = '';
+      inputToken.focus();
+    });
+    btnRecargar.addEventListener('click', function(){
+      if(menuCache){ cargarMenu(); }
+    });
+    btnGuardarGH.addEventListener('click', function(){
+      guardarEnGitHub();
+    });
+
+    // ============================================================
+    // PASO 25-B - Modo edicion inline
+    // ============================================================
+
+    function buscarProducto(id){
+      if(!menuCache || !categoriaActiva) return null;
+      var cat = menuCache.categorias[categoriaActiva];
+      if(!cat) return null;
+      var lista = cat.productos || [];
+      for(var i = 0; i < lista.length; i++){
+        if(lista[i].id === id) return lista[i];
+      }
+      return null;
+    }
+
+    function generarIdProducto(){
+      var max = 0;
+      Object.keys(menuCache.categorias || {}).forEach(function(slug){
+        var arr = (menuCache.categorias[slug].productos) || [];
+        arr.forEach(function(x){
+          var m = /^h(\d+)$/.exec(x.id || '');
+          if(m){ var n = parseInt(m[1], 10); if(n > max) max = n; }
+        });
+      });
+      return 'h' + (max + 1);
+    }
+
+    function guardarDraftLocal(){
+      try {
+        localStorage.setItem(STORAGE_DRAFT, JSON.stringify(menuCache));
+        return true;
+      } catch(e){ return false; }
+    }
+
+    function marcarDraftEnHeader(){
+      var marca = document.querySelector('.admin-header .marca');
+      if(!marca) return;
+      var existente = marca.querySelector('.badge-borrador');
+      if(!existente){
+        var badge = document.createElement('span');
+        badge.className = 'badge-borrador';
+        badge.textContent = 'Borrador guardado';
+        marca.appendChild(badge);
+      }
+    }
+
+    function activarEdicion(id){
+      var p = buscarProducto(id);
+      if(!p){ return; }
+      idEditando = id;
+      var cat = menuCache.categorias[categoriaActiva];
+      var simbolo = menuCache.simbolo || '$';
+      var tarjeta = contenidoAdmin.querySelector('.tarjeta-producto[data-id="' + id + '"]');
+      if(!tarjeta){ return; }
+
+      // Construir lista de categorias para el select
+      var opcionesCat = '';
+      Object.keys(menuCache.categorias).forEach(function(slug){
+        var c = menuCache.categorias[slug];
+        var sel = (slug === categoriaActiva) ? ' selected' : '';
+        opcionesCat += '<option value="' + escaparHTML(slug) + '"' + sel + '>' +
+                       escaparHTML(c.titulo || slug) + '</option>';
+      });
+
+      var bAct = String(p.badge || '').toLowerCase();
+      var opcionesBadge = '<option value=""' + (bAct ? '' : ' selected') + '>\u2014 Sin badge \u2014</option>';
+      ['nuevo','top','promo'].forEach(function(k){
+        opcionesBadge += '<option value="' + k + '"' + (bAct === k ? ' selected' : '') + '>' + escaparHTML(ETIQUETAS_BADGE[k]) + '</option>';
+      });
+
+      var form = '';
+      form += '<div class="form-edicion">';
+      form +=   '<div class="fila-doble">';
+      form +=     '<label>Foto (ruta .svg del repo)<input type="text" data-campo="foto" value="' + escaparHTML(p.foto || '') + '" placeholder="assets/img/productos/ejemplo.svg" spellcheck="false"></label>';
+      form +=     '<label>Nombre<input type="text" data-campo="nombre" value="' + escaparHTML(p.nombre || '') + '"></label>';
+      form +=   '</div>';
+      form +=   '<div class="foto-preview" data-foto-preview></div>';
+      form +=   '<label>Descripcion<textarea data-campo="desc">' + escaparHTML(p.desc || p.descripcion || '') + '</textarea></label>';
+      form +=   '<div class="fila-doble">';
+      form +=     '<label>Precio<input type="number" step="0.01" min="0" data-campo="precio" value="' + (p.precio || 0) + '"></label>';
+      form +=     '<label>Categoria<select data-campo="categoria">' + opcionesCat + '</select></label>';
+      form +=   '</div>';
+      form +=   '<label>Badge<select data-campo="badge">' + opcionesBadge + '</select></label>';
+      form +=   '<div class="acciones">';
+      form +=     '<button type="button" class="btn-guardar" data-accion="guardar" data-id="' + escaparHTML(id) + '">\uD83D\uDCBE Guardar</button>';
+      form +=     '<button type="button" class="btn-cancelar" data-accion="cancelar" data-id="' + escaparHTML(id) + '">Cancelar</button>';
+      form +=   '</div>';
+      form += '</div>';
+
+      // Ocultar contenido lectura, insertar formulario
+      tarjeta.classList.add('editando');
+      var formDiv = document.createElement('div');
+      formDiv.innerHTML = form;
+      tarjeta.appendChild(formDiv);
+
+      // Enfocar primer input
+      var primerInput = tarjeta.querySelector('input[data-campo="nombre"]');
+      if(primerInput){ primerInput.focus(); }
+      // PASO 29 - inicializar vista previa si ya hay foto
+      if(p && p.foto){ actualizarPreviewFoto(tarjeta); }
+    }
+
+    function cancelarEdicion(id){
+      var tarjeta = contenidoAdmin.querySelector('.tarjeta-producto[data-id="' + id + '"]');
+      if(!tarjeta){ return; }
+      var formDiv = tarjeta.querySelector('.form-edicion');
+      if(formDiv){ formDiv.parentNode.removeChild(formDiv); }
+      tarjeta.classList.remove('editando');
+      idEditando = null;
+      if(String(id).indexOf('nuevo-') === 0 && menuCache && menuCache.categorias[categoriaActiva]){
+        var catN = menuCache.categorias[categoriaActiva];
+        catN.productos = (catN.productos || []).filter(function(x){ return x.id !== id; });
+        pintarSidebar(menuCache);
+        pintarCategoria(categoriaActiva);
+      }
+    }
+
+    function guardarEdicion(id){
+      var p = buscarProducto(id);
+      if(!p){ return; }
+      var tarjeta = contenidoAdmin.querySelector('.tarjeta-producto[data-id="' + id + '"]');
+      if(!tarjeta){ return; }
+
+      var nombre    = tarjeta.querySelector('[data-campo="nombre"]').value.trim();
+      var foto      = tarjeta.querySelector('[data-campo="foto"]').value.trim();
+      var desc      = tarjeta.querySelector('[data-campo="desc"]').value.trim();
+      var precioRaw = tarjeta.querySelector('[data-campo="precio"]').value;
+      var nuevaCat  = tarjeta.querySelector('[data-campo="categoria"]').value;
+      var badgeSel  = tarjeta.querySelector('[data-campo="badge"]');
+      var badge     = badgeSel ? badgeSel.value : '';
+      var precio    = parseFloat(precioRaw);
+
+      if(!nombre){ alert('El nombre no puede estar vacio.'); return; }
+      if(isNaN(precio) || precio < 0){ alert('El precio debe ser un numero valido.'); return; }
+
+      // Si es nuevo, asignar id definitivo
+      if(String(id).indexOf('nuevo-') === 0){
+        p.id = generarIdProducto();
+      }
+
+      // Actualizar producto en memoria
+      p.nombre = nombre;
+      p.foto   = foto;
+      p.desc   = desc;
+      p.precio = precio;
+      p.badge  = badge;
+
+      // Si cambio de categoria, mover de array
+      if(nuevaCat && nuevaCat !== categoriaActiva){
+        var catVieja = menuCache.categorias[categoriaActiva];
+        var catNueva = menuCache.categorias[nuevaCat];
+        if(catVieja && catNueva){
+          catVieja.productos = catVieja.productos.filter(function(x){ return x.id !== id; });
+          catNueva.productos = catNueva.productos || [];
+          catNueva.productos.push(p);
+        }
+      }
+
+      // Persistir borrador
+      guardarDraftLocal();
+      marcarDraftEnHeader();
+
+      // Repintar
+      idEditando = null;
+      pintarSidebar(menuCache);
+      pintarCategoria(categoriaActiva);
+
+      // Feedback breve
+      var aviso = document.createElement('div');
+      aviso.textContent = 'Cambios guardados en borrador local.';
+      aviso.style.cssText = 'position:fixed;bottom:24px;right:24px;background:var(--verde);color:#fff;padding:12px 20px;border-radius:10px;font-weight:600;font-size:14px;box-shadow:0 6px 20px rgba(0,0,0,.2);z-index:9999;';
+      document.body.appendChild(aviso);
+      setTimeout(function(){ if(aviso.parentNode) aviso.parentNode.removeChild(aviso); }, 2200);
+    }
+
+    function moverProducto(id, dir){
+      if(!menuCache || !categoriaActiva){ return; }
+      var cat = menuCache.categorias[categoriaActiva];
+      if(!cat){ return; }
+      var arr = cat.productos || [];
+      var idx = -1;
+      for(var i = 0; i < arr.length; i++){ if(arr[i].id === id){ idx = i; break; } }
+      if(idx < 0){ return; }
+      var nuevoIdx = (dir === 'subir') ? (idx - 1) : (idx + 1);
+      if(nuevoIdx < 0 || nuevoIdx >= arr.length){ return; }
+      var tmp = arr[idx]; arr[idx] = arr[nuevoIdx]; arr[nuevoIdx] = tmp;
+      guardarDraftLocal();
+      marcarDraftEnHeader();
+      pintarCategoria(categoriaActiva);
+    }
+
+    function toggleActivo(id){
+      var p = buscarProducto(id);
+      if(!p){ return; }
+      p.activo = (p.activo === false) ? true : false;
+      guardarDraftLocal();
+      pintarCategoria(categoriaActiva);
+    }
+
+    function borrarProducto(id){
+      var p = buscarProducto(id);
+      if(!p){ return; }
+      if(!confirm('\u00bfBorrar "' + (p.nombre || id) + '"? Esta accion no se puede deshacer.')){ return; }
+      var cat = menuCache.categorias[categoriaActiva];
+      cat.productos = cat.productos.filter(function(x){ return x.id !== id; });
+      guardarDraftLocal();
+      pintarSidebar(menuCache);
+      pintarCategoria(categoriaActiva);
+    }
+
+    function agregarProducto(){
+      if(!menuCache || !categoriaActiva){ return; }
+      var cat = menuCache.categorias[categoriaActiva];
+      if(!cat){ return; }
+      cat.productos = cat.productos || [];
+      var nuevoId = 'nuevo-' + Date.now();
+      var nuevo = { id:nuevoId, nombre:'', desc:'', precio:0, foto: '', badge: '', activo:true };
+      cat.productos.push(nuevo);
+      pintarCategoria(categoriaActiva);
+      activarEdicion(nuevoId);
+    }
+
+        // Delegacion de eventos: click en botones dentro de contenidoAdmin
+    contenidoAdmin.addEventListener('click', function(e){
+      var btn = e.target.closest('button');
+      if(!btn){ return; }
+      var id = btn.getAttribute('data-id');
+      var accion = btn.getAttribute('data-accion');
+
+      // Prioridad 1: acciones especificas por data-accion (negocio + nuevo)
+      if(accion === 'nuevo'){ agregarProducto(); return; }
+      if(accion === 'guardar-negocio'){ guardarNegocio(); return; }
+      if(accion === 'cancelar-negocio'){
+        if(categoriaActiva){ seleccionarCategoria(categoriaActiva); }
+        else {
+          var primera = Object.keys(menuCache.categorias || {})[0];
+          if(primera){ seleccionarCategoria(primera); }
+        }
+        return;
+      }
+
+      // Prioridad 1b: mover arriba/abajo
+      if(accion === 'subir'){ moverProducto(id, 'subir'); return; }
+      if(accion === 'bajar'){ moverProducto(id, 'bajar'); return; }
+
+      // Prioridad 2: acciones de producto por clase
+      if(btn.classList.contains('btn-editar')){ activarEdicion(id); return; }
+      if(btn.classList.contains('btn-cancelar')){ cancelarEdicion(id); return; }
+      if(btn.classList.contains('btn-guardar')){ guardarEdicion(id); return; }
+      if(btn.classList.contains('btn-toggle')){ toggleActivo(id); return; }
+      if(btn.classList.contains('btn-borrar')){ borrarProducto(id); return; }
+    });
+
+    if(itemNegocio){
+      itemNegocio.addEventListener("click", function(){ pintarNegocio(); });
+    }
+
+    var guardado = getTokenGuardado();
+    if(guardado){
+      inputToken.placeholder = 'Token guardado en este navegador (dejar vacio para usarlo)';
+      mostrarMensaje('info', 'Token detectado. Solo escribe la clave y pulsa Entrar.');
+    }
+    inputClave.focus();
+    // PASO 29 - Vista previa de foto (solo modo edicion)
+    function actualizarPreviewFoto(tarjeta){
+      if(!tarjeta){ return; }
+      var cont  = tarjeta.querySelector('[data-foto-preview]');
+      var input = tarjeta.querySelector('[data-campo="foto"]');
+      if(!cont || !input){ return; }
+      var val = (input.value || '').trim();
+      cont.innerHTML = '';
+      if(!val){ cont.classList.remove('visible'); return; }
+      cont.classList.add('visible');
+      var img = document.createElement('img');
+      img.alt = 'Vista previa';
+      img.onerror = function(){
+        cont.innerHTML = '<span class="error">No se pudo cargar la imagen</span>';
+      };
+      img.src = val;
+      cont.appendChild(img);
+    }
+
+    contenidoAdmin.addEventListener('input', function(e){
+      var el = e.target;
+      if(!el || !el.getAttribute){ return; }
+      if(el.getAttribute('data-campo') === 'foto'){
+        actualizarPreviewFoto(el.closest('.tarjeta-producto'));
+      }
+    });
+
+    // PASO 30 - Logo: vista previa + listener propio
+    function actualizarPreviewLogo(){
+      var cont  = contenidoAdmin.querySelector('[data-logo-preview]');
+      var input = contenidoAdmin.querySelector('[data-negocio="logo"]');
+      if(!cont || !input){ return; }
+      var val = (input.value || '').trim();
+      cont.innerHTML = '';
+      if(!val){ cont.classList.remove('visible'); return; }
+      cont.classList.add('visible');
+      var img = document.createElement('img');
+      img.alt = 'Vista previa del logo';
+      img.onerror = function(){
+        cont.innerHTML = '<span class="error">No se pudo cargar la imagen</span>';
+      };
+      img.src = val;
+      cont.appendChild(img);
+    }
+
+    contenidoAdmin.addEventListener('input', function(e){
+      var el = e.target;
+      if(el && el.getAttribute && el.getAttribute('data-negocio') === 'logo'){
+        actualizarPreviewLogo();
+      }
+    });
+  })();
+</script>
+</body>
+</html>
+
