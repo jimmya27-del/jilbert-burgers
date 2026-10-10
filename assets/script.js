@@ -2,6 +2,7 @@
    Jilbert Burgers - script.js
    Carrito (localStorage) + render de productos + WhatsApp
    UX: tarjeta toggle con contador y boton "-"
+   FASE 6: consume foto, badge y negocio desde menu.json
    ============================================================ */
 
 (function () {
@@ -23,7 +24,10 @@
     try { localStorage.setItem(CLAVE_CARRITO, JSON.stringify(carrito)); } catch (e) {}
   }
 
-  function formatearPrecio(n) { return '$' + Number(n).toFixed(2); }
+  function formatearPrecio(n) {
+    var sim = (menuData && menuData.simbolo) ? menuData.simbolo : '$';
+    return sim + Number(n).toFixed(2);
+  }
   function totalItems() { return carrito.reduce(function (s, it) { return s + it.cantidad; }, 0); }
   function totalPrecio() { return carrito.reduce(function (s, it) { return s + it.cantidad * it.precio; }, 0); }
 
@@ -91,6 +95,27 @@
     if (totalEl) totalEl.textContent = formatearPrecio(totalPrecio());
   }
 
+  function badgeHTML(b) {
+    if (!b) return '';
+    var k = String(b).toLowerCase();
+    var textos = { 'nuevo': 'Nuevo', 'top': 'Top', 'promo': 'Promo' };
+    if (!textos[k]) return '';
+    return '<span class="badge-prod badge-' + k + '">' + textos[k] + '</span>';
+  }
+
+  function mediaHTML(p) {
+    if (p && p.foto) {
+      return '<div class="media"><img class="foto" src="' + p.foto + '" alt="' + (p.nombre || '') + '" loading="lazy"></div>';
+    }
+    return '<div class="media media-placeholder" aria-hidden="true">' +
+             '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" width="64" height="64">' +
+               '<rect x="8" y="14" width="48" height="10" rx="5" fill="#FFC107"/>' +
+               '<rect x="8" y="27" width="48" height="10" rx="4" fill="#D32F2F"/>' +
+               '<rect x="8" y="40" width="48" height="10" rx="5" fill="#FFC107"/>' +
+             '</svg>' +
+           '</div>';
+  }
+
   function pintarProductos(categoria) {
     var cont = document.getElementById('lista-productos');
     if (!cont || !menuData) return;
@@ -102,7 +127,8 @@
     cont.innerHTML = cat.productos.map(function (p) {
       return '' +
         '<div class="producto" data-id="' + p.id + '" data-cat="' + categoria + '">' +
-          '<div class="emoji">' + (p.emoji || '\uD83C\uDF54') + '</div>' +
+          mediaHTML(p) +
+          badgeHTML(p.badge) +
           '<h3>' + p.nombre + '</h3>' +
           '<p class="desc">' + p.desc + '</p>' +
           '<div class="precio">' + formatearPrecio(p.precio) + '</div>' +
@@ -114,6 +140,37 @@
         '</div>';
     }).join('');
     refrescarTarjetas();
+  }
+
+  function aplicarNegocio() {
+    if (!menuData) return;
+    var neg = menuData.negocio || menuData;
+    var nodos = document.querySelectorAll('[data-negocio]');
+    if (!nodos.length) return;
+
+    Array.prototype.forEach.call(nodos, function (el) {
+      var campo = el.getAttribute('data-negocio');
+      var valor = neg[campo];
+      if (valor === undefined || valor === null || valor === '') return;
+
+      if (campo === 'whatsapp') {
+        var num = String(valor).replace(/\D/g, '');
+        if (el.tagName === 'A') el.setAttribute('href', 'https://wa.me/' + num);
+        else el.textContent = valor;
+      } else if (campo === 'facebook') {
+        if (el.tagName === 'A') el.setAttribute('href', valor);
+        else el.textContent = valor;
+      } else if (campo === 'correo') {
+        if (el.tagName === 'A') el.setAttribute('href', 'mailto:' + valor);
+        el.textContent = valor;
+      } else if (campo === 'direccion') {
+        el.textContent = valor;
+      } else if (campo === 'logo') {
+        if (el.tagName === 'IMG') el.setAttribute('src', valor);
+      } else {
+        el.textContent = valor;
+      }
+    });
   }
 
   function refrescarTarjetas() {
@@ -211,6 +268,7 @@
       .then(function (r) { return r.json(); })
       .then(function (data) {
         menuData = data;
+        aplicarNegocio();
         var cat = document.body.getAttribute('data-categoria');
         if (cat) pintarProductos(cat);
         pintarCarrito();

@@ -34,34 +34,35 @@
 </main>
 
 <!-- Carrito flotante -->
-<button class="carrito-pill" id="carrito-pill" aria-label="Ver mi pedido">
-  <span>&#128722; Mi pedido</span>
-  <span class="badge" id="carrito-badge">0</span>
+<button class="carrito-btn" id="carrito-btn" aria-label="Ver carrito">
+  <span class="icono">&#128722;</span>
+  <span>Mi pedido</span>
+  <span class="badge" id="carrito-badge" style="display:none;">0</span>
 </button>
 
-<!-- Panel lateral -->
-<aside class="panel" id="panel-carrito" aria-hidden="true">
-  <div class="panel-cabecera">
-    <h3>Mi pedido</h3>
-    <button class="panel-cerrar" id="panel-cerrar" aria-label="Cerrar">&times;</button>
-  </div>
-  <ul class="panel-lista" id="panel-lista"></ul>
-  <div class="panel-pie">
-    <div class="panel-total">Total: <strong id="panel-total">$0.00</strong></div>
-    <button class="btn-whatsapp" id="btn-whatsapp">Enviar pedido por WhatsApp</button>
-    <button class="btn-vaciar" id="btn-vaciar">Vaciar carrito</button>
+<!-- Panel del carrito -->
+<aside class="carrito-panel" id="carrito-panel" aria-label="Carrito de compras">
+  <header>
+    <h2>Tu Pedido</h2>
+    <button id="carrito-cerrar" aria-label="Cerrar">&times;</button>
+  </header>
+  <div class="carrito-lista" id="carrito-lista"></div>
+  <div class="carrito-pie">
+    <div class="total"><span>Total</span><span id="carrito-total">$0.00</span></div>
+    <button class="btn-wa" id="carrito-enviar">Enviar pedido por WhatsApp</button>
+    <button class="btn-vaciar" id="carrito-vaciar">Vaciar carrito</button>
   </div>
 </aside>
 
 <footer class="pie">
   <p><strong>Jilbert Burgers</strong></p>
-  <p>Barrio San Luis, calle Juan Borges N 11-B, Maracay, Aragua.</p>
+  <p data-negocio="direccion">Barrio San Luis, calle Juan Borges N 11-B, Maracay, Aragua.</p>
   <p>
-    <a href="https://wa.me/584124409025" target="_blank" rel="noopener">WhatsApp: 0412-440-9025</a>
+    <a href="https://wa.me/584124409025" target="_blank" rel="noopener" data-negocio="whatsapp">WhatsApp: 0412-440-9025</a>
     &nbsp;|&nbsp;
-    <a href="https://facebook.com/jilbertburgers" target="_blank" rel="noopener">Facebook</a>
+    <a href="https://facebook.com/jilbertburgers" target="_blank" rel="noopener" data-negocio="facebook">Facebook</a>
     &nbsp;|&nbsp;
-    <a href="mailto:jilbertburgers@gmail.com">jilbertburgers@gmail.com</a>
+    <a href="mailto:jilbertburgers@gmail.com" data-negocio="correo">jilbertburgers@gmail.com</a>
   </p>
 </footer>
 

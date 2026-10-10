@@ -603,3 +603,62 @@ a:hover { color: var(--rojo-oscuro); }
   .producto .acciones .btn-menos { width: 36px; padding: 10px 0; }
   .producto .acciones .contador { font-size: 14px; }
 }
+/* ============================================================
+   FASE 6 - Estilos nuevos (agregados, no reemplazan nada):
+   - .cat-media       : SVG neutro de categoria (reemplaza emoji)
+   - .producto .media : contenedor de foto (o placeholder SVG)
+   - .badge-prod      : chip nuevo / top / promo
+   ============================================================ */
+
+/* --- Categoria: contenedor del SVG neutro --- */
+.categoria-card .cat-media {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 4px;
+}
+.categoria-card .cat-media svg { display: block; }
+
+/* --- Producto: contenedor de media (foto o placeholder) --- */
+.producto .media {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  max-height: 180px;
+  border-radius: var(--radio-sm);
+  overflow: hidden;
+  background: var(--gris-claro);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 6px;
+}
+.producto .media img.foto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.producto .media.media-placeholder svg {
+  width: 64px;
+  height: 64px;
+  opacity: .85;
+}
+
+/* --- Chip de badge (nuevo / top / promo) --- */
+.producto .badge-prod {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 999px;
+  line-height: 1.2;
+  margin-top: 2px;
+}
+.producto .badge-prod.badge-nuevo { background: var(--amarillo-suave); color: #7A5B00; }
+.producto .badge-prod.badge-top   { background: var(--rojo);           color: var(--blanco); }
+.producto .badge-prod.badge-promo { background: var(--amarillo);       color: #4A3A00; }
