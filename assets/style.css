@@ -80,29 +80,27 @@ a:hover { color: var(--rojo-oscuro); }
   text-decoration: none;
 }
 
-/* ---------- Logo del negocio (banda negra) ---------- */
+/* ---------- Logo del negocio (franja negra, logo ensanchado) ---------- */
 .logo-banda {
-  max-width: 1000px;
-  margin: 24px auto 0;
-  background: var(--negro);
-  padding: 28px 24px;
-  text-align: center;
-  border-radius: 14px;
+  background: #000;
+  padding: 14px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .logo-banda .logo-banda-img {
-  display: inline-block;
-  max-width: 100%;
-  max-height: 260px;
+  display: block;
+  width: 100%;
+  max-width: 1100px;
   height: auto;
-  width: auto;
 }
 .logo-banda .logo-banda-img:not([src]),
 .logo-banda .logo-banda-img[src=""] {
   display: none;
 }
 @media (max-width: 600px) {
-  .logo-banda { margin: 14px 12px 0; padding: 16px 14px; border-radius: 10px; }
-  .logo-banda .logo-banda-img { max-height: 160px; }
+  .logo-banda { padding: 10px 12px; }
+  .logo-banda .logo-banda-img { max-width: 100%; }
 }
 
 /* ---------- Hero ---------- */
