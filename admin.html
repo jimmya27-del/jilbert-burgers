@@ -637,6 +637,9 @@
       var fb   = (n.facebook  != null && n.facebook  !== "") ? n.facebook  : "https://www.facebook.com/profile.php?id=61577202209424";
       var mail = (n.correo    != null && n.correo    !== "") ? n.correo    : "jilbertburgers@gmail.com";
       var logo = (n.logo      != null && n.logo      !== "") ? n.logo      : "";
+      var h    = menuCache.hero || {};
+      var hTit = (h.titulo    != null && h.titulo    !== "") ? h.titulo    : "";
+      var hSub = (h.subtitulo != null && h.subtitulo !== "") ? h.subtitulo : "";
 
       var html = "";
       html += `<div class="cabecera-categoria">`;
@@ -649,6 +652,10 @@
       html +=   `<label>Correo<input type="email" data-negocio="correo" value="${escaparHTML(mail)}" placeholder="correo@ejemplo.com"></label>`;
       html +=   `<label>Logo (ruta .svg del repo)<input type="text" data-negocio="logo" value="${escaparHTML(logo)}" placeholder="assets/img/logo.svg" spellcheck="false"></label>`;
       html +=   `<div class="foto-preview" data-logo-preview></div>`;
+      html +=   `<hr style="margin:16px 0;border:none;border-top:1px solid var(--borde);">`;
+      html +=   `<h3 style="margin:0 0 8px 0;">Hero (portada)</h3>`;
+      html +=   `<label>Titulo del hero<input type="text" data-hero="titulo" value="${escaparHTML(hTit)}" placeholder="Ej: Las mejores hamburguesas de Maracay" maxlength="200"></label>`;
+      html +=   `<label>Subtitulo del hero<textarea data-hero="subtitulo" rows="2" style="width:100%;font:inherit;padding:8px;border:1px solid var(--borde);border-radius:8px;box-sizing:border-box;" maxlength="300">${escaparHTML(hSub)}</textarea></label>`;
       html +=   `<div class="acciones">`;
       html +=     `<button type="button" class="btn-guardar" data-accion="guardar-negocio">\uD83D\uDCBE Guardar</button>`;
       html +=     `<button type="button" class="btn-cancelar" data-accion="cancelar-negocio">Cancelar</button>`;
@@ -672,6 +679,12 @@
       if(mail && mail.indexOf("@") === -1){ alert("El correo no parece valido."); return; }
 
       menuCache.negocio = { whatsapp: wa, direccion: dir, facebook: fb, correo: mail, logo: logo };
+
+      var hTitEl = contenidoAdmin.querySelector(`[data-hero="titulo"]`);
+      var hSubEl = contenidoAdmin.querySelector(`[data-hero="subtitulo"]`);
+      var hTit   = hTitEl ? hTitEl.value : "";
+      var hSub   = hSubEl ? hSubEl.value : "";
+      menuCache.hero = { titulo: hTit, subtitulo: hSub };
       guardarDraftLocal();
       marcarDraftEnHeader();
 
@@ -727,6 +740,7 @@
       if(!draft || typeof draft !== 'object'){ return remoto; }
       var out = {};
       out.negocio = (draft.negocio && typeof draft.negocio === 'object') ? draft.negocio : (remoto.negocio || {});
+      out.hero = (draft.hero && typeof draft.hero === 'object') ? draft.hero : (remoto.hero || {});
       out.categorias = {};
       var catsRemoto = (remoto.categorias && typeof remoto.categorias === 'object') ? remoto.categorias : {};
       var catsDraft  = (draft.categorias  && typeof draft.categorias  === 'object') ? draft.categorias  : {};

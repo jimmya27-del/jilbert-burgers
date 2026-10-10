@@ -173,6 +173,16 @@
     });
   }
 
+  function aplicarHero() {
+    if (!menuData) return;
+    var h = menuData.hero;
+    if (!h) return;
+    var elTit = document.getElementById('hero-titulo');
+    var elSub = document.getElementById('hero-subtitulo');
+    if (elTit && typeof h.titulo === 'string')    elTit.innerHTML = h.titulo;
+    if (elSub && typeof h.subtitulo === 'string') elSub.innerHTML = h.subtitulo;
+  }
+
   function refrescarTarjetas() {
     var cont = document.getElementById('lista-productos');
     if (!cont) return;
@@ -269,6 +279,7 @@
       .then(function (data) {
         menuData = data;
         aplicarNegocio();
+        aplicarHero();
         var cat = document.body.getAttribute('data-categoria');
         if (cat) pintarProductos(cat);
         pintarCarrito();
