@@ -363,7 +363,7 @@
     </div>
 
     <div class="campo">
-      <label for="token">Token de GitHub (Personal Access Token)</label>
+      <label for="token">Clave de GitHub (Token)</label>
       <input type="password" id="token" placeholder="github_pat_..." autocomplete="off" spellcheck="false">
       <span class="ayuda">
         Se guarda solo en este navegador (localStorage). Nunca se env&iacute;a a un servidor externo.
@@ -646,17 +646,17 @@
       html +=   `<h1>&#9881;&#65039; Datos del negocio</h1>`;
       html += `</div>`;
       html += `<div class="form-edicion" style="max-width:560px;background:#fff;border:1px solid var(--borde);border-radius:12px;padding:20px;">`;
-      html +=   `<label>WhatsApp<input type="text" data-negocio="whatsapp" value="${escaparHTML(wa)}" placeholder="584124409025 o 0412-440-9025"></label>`;
+      html +=   `<label>WhatsApp (solo n&uacute;meros, con c&oacute;digo de pa&iacute;s)<input type="text" data-negocio="whatsapp" value="${escaparHTML(wa)}" placeholder="584124409025 o 0412-440-9025"></label>`;
       html +=   `<label>Direcci&oacute;n<input type="text" data-negocio="direccion" value="${escaparHTML(dir)}" maxlength="200"></label>`;
-      html +=   `<label>Facebook<input type="text" data-negocio="facebook" value="${escaparHTML(fb)}" placeholder="https://www.facebook.com/..."></label>`;
+      html +=   `<label>Facebook (link de la p&aacute;gina)<input type="text" data-negocio="facebook" value="${escaparHTML(fb)}" placeholder="https://www.facebook.com/..."></label>`;
       html +=   `<label>Correo<input type="email" data-negocio="correo" value="${escaparHTML(mail)}" placeholder="correo@ejemplo.com"></label>`;
-      html +=   `<label>Logo (ruta .svg del repo)<input type="text" data-negocio="logo" value="${escaparHTML(logo)}" placeholder="assets/img/logo.svg" spellcheck="false"></label>`;
-      html +=   `<div style="margin-top:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;"><button type="button" class="btn-secundario" data-accion="subir-logo">Subir logo desde PC</button><span style="font-size:12px;opacity:.7;">Redimensiona a 600px lado mayor (JPEG q0.8) y guarda base64 en menu.json.</span></div>`;
+      html +=   `<label>Logo del negocio<input type="text" data-negocio="logo" value="${escaparHTML(logo)}" placeholder="assets/img/logo.svg" spellcheck="false"></label>`;
+      html +=   `<div style="margin-top:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;"><button type="button" class="btn-secundario" data-accion="subir-logo">Elegir logo desde mi computadora</button><span style="font-size:12px;opacity:.7;">Redimensiona a 600px lado mayor (JPEG q0.8) y guarda base64 en menu.json.</span></div>`;
       html +=   `<div class="foto-preview" data-logo-preview></div>`;
       html +=   `<hr style="margin:16px 0;border:none;border-top:1px solid var(--borde);">`;
-      html +=   `<h3 style="margin:0 0 8px 0;">Hero (portada)</h3>`;
-      html +=   `<label>Titulo del hero<input type="text" data-hero="titulo" value="${escaparHTML(hTit)}" placeholder="Ej: Las mejores hamburguesas de Maracay" maxlength="200"></label>`;
-      html +=   `<label>Subtitulo del hero<textarea data-hero="subtitulo" rows="2" style="width:100%;font:inherit;padding:8px;border:1px solid var(--borde);border-radius:8px;box-sizing:border-box;" maxlength="300">${escaparHTML(hSub)}</textarea></label>`;
+      html +=   `<h3 style="margin:0 0 8px 0;">Portada (lo primero que se ve arriba)</h3>`;
+      html +=   `<label>T&iacute;tulo grande (portada)<input type="text" data-hero="titulo" value="${escaparHTML(hTit)}" placeholder="Ej: Las mejores hamburguesas de Maracay" maxlength="200"></label>`;
+      html +=   `<label>Frase debajo del t&iacute;tulo (portada)<textarea data-hero="subtitulo" rows="2" style="width:100%;font:inherit;padding:8px;border:1px solid var(--borde);border-radius:8px;box-sizing:border-box;" maxlength="300">${escaparHTML(hSub)}</textarea></label>`;
       html +=   `<div class="acciones">`;
       html +=     `<button type="button" class="btn-guardar" data-accion="guardar-negocio">\uD83D\uDCBE Guardar</button>`;
       html +=     `<button type="button" class="btn-cancelar" data-accion="cancelar-negocio">Cancelar</button>`;
@@ -1033,16 +1033,16 @@
       var form = '';
       form += '<div class="form-edicion">';
       form +=   '<div class="fila-doble">';
-      form +=     '<label>Foto (ruta .svg del repo)<input type="text" data-campo="foto" value="' + escaparHTML(p.foto || '') + '" placeholder="assets/img/productos/ejemplo.svg" spellcheck="false"><button type="button" class="btn-secundario" data-accion="subir-foto" style="margin-top:6px;">Subir foto desde PC</button></label>';
+      form +=     '<label>Foto del producto<input type="text" data-campo="foto" value="' + escaparHTML(p.foto || '') + '" placeholder="assets/img/productos/ejemplo.svg" spellcheck="false"><button type="button" class="btn-secundario" data-accion="subir-foto" style="margin-top:6px;">Elegir foto desde mi computadora</button></label>';
       form +=     '<label>Nombre<input type="text" data-campo="nombre" value="' + escaparHTML(p.nombre || '') + '"></label>';
       form +=   '</div>';
       form +=   '<div class="foto-preview" data-foto-preview></div>';
-      form +=   '<label>Descripcion<textarea data-campo="desc">' + escaparHTML(p.desc || p.descripcion || '') + '</textarea></label>';
+      form +=   '<label>Descripci&oacute;n<textarea data-campo="desc">' + escaparHTML(p.desc || p.descripcion || '') + '</textarea></label>';
       form +=   '<div class="fila-doble">';
       form +=     '<label>Precio<input type="number" step="0.01" min="0" data-campo="precio" value="' + (p.precio || 0) + '"></label>';
-      form +=     '<label>Categoria<select data-campo="categoria">' + opcionesCat + '</select></label>';
+      form +=     '<label>Categor&iacute;a<select data-campo="categoria">' + opcionesCat + '</select></label>';
       form +=   '</div>';
-      form +=   '<label>Badge<select data-campo="badge">' + opcionesBadge + '</select></label>';
+      form +=   '<label>Etiqueta<select data-campo="badge">' + opcionesBadge + '</select></label>';
       form +=   '<div class="acciones">';
       form +=     '<button type="button" class="btn-guardar" data-accion="guardar" data-id="' + escaparHTML(id) + '">\uD83D\uDCBE Guardar</button>';
       form +=     '<button type="button" class="btn-cancelar" data-accion="cancelar" data-id="' + escaparHTML(id) + '">Cancelar</button>';
