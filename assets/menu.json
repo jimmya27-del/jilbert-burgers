@@ -76,6 +76,24 @@
           "desc": "Papas fritas con salchicha, queso rallado y salsas.",
           "precio": 4,
           "emoji": "🍟"
+        },
+        {
+          "id": "s4",
+          "nombre": "Salchipapas normal grande",
+          "desc": "\u00BFUn antojo cl\u00E1sico? \uD83C\uDF7F \u00A1Nuestra Salchipapa Cl\u00E1sica es para ti! \uD83C\uDF7F Papas fritas doradas \uD83E\uDD53 Salchichas jugosas \uD83E\uDD53 Salsas secretas \uD83E\uDD53 Queso de a\u00F1o gratinado \uD83E\uDDC5 Peso Aprox: 400 gr \uD83C\uDF7F \u00A1Puro sabor tradicional!",
+          "precio": 7,
+          "emoji": "\uD83C\uDF5F",
+          "foto": "",
+          "badge": ""
+        },
+        {
+          "id": "s5",
+          "nombre": "Salchipapas normal peque\u00F1o (150gr de papas.)",
+          "desc": "\u00BFUn antojo cl\u00E1sico? \uD83C\uDF7F \u00A1Nuestra Salchipapa Cl\u00E1sica Peque\u00F1a es para ti! \uD83C\uDF7F Papas fritas doradas \uD83E\uDD53 Salchichas jugosas \uD83E\uDD53 Salsas secretas \uD83E\uDD53 Queso de a\u00F1o gratinado \uD83E\uDDC5 Peso Aprox: 200 gr \uD83C\uDF7F \u00A1Puro sabor tradicional!",
+          "precio": 5,
+          "emoji": "\uD83C\uDF5F",
+          "foto": "",
+          "badge": ""
         }
       ]
     },
@@ -110,6 +128,24 @@
           "desc": "Malta bien fria 355ml.",
           "precio": 1.8,
           "emoji": "🍾"
+        },
+        {
+          "id": "b5",
+          "nombre": "Refresco Coca cola de lata",
+          "desc": "Refresco Coca-Cola en presentaci\u00F3n de lata.",
+          "precio": 1.5,
+          "emoji": "\uD83E\uDD64",
+          "foto": "",
+          "badge": ""
+        },
+        {
+          "id": "b6",
+          "nombre": "Refresco Coca-Cola de 1 Litro",
+          "desc": "Refresco Coca-Cola en presentaci\u00F3n de 1 Litro.",
+          "precio": 2,
+          "emoji": "\uD83E\uDD64",
+          "foto": "",
+          "badge": ""
         }
       ]
     },
@@ -137,6 +173,69 @@
           "desc": "2 hamburguesas clasicas + 2 papas + 2 refrescos.",
           "precio": 14,
           "emoji": "🍽"
+        }
+      ]
+    },
+    "combos-descuento": {
+      "titulo": "Combos Descuento",
+      "emoji": "\uD83C\uDF54",
+      "productos": [
+        {
+          "id": "h5",
+          "nombre": "COMBO (1) CL\u00C1SICO JILBERT",
+          "desc": "Combo Clasico Jilbert \uD83C\uDF54\uD83C\uDF5F \u00A1Dos cl\u00E1sicos llenos de sabor! Disfruta de: \uD83C\uDF54 1 Hamburguesa Normal \uD83C\uDF5F 1 Salchipapa Normal Grande \uD83E\uDD64 1 Refresco de 1L. Precio Especial ~ \uD83D\uDFE9",
+          "precio": 14.99,
+          "emoji": "\uD83C\uDF54",
+          "foto": "",
+          "badge": ""
+        },
+        {
+          "id": "h6",
+          "nombre": "COMBO (6) NI\u00D1OS",
+          "desc": "\u00A1Combo Consentidos! Porque los m\u00E1s peque\u00F1os merecen lo mejor \uD83C\uDF67 Incluye: \uD83C\uDF71 3 Salchipapas Normales peque\u00F1os \uD83C\uDF7E 1 Refresco Coca-Cola de 1L \uD83D\uDCB0 Precio Imperdible \uD83E\uDD73 \u00A1Sabor, diversi\u00F3n y ahorro en un solo combo!",
+          "precio": 12.99,
+          "emoji": "\uD83C\uDF54",
+          "foto": "",
+          "badge": ""
+        },
+        {
+          "id": "h7",
+          "nombre": "COMBO ENAMORADOS",
+          "desc": "2 Hamburguesas de pollo crispy + Salchipapas normal grande + Coca-Cola 1LITRO precio normal 26. PRECIO ESPECIAL 21,50 AHORRAS aproximadamente 25%",
+          "precio": 21.5,
+          "emoji": "\uD83C\uDF54",
+          "foto": "",
+          "badge": ""
+        }
+      ]
+    },
+    "hamburguesas-carne": {
+      "titulo": "Hamburguesas de Carne",
+      "emoji": "\uD83C\uDF54",
+      "productos": [
+        {
+          "id": "h8",
+          "nombre": "Hamburguesa de Carne Normal",
+          "desc": "\u00A1Sabor cl\u00E1sico con el toque JB! Disfruta de 120g de nuestra jugosa carne, los quesos Mozzarella y Cheddar derretidos, lechuga y tomate fresco, todo en un suave pan brioche. Con papitas cabello de \u00E1ngel, nuestras salsas secretas y \u00A1de regalo! unas papas fritas premium.",
+          "precio": 8.5,
+          "emoji": "\uD83C\uDF54",
+          "foto": "",
+          "badge": ""
+        }
+      ]
+    },
+    "hamburguesas-pollo": {
+      "titulo": "Hamburguesas de Pollo",
+      "emoji": "\uD83C\uDF57",
+      "productos": [
+        {
+          "id": "h9",
+          "nombre": "Hamburguesa de Pollo Crispy",
+          "desc": "\u00A1La hamburguesa que lo tiene TODO! Pan brioche, pollo crispy de 150g, y una doble mezcla de quesos mozzarella y cheddar derretidos. Acompa\u00F1ada de papitas cabello de \u00E1ngel, nuestras salsas secretas de JB y, \u00A1de regalo!, una raci\u00F3n de papas fritas premium.",
+          "precio": 8.5,
+          "emoji": "\uD83C\uDF57",
+          "foto": "",
+          "badge": ""
         }
       ]
     }
