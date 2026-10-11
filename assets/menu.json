@@ -18,11 +18,13 @@
   "categorias": {
     "hamburguesas": {
       "titulo": "Hamburguesas",
+      "imagen": "",
       "emoji": "🍔",
       "productos": []
     },
     "salchipapas": {
       "titulo": "Salchipapas",
+      "imagen": "",
       "emoji": "🍟",
       "productos": [
         {
@@ -54,6 +56,7 @@
     },
     "bebidas": {
       "titulo": "Bebidas",
+      "imagen": "",
       "emoji": "🥤",
       "productos": [
         {
@@ -78,11 +81,13 @@
     },
     "combos": {
       "titulo": "Combos",
+      "imagen": "",
       "emoji": "🍽",
       "productos": []
     },
     "combos-descuento": {
       "titulo": "Combos Descuento",
+      "imagen": "",
       "emoji": "🍔",
       "productos": [
         {
@@ -116,6 +121,7 @@
     },
     "hamburguesas-carne": {
       "titulo": "Hamburguesas de Carne",
+      "imagen": "",
       "emoji": "🍔",
       "productos": [
         {
@@ -131,6 +137,7 @@
     },
     "hamburguesas-pollo": {
       "titulo": "Hamburguesas de Pollo",
+      "imagen": "",
       "emoji": "🍗",
       "productos": [
         {

@@ -639,16 +639,30 @@ a:hover { color: var(--rojo-oscuro); }
    - .badge-prod      : chip nuevo / top / promo
    ============================================================ */
 
-/* --- Categoria: contenedor del SVG neutro --- */
+/* --- Categoria: contenedor del SVG / imagen --- */
 .categoria-card .cat-media {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 56px;
-  height: 56px;
+  width: 80px;
+  height: 80px;
   margin-bottom: 4px;
 }
-.categoria-card .cat-media svg { display: block; }
+.categoria-card .cat-media svg {
+  display: block;
+  width: 80px;
+  height: 80px;
+}
+.categoria-card .cat-media img.cat-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  background: #FAFAFA;
+}
 
 /* --- Producto: contenedor de media (foto o placeholder) --- */
 .producto .media {

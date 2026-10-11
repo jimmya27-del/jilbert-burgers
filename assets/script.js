@@ -248,6 +248,28 @@
     window.open(url, '_blank');
   }
 
+  function svgCategoria(slug) {
+    var s = {
+      'hamburguesas': '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" width="80" height="80"><path d="M8 22 Q32 6 56 22 Z" fill="#FFC107"/><rect x="6" y="24" width="52" height="6" rx="3" fill="#D32F2F"/><rect x="8" y="32" width="48" height="6" rx="2" fill="#7CB342"/><rect x="6" y="40" width="52" height="6" rx="3" fill="#D32F2F"/><path d="M8 48 Q32 60 56 48 Z" fill="#FFC107"/></svg>',
+      'salchipapas': '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" width="80" height="80"><rect x="16" y="10" width="6" height="32" fill="#FFC107"/><rect x="24" y="6" width="6" height="36" fill="#FFC107"/><rect x="32" y="8" width="6" height="34" fill="#FFC107"/><rect x="40" y="12" width="6" height="30" fill="#FFC107"/><path d="M10 40 L54 40 L50 58 L14 58 Z" fill="#D32F2F"/></svg>',
+      'bebidas': '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" width="80" height="80"><rect x="34" y="6" width="4" height="22" fill="#111111" transform="rotate(20 36 17)"/><rect x="14" y="20" width="36" height="6" fill="#FFC107"/><path d="M14 26 L50 26 L46 58 L18 58 Z" fill="#D32F2F"/><rect x="20" y="38" width="24" height="3" fill="#FFFFFF" opacity="0.5"/></svg>',
+      'combos': '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" width="80" height="80"><rect x="6" y="46" width="52" height="6" rx="2" fill="#111111"/><circle cx="20" cy="36" r="10" fill="#FFC107"/><circle cx="20" cy="36" r="6" fill="#D32F2F"/><rect x="34" y="26" width="8" height="20" fill="#FFC107"/><rect x="44" y="30" width="8" height="16" fill="#D32F2F"/></svg>',
+      'combos-descuento': '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" width="80" height="80"><path d="M6 30 Q32 16 58 30 Z" fill="#FFC107"/><rect x="4" y="32" width="56" height="6" rx="3" fill="#D32F2F"/><rect x="6" y="40" width="52" height="6" rx="2" fill="#7CB342"/><path d="M4 48 Q32 58 60 48 Z" fill="#FFC107"/><polygon points="52,8 54,16 62,16 56,21 58,29 52,24 46,29 48,21 42,16 50,16" fill="#D32F2F"/></svg>',
+      'hamburguesas-carne': '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" width="80" height="80"><path d="M8 22 Q32 6 56 22 Z" fill="#FFC107"/><rect x="6" y="24" width="52" height="5" rx="2" fill="#7CB342"/><rect x="4" y="30" width="56" height="10" rx="3" fill="#6D4C41"/><rect x="6" y="42" width="52" height="6" rx="3" fill="#D32F2F"/><path d="M8 50 Q32 62 56 50 Z" fill="#FFC107"/></svg>',
+      'hamburguesas-pollo': '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" width="80" height="80"><path d="M8 22 Q32 6 56 22 Z" fill="#FFC107"/><rect x="6" y="24" width="52" height="6" rx="2" fill="#F5DEB3"/><rect x="4" y="32" width="56" height="10" rx="4" fill="#E8A33D"/><rect x="6" y="44" width="52" height="6" rx="3" fill="#D32F2F"/><path d="M8 52 Q32 62 56 52 Z" fill="#FFC107"/></svg>'
+    };
+    return s[slug] || s['hamburguesas'];
+  }
+
+  function catMediaHTML(c, slug) {
+    var svg = svgCategoria(slug);
+    var img = '';
+    if (c && typeof c.imagen === 'string' && c.imagen.length > 0) {
+      img = '<img class="cat-img" src="' + c.imagen + '" alt="" loading="lazy" onerror="this.remove()">';
+    }
+    return svg + img;
+  }
+
   function pintarCategorias() {
     var cont = document.getElementById('lista-categorias');
     if (!cont || !menuData) return;
@@ -261,13 +283,7 @@
       var sub = prods.length + ' producto' + (prods.length === 1 ? '' : 's');
       html += '' +
         '<a class="categoria-card" href="categoria.html?cat=' + encodeURIComponent(slug) + '">' +
-          '<span class="cat-media" aria-hidden="true">' +
-            '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" width="56" height="56">' +
-              '<rect x="8" y="14" width="48" height="10" rx="5" fill="#FFC107"/>' +
-              '<rect x="8" y="27" width="48" height="10" rx="4" fill="#D32F2F"/>' +
-              '<rect x="8" y="40" width="48" height="10" rx="5" fill="#FFC107"/>' +
-            '</svg>' +
-          '</span>' +
+          '<span class="cat-media" aria-hidden="true">' + catMediaHTML(c, slug) + '</span>' +
           '<span class="label">' + titulo + '</span>' +
           '<span class="sub">' + sub + '</span>' +
         '</a>';
