@@ -35,31 +35,9 @@
   <p id="hero-subtitulo">Pide f&aacute;cil por WhatsApp. Elige tu categor&iacute;a, agrega al carrito y env&iacute;a tu pedido en segundos.</p>
 </section>
 
-<!-- Categorias -->
+<!-- Categorias (se generan dinamicamente desde menu.json) -->
 <h2 class="seccion-titulo">Nuestro Men&uacute;</h2>
-<section class="categorias">
-  <a class="categoria-card" href="hamburguesas.html">
-    <span class="cat-media" aria-hidden="true"><svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" width="56" height="56"><rect x="8" y="14" width="48" height="10" rx="5" fill="#FFC107"/><rect x="8" y="27" width="48" height="10" rx="4" fill="#D32F2F"/><rect x="8" y="40" width="48" height="10" rx="5" fill="#FFC107"/></svg></span>
-    <span class="label">Hamburguesas</span>
-    <span class="sub">De res, pollo y dobles</span>
-  </a>
-  <a class="categoria-card" href="salchipapas.html">
-    <span class="cat-media" aria-hidden="true"><svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" width="56" height="56"><rect x="8" y="14" width="48" height="10" rx="5" fill="#FFC107"/><rect x="8" y="27" width="48" height="10" rx="4" fill="#D32F2F"/><rect x="8" y="40" width="48" height="10" rx="5" fill="#FFC107"/></svg></span>
-    <span class="label">Salchipapas</span>
-    <span class="sub">Cl&aacute;sicas y especiales</span>
-  </a>
-  <a class="categoria-card" href="bebidas.html">
-    <span class="cat-media" aria-hidden="true"><svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" width="56" height="56"><rect x="8" y="14" width="48" height="10" rx="5" fill="#FFC107"/><rect x="8" y="27" width="48" height="10" rx="4" fill="#D32F2F"/><rect x="8" y="40" width="48" height="10" rx="5" fill="#FFC107"/></svg></span>
-    <span class="label">Bebidas</span>
-    <span class="sub">Refrescos y jugos</span>
-  </a>
-  <a class="categoria-card" href="combos.html">
-    <span class="cat-media" aria-hidden="true"><svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" width="56" height="56"><rect x="8" y="14" width="48" height="10" rx="5" fill="#FFC107"/><rect x="8" y="27" width="48" height="10" rx="4" fill="#D32F2F"/><rect x="8" y="40" width="48" height="10" rx="5" fill="#FFC107"/></svg></span>
-    <span class="label">Combos</span>
-    <span class="sub">Comida + papas + bebida</span>
-  </a>
-</section>
-
+<section class="categorias" id="lista-categorias"></section>
 <!-- Boton carrito flotante -->
 <button class="carrito-btn" id="carrito-btn" aria-label="Ver carrito">
   <span class="icono">&#128722;</span>

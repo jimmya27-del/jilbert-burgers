@@ -248,6 +248,32 @@
     window.open(url, '_blank');
   }
 
+  function pintarCategorias() {
+    var cont = document.getElementById('lista-categorias');
+    if (!cont || !menuData) return;
+    var cats = menuData.categorias || {};
+    var html = '';
+    Object.keys(cats).forEach(function (slug) {
+      var c = cats[slug] || {};
+      var prods = c.productos || [];
+      if (prods.length === 0) return;
+      var titulo = c.titulo || slug;
+      var sub = prods.length + ' producto' + (prods.length === 1 ? '' : 's');
+      html += '' +
+        '<a class="categoria-card" href="categoria.html?cat=' + encodeURIComponent(slug) + '">' +
+          '<span class="cat-media" aria-hidden="true">' +
+            '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" width="56" height="56">' +
+              '<rect x="8" y="14" width="48" height="10" rx="5" fill="#FFC107"/>' +
+              '<rect x="8" y="27" width="48" height="10" rx="4" fill="#D32F2F"/>' +
+              '<rect x="8" y="40" width="48" height="10" rx="5" fill="#FFC107"/>' +
+            '</svg>' +
+          '</span>' +
+          '<span class="label">' + titulo + '</span>' +
+          '<span class="sub">' + sub + '</span>' +
+        '</a>';
+    });
+    cont.innerHTML = html;
+  }
   function init() {
     leerCarrito();
 
@@ -299,8 +325,21 @@
         aplicarNegocio();
         aplicarLogoPos();
         aplicarHero();
+        pintarCategorias();
         var cat = document.body.getAttribute('data-categoria');
-        if (cat) pintarProductos(cat);
+        if (!cat) {
+          try {
+            var params = new URLSearchParams(window.location.search);
+            cat = params.get('cat');
+          } catch (e) { cat = null; }
+        }
+        if (cat) {
+          var tituloEl = document.getElementById('cat-titulo');
+          if (tituloEl && menuData.categorias[cat]) {
+            tituloEl.textContent = menuData.categorias[cat].titulo || cat;
+          }
+          pintarProductos(cat);
+        }
         pintarCarrito();
         refrescarTarjetas();
       })
