@@ -24,13 +24,138 @@
     try { localStorage.setItem(CLAVE_CARRITO, JSON.stringify(carrito)); } catch (e) {}
   }
 
+  function simboloMoneda() {
+    var m = (menuData && menuData.negocio && menuData.negocio.moneda) ? String(menuData.negocio.moneda) : 'USD';
+    if (m === 'EUR') return '\u20ac';
+    if (m === 'USD') return '$';
+    if (m === 'Bs')  return 'Bs';
+    return m;
+  }
   function formatearPrecio(n) {
-    var sim = (menuData && menuData.simbolo) ? menuData.simbolo : '$';
-    return sim + Number(n).toFixed(2);
+    return simboloMoneda() + Number(n).toFixed(2);
   }
   function totalItems() { return carrito.reduce(function (s, it) { return s + it.cantidad; }, 0); }
   function totalPrecio() { return carrito.reduce(function (s, it) { return s + it.cantidad * it.precio; }, 0); }
 
+  function monedaActual() {
+    return (menuData && menuData.negocio && menuData.negocio.moneda) ? String(menuData.negocio.moneda) : 'USD';
+  }
+  function tasaActual() {
+    var t = (menuData && menuData.negocio) ? Number(menuData.negocio.tasa_bcv) : 0;
+    return (isFinite(t) && t > 0) ? t : 0;
+  }
+  function equivalenteBsHTML(total) {
+    if (monedaActual() === 'Bs') return '';
+    var t = tasaActual();
+    if (t <= 0) return '';
+    var bs = total * t;
+    return 'Bs ' + bs.toFixed(2).replace('.', ',') +
+           ' <span class="carrito-bs-tasa">(' + t.toFixed(2).replace('.', ',') + ' Bs/u)</span>';
+  }
+
+  // ============================================================
+  // FASE 7-C - Panel de pago del carrito
+  // Todo dinamico desde menu.json (.negocio.*)
+  // ============================================================
+  var caminoPago = 'contado';
+
+  function descuentoContado() {
+    var d = (menuData && menuData.negocio) ? Number(menuData.negocio.descuento_contado) : 0;
+    if (!isFinite(d) || d < 0) d = 0;
+    if (d > 100) d = 100;
+    return d;
+  }
+
+  function pagoConfig() {
+    return (menuData && menuData.negocio && menuData.negocio.pago) ? menuData.negocio.pago : null;
+  }
+
+  function totalCarrito() {
+    return carrito.reduce(function (s, it) { return s + (Number(it.precio) * Number(it.cantidad)); }, 0);
+  }
+
+  function totalSegunCamino() {
+    var t = totalCarrito();
+    if (caminoPago === 'contado') { t = t * (1 - descuentoContado() / 100); }
+    return t;
+  }
+
+  function abrirPanelPago() {
+    if (carrito.length === 0) { alert('El carrito est\u00E1 vac\u00EDo.'); return; }
+    var p = document.getElementById('carrito-pago-panel');
+    if (!p) return;
+    renderPago();
+    p.classList.add('abierto');
+    p.setAttribute('aria-hidden', 'false');
+  }
+
+  function cerrarPanelPago() {
+    var p = document.getElementById('carrito-pago-panel');
+    if (!p) return;
+    p.classList.remove('abierto');
+    p.setAttribute('aria-hidden', 'true');
+  }
+
+  function seleccionarCamino(c) {
+    caminoPago = (c === 'credito') ? 'credito' : 'contado';
+    var bc = document.getElementById('pago-camino-contado');
+    var bcr = document.getElementById('pago-camino-credito');
+    if (bc)  bc.classList.toggle('activo',  caminoPago === 'contado');
+    if (bcr) bcr.classList.toggle('activo', caminoPago === 'credito');
+    renderPago();
+  }
+
+  function renderPago() {
+    var d = descuentoContado();
+    var total = totalSegunCamino();
+
+    var lblOff = document.getElementById('pago-off-label');
+    if (lblOff) lblOff.textContent = '(' + d + '% OFF)';
+
+    var tot = document.getElementById('pago-total-valor');
+    if (tot) tot.textContent = formatearPrecio(total);
+
+    var totBs = document.getElementById('pago-total-bs');
+    if (totBs) totBs.innerHTML = equivalenteBsHTML(total);
+
+    var datos = document.getElementById('pago-datos');
+    if (datos) {
+      var pg = pagoConfig();
+      var pm = (pg && pg.pago_movil) ? pg.pago_movil : null;
+      var tr = (pg && pg.transferencia) ? pg.transferencia : null;
+      var hayPm = pm && (pm.banco || pm.telefono || pm.cedula || pm.titular);
+      var hayTr = tr && (tr.banco || tr.cuenta || tr.tipo || tr.cedula || tr.titular);
+      if (!hayPm && !hayTr) {
+        datos.innerHTML = '<p class="pago-vacio">El negocio a\u00FAn no ha cargado estos datos.</p>';
+      } else {
+        var html = '';
+        if (hayPm) {
+          html += '<div class="pago-bloque"><h4>Pago m\u00F3vil</h4><ul>';
+          if (pm.banco)    html += '<li><span>Banco</span><strong>'    + pm.banco    + '</strong></li>';
+          if (pm.telefono) html += '<li><span>Tel\u00E9fono</span><strong>' + pm.telefono + '</strong></li>';
+          if (pm.cedula)   html += '<li><span>C\u00E9dula</span><strong>'   + pm.cedula   + '</strong></li>';
+          if (pm.titular)  html += '<li><span>Titular</span><strong>'  + pm.titular  + '</strong></li>';
+          html += '</ul></div>';
+        }
+        if (hayTr) {
+          html += '<div class="pago-bloque"><h4>Transferencia</h4><ul>';
+          if (tr.banco)   html += '<li><span>Banco</span><strong>'  + tr.banco  + '</strong></li>';
+          if (tr.cuenta)  html += '<li><span>Cuenta</span><strong>' + tr.cuenta + '</strong></li>';
+          if (tr.tipo)    html += '<li><span>Tipo</span><strong>'   + tr.tipo   + '</strong></li>';
+          if (tr.cedula)  html += '<li><span>C\u00E9dula</span><strong>' + tr.cedula + '</strong></li>';
+          if (tr.titular) html += '<li><span>Titular</span><strong>' + tr.titular + '</strong></li>';
+          html += '</ul></div>';
+        }
+        datos.innerHTML = html;
+      }
+    }
+
+    var ins = document.getElementById('pago-instrucciones');
+    if (ins) {
+      var txt = (pagoConfig() && pagoConfig().instrucciones) ? String(pagoConfig().instrucciones) : '';
+      ins.innerHTML = txt ? '<h4>Instrucciones</h4><p>' + txt + '</p>' : '';
+    }
+  }
   function cantidadDe(id) {
     var it = carrito.find(function (x) { return x.id === id; });
     return it ? it.cantidad : 0;
@@ -92,7 +217,23 @@
       }).join('');
     }
     var totalEl = document.getElementById('carrito-total');
-    if (totalEl) totalEl.textContent = formatearPrecio(totalPrecio());
+    var totalVal = totalPrecio();
+    if (totalEl) {
+      totalEl.textContent = formatearPrecio(totalVal);
+      var bsHTML = equivalenteBsHTML(totalVal);
+      var bsEl = document.getElementById('carrito-total-bs');
+      if (bsHTML) {
+        if (!bsEl) {
+          bsEl = document.createElement('div');
+          bsEl.id = 'carrito-total-bs';
+          bsEl.className = 'carrito-total-bs';
+          totalEl.parentNode.insertBefore(bsEl, totalEl.nextSibling);
+        }
+        bsEl.innerHTML = bsHTML;
+      } else if (bsEl) {
+        bsEl.parentNode.removeChild(bsEl);
+      }
+    }
   }
 
   function badgeHTML(b) {
@@ -300,7 +441,13 @@
     var btnVaciar = document.getElementById('carrito-vaciar');
     if (btnVaciar) btnVaciar.addEventListener('click', vaciar);
     var btnEnviar = document.getElementById('carrito-enviar');
-    if (btnEnviar) btnEnviar.addEventListener('click', enviarWhatsApp);
+    if (btnEnviar) btnEnviar.addEventListener('click', abrirPanelPago);
+    var btnPagoCerrar = document.getElementById('carrito-pago-cerrar');
+    if (btnPagoCerrar) btnPagoCerrar.addEventListener('click', cerrarPanelPago);
+    var btnCaminoContado = document.getElementById('pago-camino-contado');
+    if (btnCaminoContado) btnCaminoContado.addEventListener('click', function () { seleccionarCamino('contado'); });
+    var btnCaminoCredito = document.getElementById('pago-camino-credito');
+    if (btnCaminoCredito) btnCaminoCredito.addEventListener('click', function () { seleccionarCamino('credito'); });
 
     var listaCarrito = document.getElementById('carrito-lista');
     if (listaCarrito) {
