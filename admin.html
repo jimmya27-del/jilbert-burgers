@@ -662,6 +662,9 @@
       html +=   `<label>Facebook (link de la p&aacute;gina)<input type="text" data-negocio="facebook" value="${escaparHTML(fb)}" placeholder="https://www.facebook.com/..."></label>`;
       html +=   `<label>Correo<input type="email" data-negocio="correo" value="${escaparHTML(mail)}" placeholder="correo@ejemplo.com"></label>`;
       html +=   `<label>Logo del negocio<input type="text" data-negocio="logo" value="${escaparHTML(logo)}" placeholder="assets/img/logo.svg" spellcheck="false"></label>`;
+      html +=   `<label>Moneda (codigo ISO, ej: EUR, USD)<input type="text" data-negocio="moneda" value="${escaparHTML((n.moneda != null && n.moneda !== '') ? n.moneda : 'EUR')}" maxlength="8" style="text-transform:uppercase;" spellcheck="false"></label>`;
+      html +=   `<label>Tasa BCV (Bs por 1 unidad de moneda)<input type="number" data-negocio="tasa_bcv" value="${escaparHTML(String((n.tasa_bcv != null && n.tasa_bcv !== '') ? n.tasa_bcv : 0))}" min="0" step="0.01"></label>`;
+      html +=   `<label>Descuento contado (% OFF)<input type="number" data-negocio="descuento_contado" value="${escaparHTML(String((n.descuento_contado != null && n.descuento_contado !== '') ? n.descuento_contado : 0))}" min="0" max="100" step="1"></label>`;
       html +=   `<div style="margin-top:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;"><button type="button" class="btn-secundario" data-accion="subir-logo">Elegir logo desde mi computadora</button><span style="font-size:12px;opacity:.7;">Redimensiona a 600px lado mayor (JPEG q0.8) y guarda base64 en menu.json.</span></div>`;
       html +=   `<div class="foto-preview" data-logo-preview></div>`;
       html +=   `<div style="margin-top:12px;padding:12px;background:#f5f5f5;border-radius:8px;">`;
@@ -755,7 +758,20 @@
       if (isNaN(logoPos.escala) || logoPos.escala <= 0) logoPos.escala = 1;
       if (isNaN(logoPos.x)) logoPos.x = 0;
       if (isNaN(logoPos.y)) logoPos.y = 0;
-      menuCache.negocio = { whatsapp: wa, direccion: dir, facebook: fb, correo: mail, logo: logo, logo_pos: logoPos };
+      var monedaEl   = contenidoAdmin.querySelector(`[data-negocio="moneda"]`);
+      var tasaBcvEl  = contenidoAdmin.querySelector(`[data-negocio="tasa_bcv"]`);
+      var descEl     = contenidoAdmin.querySelector(`[data-negocio="descuento_contado"]`);
+      var monedaVal  = monedaEl ? monedaEl.value.trim().toUpperCase() : '';
+      if (!monedaVal) monedaVal = (menuCache.negocio && menuCache.negocio.moneda) || 'EUR';
+      var tasaVal    = tasaBcvEl ? Number(tasaBcvEl.value) : 0;
+      if (isNaN(tasaVal) || tasaVal < 0) tasaVal = 0;
+      var descVal    = descEl ? Number(descEl.value) : 0;
+      if (isNaN(descVal) || descVal < 0) descVal = 0;
+      if (descVal > 100) descVal = 100;
+      menuCache.negocio = Object.assign({}, menuCache.negocio, {
+        whatsapp: wa, direccion: dir, facebook: fb, correo: mail, logo: logo, logo_pos: logoPos,
+        moneda: monedaVal, tasa_bcv: tasaVal, descuento_contado: descVal
+      });
 
       var hTitEl = contenidoAdmin.querySelector(`[data-hero="titulo"]`);
       var hSubEl = contenidoAdmin.querySelector(`[data-hero="subtitulo"]`);
