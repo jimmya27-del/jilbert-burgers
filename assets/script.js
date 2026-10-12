@@ -109,6 +109,13 @@
     var d = descuentoContado();
     var total = totalSegunCamino();
 
+    var btnConfirmar = document.getElementById('pago-confirmar');
+    if (btnConfirmar) {
+      btnConfirmar.textContent = (caminoPago === 'contado')
+        ? 'Ya pagu\u00E9 - enviar pedido'
+        : 'Enviar pedido, pago al recibir';
+    }
+
     var lblOff = document.getElementById('pago-off-label');
     if (lblOff) lblOff.textContent = '(' + d + '% OFF)';
 
@@ -368,25 +375,35 @@
   function abrirPanel() { var p = document.getElementById('carrito-panel'); if (p) p.classList.add('abierto'); }
   function cerrarPanel() { var p = document.getElementById('carrito-panel'); if (p) p.classList.remove('abierto'); }
 
-  function enviarWhatsApp() {
+  function enviarWhatsApp(camino) {
     if (carrito.length === 0) { alert('El carrito est\u00E1 vac\u00EDo.'); return; }
     var nombre = prompt('\u00BFTu nombre?');
     if (nombre === null) return;
     var nota = prompt('Direcci\u00F3n o nota para el pedido (opcional):');
     if (nota === null) nota = '';
+    caminoPago = (camino === 'credito') ? 'credito' : 'contado';
     var lineas = [];
     lineas.push('*Pedido Jilbert Burgers*');
+    if (caminoPago === 'contado') {
+      lineas.push('*Ya pagu\u00E9, adjunto comprobante*');
+    } else {
+      lineas.push('*Pago al recibir, precio normal*');
+    }
     lineas.push('');
     carrito.forEach(function (it) {
       lineas.push('\u2022 ' + it.cantidad + ' x ' + it.nombre + ' = ' + formatearPrecio(it.precio * it.cantidad));
     });
     lineas.push('');
-    lineas.push('*Total:* ' + formatearPrecio(totalPrecio()));
+    if (caminoPago === 'contado') {
+      lineas.push('*Total (con ' + descuentoContado() + '% OFF):* ' + formatearPrecio(totalSegunCamino()));
+    } else {
+      lineas.push('*Total:* ' + formatearPrecio(totalSegunCamino()));
+    }
     if (nombre) lineas.push('*Cliente:* ' + nombre);
     if (nota)   lineas.push('*Direcci\u00F3n/Nota:* ' + nota);
     var num = (menuData && menuData.whatsapp) ? menuData.whatsapp : '584124409025';
     var url = 'https://wa.me/' + num + '?text=' + encodeURIComponent(lineas.join('\n'));
-    window.open(url, '_blank');
+    var _w = window.open(url, '_blank'); if (!_w) { location.href = url; }
   }
 
   function svgCategoria(slug) {
@@ -448,6 +465,11 @@
     if (btnCaminoContado) btnCaminoContado.addEventListener('click', function () { seleccionarCamino('contado'); });
     var btnCaminoCredito = document.getElementById('pago-camino-credito');
     if (btnCaminoCredito) btnCaminoCredito.addEventListener('click', function () { seleccionarCamino('credito'); });
+    var btnPagoConfirmar = document.getElementById('pago-confirmar');
+    if (btnPagoConfirmar) btnPagoConfirmar.addEventListener('click', function () {
+      enviarWhatsApp(caminoPago);
+      cerrarPanelPago();
+    });
 
     var listaCarrito = document.getElementById('carrito-lista');
     if (listaCarrito) {
