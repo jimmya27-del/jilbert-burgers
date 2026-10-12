@@ -375,6 +375,12 @@
   function abrirPanel() { var p = document.getElementById('carrito-panel'); if (p) p.classList.add('abierto'); }
   function cerrarPanel() { var p = document.getElementById('carrito-panel'); if (p) p.classList.remove('abierto'); }
 
+  function normalizarWhatsApp(raw) {
+    var d = String(raw || '').replace(/\D/g, '');
+    if (d.length === 11 && d.charAt(0) === '0') { d = '58' + d.slice(1); }
+    return d;
+  }
+
   function enviarWhatsApp(camino) {
     if (carrito.length === 0) { alert('El carrito est\u00E1 vac\u00EDo.'); return; }
     var nombre = prompt('\u00BFTu nombre?');
@@ -401,7 +407,8 @@
     }
     if (nombre) lineas.push('*Cliente:* ' + nombre);
     if (nota)   lineas.push('*Direcci\u00F3n/Nota:* ' + nota);
-    var num = (menuData && menuData.whatsapp) ? menuData.whatsapp : '584124409025';
+    var num = normalizarWhatsApp(menuData && menuData.negocio ? menuData.negocio.whatsapp : '');
+    if (!num) { alert('N\u00FAmero de WhatsApp no configurado en menu.json.'); return; }
     var url = 'https://wa.me/' + num + '?text=' + encodeURIComponent(lineas.join('\n'));
     var _w = window.open(url, '_blank'); if (!_w) { location.href = url; }
   }

@@ -25,3 +25,8 @@ npm-debug.log*
 admin_*.bak.html
 admin_backup_*.html
 _*.ps1
+
+# Untracked cleanup 7-E
+*.pre-pull-*
+*.local-backup-*
+/style.css
