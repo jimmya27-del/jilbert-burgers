@@ -651,6 +651,19 @@
       var h    = menuCache.hero || {};
       var hTit = (h.titulo    != null && h.titulo    !== "") ? h.titulo    : "";
       var hSub = (h.subtitulo != null && h.subtitulo !== "") ? h.subtitulo : "";
+      var p    = (n.pago) || {};
+      var pm   = p.pago_movil    || {};
+      var tr   = p.transferencia || {};
+      var pmBanco = pm.banco    || "";
+      var pmTel   = pm.telefono || "";
+      var pmCed   = pm.cedula   || "";
+      var pmTit   = pm.titular  || "";
+      var trBanco = tr.banco    || "";
+      var trCta   = tr.cuenta   || "";
+      var trTipo  = tr.tipo     || "";
+      var trCed   = tr.cedula   || "";
+      var trTit   = tr.titular  || "";
+      var instrucciones = (p.instrucciones != null) ? p.instrucciones : "";
 
       var html = "";
       html += `<div class="cabecera-categoria">`;
@@ -660,7 +673,8 @@
       html +=   `<label>WhatsApp (solo n&uacute;meros, con c&oacute;digo de pa&iacute;s)<input type="text" data-negocio="whatsapp" value="${escaparHTML(wa)}" placeholder="584124409025 o 0412-440-9025"></label>`;
       html +=   `<label>Direcci&oacute;n<input type="text" data-negocio="direccion" value="${escaparHTML(dir)}" maxlength="200"></label>`;
       html +=   `<label>Facebook (link de la p&aacute;gina)<input type="text" data-negocio="facebook" value="${escaparHTML(fb)}" placeholder="https://www.facebook.com/..."></label>`;
-      html +=   `<label>Correo<input type="email" data-negocio="correo" value="${escaparHTML(mail)}" placeholder="correo@ejemplo.com"></label>`;
+      html +=   `<label>Correo<input type="email" data-negocio="correo" value="${escaparHTML(mail)}" placeholder="correo@ejemplo.com"></label>`;
+
       html +=   `<label>Logo del negocio<input type="text" data-negocio="logo" value="${escaparHTML(logo)}" placeholder="assets/img/logo.svg" spellcheck="false"></label>`;
       html +=   `<label>Moneda (codigo ISO, ej: EUR, USD)<input type="text" data-negocio="moneda" value="${escaparHTML((n.moneda != null && n.moneda !== '') ? n.moneda : 'EUR')}" maxlength="8" style="text-transform:uppercase;" spellcheck="false"></label>`;
       html +=   `<label>Tasa BCV (Bs por 1 unidad de moneda)<input type="number" data-negocio="tasa_bcv" value="${escaparHTML(String((n.tasa_bcv != null && n.tasa_bcv !== '') ? n.tasa_bcv : 0))}" min="0" step="0.01"></label>`;
@@ -683,6 +697,17 @@
       html +=   `<h3 style="margin:0 0 8px 0;">Portada (lo primero que se ve arriba)</h3>`;
       html +=   `<label>T&iacute;tulo grande (portada)<input type="text" data-hero="titulo" value="${escaparHTML(hTit)}" placeholder="Ej: Las mejores hamburguesas de Maracay" maxlength="200"></label>`;
       html +=   `<label>Frase debajo del t&iacute;tulo (portada)<textarea data-hero="subtitulo" rows="2" style="width:100%;font:inherit;padding:8px;border:1px solid var(--borde);border-radius:8px;box-sizing:border-box;" maxlength="300">${escaparHTML(hSub)}</textarea></label>`;
+      html +=   `<h2 style="margin:22px 0 10px;font-size:16px;color:var(--texto);">Datos de pago</h2>`;
+      html +=   `<label>Pago m&oacute;vil - Banco<input type="text" data-pago="pago_movil.banco" value="${escaparHTML(pmBanco)}" maxlength="80"></label>`;
+      html +=   `<label>Pago m&oacute;vil - Tel&eacute;fono<input type="text" data-pago="pago_movil.telefono" value="${escaparHTML(pmTel)}" placeholder="0412-4409025" maxlength="40"></label>`;
+      html +=   `<label>Pago m&oacute;vil - C&eacute;dula<input type="text" data-pago="pago_movil.cedula" value="${escaparHTML(pmCed)}" placeholder="V-12345678" maxlength="20"></label>`;
+      html +=   `<label>Pago m&oacute;vil - Titular<input type="text" data-pago="pago_movil.titular" value="${escaparHTML(pmTit)}" maxlength="100"></label>`;
+      html +=   `<label>Transferencia - Banco<input type="text" data-pago="transferencia.banco" value="${escaparHTML(trBanco)}" maxlength="80"></label>`;
+      html +=   `<label>Transferencia - Cuenta<input type="text" data-pago="transferencia.cuenta" value="${escaparHTML(trCta)}" placeholder="0102-0000-00-0000000000" maxlength="40"></label>`;
+      html +=   `<label>Transferencia - Tipo<select data-pago="transferencia.tipo"><option value=""${trTipo === "" ? " selected" : ""}>(sin especificar)</option><option value="corriente"${trTipo === "corriente" ? " selected" : ""}>Corriente</option><option value="ahorro"${trTipo === "ahorro" ? " selected" : ""}>Ahorro</option></select></label>`;
+      html +=   `<label>Transferencia - C&eacute;dula<input type="text" data-pago="transferencia.cedula" value="${escaparHTML(trCed)}" placeholder="V-12345678" maxlength="20"></label>`;
+      html +=   `<label>Transferencia - Titular<input type="text" data-pago="transferencia.titular" value="${escaparHTML(trTit)}" maxlength="100"></label>`;
+      html +=   `<label>Instrucciones adicionales<textarea data-pago="instrucciones" rows="3" style="width:100%;font:inherit;padding:8px;border:1px solid var(--borde);border-radius:8px;box-sizing:border-box;" maxlength="500">${escaparHTML(instrucciones)}</textarea></label>`;
       html +=   `<div class="acciones">`;
       html +=     `<button type="button" class="btn-guardar" data-accion="guardar-negocio">\uD83D\uDCBE Guardar</button>`;
       html +=     `<button type="button" class="btn-cancelar" data-accion="cancelar-negocio">Cancelar</button>`;
@@ -768,9 +793,28 @@
       var descVal    = descEl ? Number(descEl.value) : 0;
       if (isNaN(descVal) || descVal < 0) descVal = 0;
       if (descVal > 100) descVal = 100;
+
+      var pagoPrev = (menuCache.negocio && menuCache.negocio.pago) ? menuCache.negocio.pago : {};
+      function vPago(k){ var el = contenidoAdmin.querySelector('[data-pago="' + k + '"]'); return el ? el.value.trim() : ""; }
+      var pago = {
+        pago_movil: Object.assign({}, pagoPrev.pago_movil || {}, {
+          banco:    vPago("pago_movil.banco"),
+          telefono: vPago("pago_movil.telefono"),
+          cedula:   vPago("pago_movil.cedula"),
+          titular:  vPago("pago_movil.titular")
+        }),
+        transferencia: Object.assign({}, pagoPrev.transferencia || {}, {
+          banco:   vPago("transferencia.banco"),
+          cuenta:  vPago("transferencia.cuenta"),
+          tipo:    vPago("transferencia.tipo"),
+          cedula:  vPago("transferencia.cedula"),
+          titular: vPago("transferencia.titular")
+        }),
+        instrucciones: vPago("instrucciones")
+      };
       menuCache.negocio = Object.assign({}, menuCache.negocio, {
         whatsapp: wa, direccion: dir, facebook: fb, correo: mail, logo: logo, logo_pos: logoPos,
-        moneda: monedaVal, tasa_bcv: tasaVal, descuento_contado: descVal
+        moneda: monedaVal, tasa_bcv: tasaVal, descuento_contado: descVal, pago: pago
       });
 
       var hTitEl = contenidoAdmin.querySelector(`[data-hero="titulo"]`);
