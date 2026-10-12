@@ -1,11 +1,22 @@
 {
   "negocio": {
-    "moneda": "EUR",
-    "tasa_bcv": 0,
-    "descuento_contado": 10,
+    "moneda": "USD",
+    "tasa_bcv": 40,
+    "descuento_contado": 15,
     "pago": {
-      "pago_movil":    { "banco": "", "telefono": "", "cedula": "", "titular": "" },
-      "transferencia": { "banco": "", "cuenta": "", "tipo": "", "cedula": "", "titular": "" },
+      "pago_movil": {
+        "banco": "",
+        "telefono": "",
+        "cedula": "",
+        "titular": ""
+      },
+      "transferencia": {
+        "banco": "",
+        "cuenta": "",
+        "tipo": "",
+        "cedula": "",
+        "titular": ""
+      },
       "instrucciones": ""
     },
     "whatsapp": "0412 4409025",
