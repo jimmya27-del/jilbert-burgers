@@ -1,7 +1,7 @@
 # CONTINUIDAD - JILBERT BURGERS
 
-## FASE ACTIVA: 7-E (Admin editable: moneda + tasa + descuento)
-## ULTIMA FASE CERRADA: 7-D (2026-10-12)
+## FASE ACTIVA: 7-F (Admin editable: datos de pago)
+## ULTIMA FASE CERRADA: 7-E (2026-10-12)
 
 ---
 
@@ -57,6 +57,32 @@ FASE 7-D - WhatsApp con dos mensajes distintos    [CERRADA 2026-10-12]
       etiqueta (0% OFF) y total igual al de credito.
   menu.json quedo byte-identico (218869 bytes, descuento=10).
 
+FASE 7-E - Admin editable: moneda + tasa + descuento [CERRADA 2026-10-12]
+  Commit: 25b0eee "7-E: admin editable moneda + tasa_bcv + descuento_contado".
+  Backup: admin.html.bak-7e-paso1-20261012-143507 (68711 bytes).
+  admin.html:
+    - 3 nuevos inputs en seccion "Datos del negocio":
+        data-negocio="moneda"            (text, uppercase, maxlength 8,
+                                          placeholder: codigo ISO)
+        data-negocio="tasa_bcv"          (number, min 0, step 0.01)
+        data-negocio="descuento_contado" (number, min 0, max 100, step 1)
+    - guardarNegocio() extendido: lee los 3 inputs, valida
+      (moneda vacia -> fallback a menuCache.negocio.moneda o 'EUR';
+      tasa -> Number(), clamp >=0; descuento -> Number(), clamp 0..100),
+      y fusiona via Object.assign({}, menuCache.negocio, {...}).
+      Preserva pago, logo_pos, logo, whatsapp, direccion, facebook, correo.
+  NO toco: index.html, categoria.html, assets/script.js, assets/menu.json.
+  NO toco WhatsApp ni datos de pago (eso es 7-F).
+  menu.json al cierre: moneda="USD", tasa_bcv=40, descuento_contado=15
+    (vienen del commit deae620 "admin: actualizar menu.json", pusheado
+    en paralelo desde otra sesion; integrado con fast-forward sin conflictos).
+  Verificado en local y en GitHub Pages (Ctrl+F5):
+    - SHA256 admin.html local == remoto (68711 bytes).
+    - 3 campos visibles, editables y persistidos.
+  Nota menor detectada (NO se toca en 7-E): el fallback de moneda difiere
+    entre admin.html ('EUR') y assets/script.js ('USD'). Solo aplica si
+    negocio.moneda esta vacio. Resolver en FASE 8 (USD->EUR).
+
 PENDIENTE HEREDADO DE IA 6 (trabajo nuevo, no bloqueante):
 - Campo editable "imagen de categoria" en admin.html (Opcion X).
 
@@ -68,6 +94,36 @@ Ningun dato de negocio hardcodeado. Todo se lee de menu.json:
 moneda, tasa_bcv, descuento_contado, pago.*, instrucciones.
 La web publica y el carrito SOLO LEEN. El admin es el unico que
 escribe (via GitHub API con PAT).
+
+---
+
+## REGLA NUEVA (2026-10-12) - DIAGNOSTICO PREVIO OBLIGATORIO
+
+Todo prompt de reenganche o traspaso debe incluir como PRIMERA
+tarea un diagnostico del entorno y del estado real en disco y en
+el remoto:
+  - git status -sb
+  - git log local vs origin/main (fetch + rev-parse + diff --stat)
+  - tamanos de los archivos criticos
+  - valores reales en assets/menu.json (negocio.*)
+  - estado del working tree (M / untracked / stash)
+Sin ese diagnostico confirmado por el director, NO se modifica
+ningun archivo. Aplica a toda fase futura.
+
+---
+
+## REGLA DE TRASPASO
+
+Al cerrar cada fase:
+  1. Reescribir continuidad.md (ESTADO, HISTORICO, PLAN, PROXIMA FASE).
+  2. Entregar en el chat el PROMPT DE TRASPASO de la fase siguiente,
+     CON SECCION "TU TAREA EN ESTE CHAT" explicita y como PRIMERA
+     seccion despues de la cabecera.
+Esa seccion debe indicar, como minimo:
+  - Diagnostico previo obligatorio (Regla 2026-10-12).
+  - Objetivo de la fase (una linea).
+  - Alcance: que SI tocar y que NO tocar.
+  - Condiciones de cierre (3 condiciones vigentes).
 
 ---
 
@@ -92,36 +148,46 @@ Reglas operativas:
   al portapapeles (Set-Clipboard / copy()). Regla 8.
 - Un mensaje = un bloque ejecutable. Esperar OK del director.
 - No crear ni leer archivos de prompt en _sesion.
+- PROHIBIDO DevTools / F12. Verificacion tecnica con PowerShell
+  sobre el codigo en disco o via Invoke-WebRequest a Pages.
 
 ---
 
 ## PLAN DE FASES
 
-FASE 7-A - Migracion aditiva menu.json             [CERRADA]
-FASE 7-B - Render carrito moneda + tasa + Bs       [CERRADA]
-FASE 7-C - Panel de pago en el carrito             [CERRADA]
-FASE 7-D - WhatsApp con dos mensajes distintos     [CERRADA]
-FASE 7-E - Admin editable: moneda + tasa + descuento [ACTIVA]
-FASE 7-F - Admin editable: datos de pago
+FASE 7-A - Migracion aditiva menu.json               [CERRADA]
+FASE 7-B - Render carrito moneda + tasa + Bs         [CERRADA]
+FASE 7-C - Panel de pago en el carrito               [CERRADA]
+FASE 7-D - WhatsApp con dos mensajes distintos       [CERRADA]
+FASE 7-E - Admin editable: moneda + tasa + descuento [CERRADA]
+FASE 7-F - Admin editable: datos de pago             [ACTIVA]
 FASE 8   - Cambio de USD a EUR en render publico
 
 ---
 
-## PROXIMA FASE: 7-E
+## PROXIMA FASE: 7-F
 
-Objetivo: en admin.html, seccion "Configuracion de venta" con
-selector moneda, input tasa BCV, input % descuento contado.
-Lee y escribe .negocio.moneda, .negocio.tasa_bcv,
-.negocio.descuento_contado via GitHub API con PAT.
+Objetivo: en admin.html, hacer editables los datos de pago:
+  .negocio.pago.pago_movil.{banco, telefono, cedula, titular}
+  .negocio.pago.transferencia.{banco, cuenta, tipo, cedula, titular}
+  .negocio.pago.instrucciones
 
-Este es el modulo que permitira al negocio cambiar el descuento
-contado (hoy 10%) SIN tocar codigo ni menu.json a mano.
+Lee y escribe en menu.json via GitHub API con PAT. Mismo patron que 7-E:
+  - Nuevos inputs en la seccion de negocio (o nueva seccion "Datos de pago").
+  - Handler guardarNegocio() extendido con Object.assign anidado,
+    respetando la forma actual de .negocio.pago (multilinea con
+    pago_movil, transferencia, instrucciones).
 
-Archivos que TOCA: admin.html (probablemente tambien admin.js
-o similar si existe). NO toca: index.html, categoria.html,
-assets/script.js, assets/menu.json (el admin lo escribe via API,
-no via disco local).
+Archivos que TOCA: admin.html.
+NO toca:
+  - El numero de WhatsApp (ya editable desde antes; vive en .negocio.whatsapp,
+    no forma parte del objetivo de 7-F).
+  - Moneda, tasa_bcv, descuento_contado (hechos en 7-E).
+  - Carrito / panel de pago publico (script.js, index.html, categoria.html).
+  - assets/menu.json (el admin lo escribe via API, no via disco local).
+
+Condiciones de cierre (regla vigente): las 3 (local + GitHub + Pages Ctrl+F5).
 
 ---
 
-FIN DE CONTINUIDAD - ACTUALIZADO 2026-10-12 (cierre 7-D)
+FIN DE CONTINUIDAD - ACTUALIZADO 2026-10-12 (cierre 7-E)
