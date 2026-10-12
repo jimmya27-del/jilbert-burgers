@@ -1,14 +1,14 @@
 {
   "negocio": {
-    "moneda": "USD",
-    "tasa_bcv": 40,
-    "descuento_contado": 15,
+    "moneda": "EUR",
+    "tasa_bcv": 875.65,
+    "descuento_contado": 10,
     "pago": {
       "pago_movil": {
-        "banco": "",
-        "telefono": "",
+        "banco": "BCV",
+        "telefono": "04124409025",
         "cedula": "",
-        "titular": ""
+        "titular": "Jilbert Del valle"
       },
       "transferencia": {
         "banco": "",
