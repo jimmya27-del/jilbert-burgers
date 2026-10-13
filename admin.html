@@ -567,6 +567,7 @@
 
     function seleccionarCategoria(slug){
       categoriaActiva = slug;
+      window.__jbSlugActivo = slug;
       vistaActiva = 'categoria';
       if(itemNegocio){ itemNegocio.classList.remove('activo'); }
       Array.prototype.forEach.call(listaCategorias.children, function(li){
@@ -596,8 +597,8 @@
       html += '</div>';
 
       html += '<div class="form-edicion" style="max-width:560px;background:#fff;border:1px solid var(--borde);border-radius:12px;padding:20px;margin-bottom:16px;">';
-      html +=   '<label>Imagen de categor\u00EDa<input type="text" data-cat-imagen value="' + escaparHTML(cat.imagen || '') + '" placeholder="assets/img/categorias/' + escaparHTML(slug) + '.jpg" spellcheck="false"></label>';
-      html +=   '<div style="margin-top:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;"><button type="button" class="btn-secundario" data-accion="subir-imagen-cat">Elegir imagen desde mi computadora</button><span style="font-size:12px;opacity:.7;">Redimensiona a 800px lado mayor (JPEG q0.85) y guarda base64 en menu.json.</span></div>';
+      html +=   '<label>Imagen de categor\u00EDa<input type="text" data-cat-imagen value="' + escaparHTML(cat.imagen || '') + '" placeholder="assets/img/cat-' + escaparHTML(slug) + '.jpg" spellcheck="false"></label>';
+      html +=   '<div style="margin-top:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;"><button type="button" class="btn-secundario" data-accion="subir-imagen-cat">Elegir imagen desde mi computadora</button><span style="font-size:12px;opacity:.7;">Redimensiona a 800px lado mayor (JPEG q0.85) y sube a assets/img/. Luego pulsa Guardar en GitHub para persistir la ruta en menu.json.</span></div>';
       html +=   '<div class="foto-preview" data-cat-img-preview>' + (cat.imagen ? '<img src="' + escaparHTML(cat.imagen) + '" style="max-width:160px;max-height:160px;border-radius:8px;margin-top:8px;">' : '') + '</div>';
       html +=   '<div style="margin-top:12px;display:flex;gap:8px;">';
       html +=     '<button type="button" class="btn-secundario" data-accion="guardar-imagen-cat">\uD83D\uDCBE Guardar imagen</button>';
@@ -945,6 +946,40 @@
       });
     }
 
+    function blobABase64(blob){
+      return new Promise(function(resolve, reject){
+        var rd = new FileReader();
+        rd.onload = function(){
+          var bs = new Uint8Array(rd.result);
+          var s = '';
+          for(var i = 0; i < bs.length; i += 0x8000){ s += String.fromCharCode.apply(null, bs.subarray(i, i + 0x8000)); }
+          try { resolve(btoa(s)); } catch(e){ reject(e); }
+        };
+        rd.onerror = function(){ reject(new Error('No se pudo leer el archivo')); };
+        rd.readAsArrayBuffer(blob);
+      });
+    }
+
+    function subirArchivoAGitHub(token, ruta, blob, commitMsg){
+      var api = 'https://api.github.com/repos/' + OWNER + '/' + REPO + '/contents/';
+      return blobABase64(blob).then(function(b64){
+        return fetch(api + ruta + '?ref=' + BRANCH, { headers: headersGH(token) }).then(function(r){
+          if(r.status === 404){ return null; }
+          if(!r.ok){ throw new Error('GET ' + r.status); }
+          return r.json().then(function(d){ return (d && d.sha) ? d.sha : null; });
+        }).then(function(existing){
+          var body = { message: commitMsg || ('admin: subir ' + ruta), content: b64, branch: BRANCH };
+          if(existing){ body.sha = existing; }
+          var h = headersGH(token);
+          h['Content-Type'] = 'application/json';
+          return fetch(api + ruta, { method: 'PUT', headers: h, body: JSON.stringify(body) });
+        });
+      });
+    }
+
+    window.__jbSubirArchivo = subirArchivoAGitHub;
+    window.__jbToken = getTokenGuardado;
+
     function limpiarDraftTrasSubida(){
       try { localStorage.removeItem(STORAGE_DRAFT); } catch(e){}
       var marca = document.querySelector('.admin-header .marca');
@@ -1211,7 +1246,7 @@
       var form = '';
       form += '<div class="form-edicion">';
       form +=   '<div class="fila-doble">';
-      form +=     '<label>Foto del producto<input type="text" data-campo="foto" value="' + escaparHTML(p.foto || '') + '" placeholder="assets/img/productos/ejemplo.svg" spellcheck="false"><button type="button" class="btn-secundario" data-accion="subir-foto" style="margin-top:6px;">Elegir foto desde mi computadora</button></label>';
+      form +=     '<label>Foto del producto<input type="text" data-campo="foto" value="' + escaparHTML(p.foto || '') + '" placeholder="assets/img/prod-&lt;slug&gt;-&lt;id&gt;.jpg" spellcheck="false"><button type="button" class="btn-secundario" data-accion="subir-foto" style="margin-top:6px;">Elegir foto desde mi computadora</button></label>';
       form +=     '<label>Nombre<input type="text" data-campo="nombre" value="' + escaparHTML(p.nombre || '') + '"></label>';
       form +=   '</div>';
       form +=   '<div class="foto-preview" data-foto-preview></div>';
@@ -1464,7 +1499,7 @@
 </script>
 <script>
 (function(){
-  function redimensionarImagen(file, maxLado, calidad){
+  function redimensionarImagen(file, maxLado, calidad, opts){
     return new Promise(function(resolve, reject){
       var reader = new FileReader();
       reader.onload = function(e){
@@ -1482,8 +1517,18 @@
           c.width = w; c.height = h;
           var ctx = c.getContext('2d');
           ctx.drawImage(img, 0, 0, w, h);
-          try { resolve(c.toDataURL('image/jpeg', calidad)); }
-          catch(err){ reject(err); }
+          c.toBlob(function(blob){
+            if(!blob){ reject(new Error('No se pudo generar el blob')); return; }
+            if(opts && opts.subir){
+              if(typeof window.__jbSubirArchivo !== 'function'){ reject(new Error('Subida no disponible. Recarga la pagina.')); return; }
+              window.__jbSubirArchivo(opts.token, opts.ruta, blob, opts.commitMsg).then(function(r){
+                if(!r.ok){ return r.text().then(function(tx){ throw new Error('HTTP ' + r.status + ' - ' + tx.substring(0,200)); }); }
+                resolve(opts.ruta);
+              }).catch(reject);
+            } else {
+              reject(new Error('Modo base64 deshabilitado. Usar opts.subir=true.'));
+            }
+          }, 'image/jpeg', calidad);
         };
         img.onerror = function(){ reject(new Error('No se pudo cargar la imagen')); };
         img.src = e.target.result;
@@ -1509,15 +1554,18 @@
     inp.addEventListener('change', function(){
       var f = inp.files && inp.files[0];
       if (!f) { inp.remove(); return; }
-      redimensionarImagen(f, 600, 0.8).then(function(dataUrl){
+      var token = window.__jbToken ? window.__jbToken() : null;
+      if (!token) { alert('No hay token guardado.'); inp.remove(); return; }
+      var idProd = tarjeta.getAttribute('data-id') || ('t' + Date.now());
+      var slug = window.__jbSlugActivo || 'cat';
+      var ruta = 'assets/img/prod-' + slug + '-' + idProd + '.jpg';
+      redimensionarImagen(f, 600, 0.8, { subir:true, token:token, ruta:ruta, commitMsg:'admin: subir ' + ruta }).then(function(rutaFinal){
         var input = tarjeta.querySelector('[data-campo="foto"]');
-        if (input) {
-          input.value = dataUrl;
-          input.dispatchEvent(new Event('input', { bubbles: true }));
-        }
+        if (input) { input.value = rutaFinal; input.dispatchEvent(new Event('input', { bubbles: true })); }
+        alert('Foto subida a ' + rutaFinal + '. Pulsa "Guardar en GitHub" para persistir menu.json.');
         inp.remove();
       }).catch(function(err){
-        alert('Error al procesar la imagen: ' + err.message);
+        alert('Error al subir la foto: ' + (err && err.message ? err.message : err));
         inp.remove();
       });
     });
@@ -1538,14 +1586,19 @@
     inp.addEventListener('change', function(){
       var f = inp.files && inp.files[0];
       if (!f) { inp.remove(); return; }
-      redimensionarImagen(f, 800, 0.85).then(function(dataUrl){
+      var token = window.__jbToken ? window.__jbToken() : null;
+      if (!token) { alert('No hay token guardado.'); inp.remove(); return; }
+      var slug = window.__jbSlugActivo || 'cat';
+      var ruta = 'assets/img/cat-' + slug + '.jpg';
+      redimensionarImagen(f, 800, 0.85, { subir:true, token:token, ruta:ruta, commitMsg:'admin: subir ' + ruta }).then(function(rutaFinal){
         var input = document.querySelector('[data-cat-imagen]');
-        if (input) { input.value = dataUrl; input.dispatchEvent(new Event('input', { bubbles: true })); }
+        if (input) { input.value = rutaFinal; input.dispatchEvent(new Event('input', { bubbles: true })); }
         var prev = document.querySelector('[data-cat-img-preview]');
-        if (prev) prev.innerHTML = '<img src="' + dataUrl + '" style="max-width:160px;max-height:160px;border-radius:8px;margin-top:8px;">';
+        if (prev) prev.innerHTML = '<img src="' + rutaFinal + '" style="max-width:160px;max-height:160px;border-radius:8px;margin-top:8px;">';
+        alert('Imagen subida a ' + rutaFinal + '. Pulsa Guardar imagen y luego "Guardar en GitHub".');
         inp.remove();
       }).catch(function(err){
-        alert('Error al procesar la imagen: ' + err.message);
+        alert('Error al subir la imagen: ' + (err && err.message ? err.message : err));
         inp.remove();
       });
     });
