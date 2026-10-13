@@ -5,9 +5,9 @@
     "descuento_contado": 10,
     "pago": {
       "pago_movil": {
-        "banco": "BCV",
-        "telefono": "04124409025",
-        "cedula": "30123456",
+        "banco": "Banco de Venezuela",
+        "telefono": "04124756747",
+        "cedula": "30161433",
         "titular": "Jilbert Del valle"
       },
       "transferencia": {
@@ -19,13 +19,13 @@
       },
       "instrucciones": "Efectivo"
     },
-    "whatsapp": "0412 4409025",
+    "whatsapp": "04124409025",
     "direccion": "Barrio San Luis, calle Juan Borges N° 11-B, Maracay, Aragua",
     "facebook": "https://www.facebook.com/profile.php?id=61577402302384",
     "correo": "jilbertburgers@gmail.com",
     "logo": "assets/img/logo.jpg",
     "logo_pos": {
-      "escala": 2,
+      "escala": 1.55,
       "x": -2,
       "y": 0
     }
@@ -112,6 +112,15 @@
       "emoji": "🍔",
       "productos": [
         {
+          "id": "h7",
+          "nombre": "COMBO ENAMORADOS",
+          "desc": "2 Hamburguesas de pollo crispy + Salchipapas normal grande + Coca-Cola 1LITRO precio normal 26. PRECIO ESPECIAL 21,50 AHORRAS aproximadamente 25%",
+          "precio": 21.5,
+          "emoji": "🍔",
+          "foto": "assets/img/prod-combo-2.jpg",
+          "badge": ""
+        },
+        {
           "id": "h5",
           "nombre": "COMBO (1) CLÁSICO JILBERT",
           "desc": "Combo Clasico Jilbert 🍔🍟 ¡Dos clásicos llenos de sabor! Disfruta de: 🍔 1 Hamburguesa Normal 🍟 1 Salchipapa Normal Grande 🥤 1 Refresco de 1L. Precio Especial ~ 🟩",
@@ -127,15 +136,6 @@
           "precio": 12.99,
           "emoji": "🍔",
           "foto": "assets/img/prod-combos-descuento-h6.jpg",
-          "badge": ""
-        },
-        {
-          "id": "h7",
-          "nombre": "COMBO ENAMORADOS",
-          "desc": "2 Hamburguesas de pollo crispy + Salchipapas normal grande + Coca-Cola 1LITRO precio normal 26. PRECIO ESPECIAL 21,50 AHORRAS aproximadamente 25%",
-          "precio": 21.5,
-          "emoji": "🍔",
-          "foto": "assets/img/prod-combo-2.jpg",
           "badge": ""
         }
       ]
