@@ -1,15 +1,14 @@
 ========================================================================
 PROMPT DE TRASPASO - JILBERT BURGERS
-FASE ENTRANTE: 11 (por definir; recomendacion: adaptar handlers
-               del admin para subir binarios a assets/img/)
-FASE SALIENTE: 10 (CERRADA 2026-10-12)
+FASE ENTRANTE: 12 (por definir; ver candidatos al final)
+FASE SALIENTE: 11 (CERRADA 2026-10-12)
 ========================================================================
 
 ------------------------------------------------------------------------
 TU TAREA EN ESTE CHAT (LEER ESTO PRIMERO)
 ------------------------------------------------------------------------
 
-Eres la IA que INICIA la FASE 11. La fase anterior (10) esta CERRADA:
+Eres la IA que INICIA la FASE 12. La fase anterior (11) esta CERRADA:
 todos los commits estan en origin/main y la web ha sido verificada en
 local y en GitHub Pages con Ctrl+F5. No hay working tree sucio ni
 pendientes bloqueantes.
@@ -23,8 +22,8 @@ TAREA 0 - DIAGNOSTICO PREVIO (OBLIGATORIA, SOLO LECTURA):
   Ejecutar UN bloque PowerShell (con autocopiado al portapapeles,
   Regla 8) que reporte:
     a) git status -sb
-    b) git log --oneline -12
-    c) git log origin/main --oneline -12
+    b) git log --oneline -15
+    c) git log origin/main --oneline -15
     d) HEAD vs origin/main (rev-parse de ambos)
     e) tamanos de: assets/script.js, assets/style.css, index.html,
        categoria.html, admin.html, assets/menu.json, continuidad.md
@@ -34,67 +33,45 @@ TAREA 0 - DIAGNOSTICO PREVIO (OBLIGATORIA, SOLO LECTURA):
          negocio.logo (debe ser 'assets/img/logo.jpg' exacto)
          Recorrer el arbol buscando strings que empiecen con
          'data:image' y reportar PATH + campo + longitud.
-         Tras FASE 10 se espera 0 coincidencias.
+         Tras FASE 10 y 11 se espera 0 coincidencias.
          Listar cada .categorias.<slug>.imagen y cada
          .categorias.<slug>.productos[i].foto con su ruta.
     g) assets/img/: listar contenido con tamanos y dimensiones JPEG.
-    h) assets/style.css: reglas de .categoria-card .cat-media img.cat-img
-       (aspect-ratio y object-fit). Confirmar que estan puestas a 1/1
-       y cover respectivamente.
-    i) admin.html: TODAS las menciones de 'imagen', 'foto',
-       'subir-imagen-cat', 'subir-foto', 'data-cat-imagen',
-       'data-campo="foto"', 'subirMenuAGitHub', 'redimensionarImagen'.
-       Localizar:
-         - handler 'subir-imagen-cat'
-         - handler 'subir-foto'
-         - funcion redimensionarImagen
-         - flujo de guardado (subirMenuAGitHub)
-       Confirmar si siguen generando data: URI (base64).
-    j) Listar archivos .bak-* y scripts sueltos (_*.ps1) en la raiz,
-       para que el director decida si limpiarlos.
+       Se esperan los 10 originales + 6 subidos en la prueba de
+       FASE 11 (prod-salchipapas-s4, prod-salchipapas-s5,
+       prod-bebidas-b6, prod-combos-descuento-h6,
+       prod-hamburguesas-carne-h8, prod-hamburguesas-pollo-h9).
+    h) assets/style.css: regla .categoria-card .cat-media
+       (aspect-ratio 1/1) y .cat-media img.cat-img (object-fit cover).
+       Ambas deben existir.
+    i) admin.html:
+         - count('data:image') = 0
+         - count('c.toDataURL') = 0
+         - count('readAsDataURL(file)') = 1 (transitorio)
+         - count('window.__jbSubirArchivo') = 3
+         - count('window.__jbToken') = 5
+         - count('window.__jbSlugActivo') = 3
+         - localizar handler 'subir-foto' y 'subir-imagen-cat'
+    j) .bak-archive/: confirmar que existe y cuantos archivos
+       contiene (el director puede decidir limpiarlo o borrarlo).
   Reportar hallazgos y ESPERAR OK del director antes de proponer
   cualquier cambio.
 
-TAREA PRINCIPAL DE FASE 11 (RECOMENDADA - CONFIRMAR):
-  "Adaptar los handlers 'subir-imagen-cat' y 'subir-foto' del
-   admin para que suban el binario redimensionado a assets/img/
-   via GitHub Contents API, y guarden solo la ruta relativa en
-   menu.json. Eliminar el flujo que incrusta base64."
+TAREA PRINCIPAL DE FASE 12 (CANDIDATOS - DECIDE EL DIRECTOR):
+  (a) Renombrar el archivo de un producto NUEVO cuando recibe id
+      definitivo. Deuda detectada en FASE 11: si se sube foto a un
+      producto aun con id 'nuevo-<timestamp>', el archivo queda
+      como assets/img/prod-<slug>-nuevo-<ts>.jpg. Al guardar,
+      el id pasa a 'h<N>' pero el archivo conserva el nombre
+      viejo. Renombrar implicaria: crear el archivo nuevo, borrar
+      el viejo (via Contents API DELETE), actualizar menu.json.
+  (b) Optimizar / reescalar imagenes ya en assets/img/ (varias
+      superan 60 KB y no todas estan en 1:1).
+  (c) Otro backlog definido por el director.
 
-  JUSTIFICACION: tras FASE 10 menu.json esta en 6.042 bytes y sin
-  data:image. Pero los botones "Elegir imagen de categoria desde mi
-  computadora" (data-accion='subir-imagen-cat') y "Elegir foto
-  desde mi computadora" (data-accion='subir-foto') SIGUEN generando
-  base64 y guardandolo en menu.json. Un solo uso del admin infla el
-  JSON y deshace el objetivo de FASE 10.
-
-  ALTERNATIVAS (decide el director):
-    (a) FASE 11 = adaptar handlers admin (recomendado).
-    (b) FASE 11 = otro backlog (a definir por el director).
-    (c) FASE 11 = solo documentar deuda, no tocar admin aun.
-
-OBJETIVO (una linea, si se elige (a)):
-  Que subir imagen/foto desde admin escriba binario en
-  assets/img/ y deje en menu.json la ruta relativa, sin base64.
-
-ALCANCE (orientativo, confirmar tras Tarea 0):
-  SI TOCAR (si se elige (a)):
-    - admin.html: handlers 'subir-imagen-cat' y 'subir-foto'.
-      Funcion redimensionarImagen. Flujo de guardado
-      (subirMenuAGitHub). Reutilizar la misma GitHub Contents API
-      ya usada para guardar menu.json, subiendo el binario a
-      assets/img/<nombre>.<ext>.
-    - Nomenclatura de archivos subidos: definir con el director
-      (ej. assets/img/cat-<slug>.jpg y assets/img/prod-<id>.jpg).
-    - Si el PAT en localStorage no tiene permisos de escritura
-      sobre assets/img/, reportar y NO escribir.
-  NO TOCAR:
-    - Logica del carrito, panel de pago, WhatsApp, negocio.pago.*.
-    - .negocio.logo, .negocio.logo_pos (cerrados en FASE 9).
-    - Moneda, tasa, descuento (cerrados en FASE 8).
-    - script.js render (ya soporta data: y ruta relativa).
-    - assets/style.css .categoria-card .cat-media img.cat-img
-      (cerrado en FASE 10).
+NOTA DE FASE 11 - ALTERNATIVAS YA DESCARTADAS:
+  La tarea de FASE 11 (adaptar handlers admin a GitHub Contents
+  API, sin base64) esta COMPLETA y verificada.
 
 CONDICIONES DE CIERRE (3 condiciones vigentes):
   1. Director verifica en local que la tarea funciona.
@@ -104,14 +81,14 @@ CONDICIONES DE CIERRE (3 condiciones vigentes):
 RESPUESTA ESPERADA AL RECIBIR ESTE PROMPT:
   1. Confirmar contexto, reglas duras, Regla 8, Regla de Diagnostico
      Previo, Regla de Traspaso y Regla de Cierre de Fase.
-  2. Repetir en una linea el objetivo de FASE 11 confirmado por
+  2. Repetir en una linea el objetivo de FASE 12 confirmado por
      el director.
   3. Confirmar que NO vas a hardcodear datos del negocio.
   4. Ejecutar la TAREA 0 (diagnostico previo obligatorio) en UN
      solo bloque PowerShell con autocopiado al portapapeles, y
      esperar OK del director antes de proponer cualquier cambio.
   5. Recien despues del OK del diagnostico: proponer UN bloque
-     ejecutable para el primer paso de FASE 11 y esperar OK.
+     ejecutable para el primer paso de FASE 12 y esperar OK.
 
 ------------------------------------------------------------------------
 NOTAS HEREDADAS - ESTADO ACTUAL
@@ -137,42 +114,71 @@ NOTA HEREDADA DE FASE 9 (logo):
   - NO HAY deuda tecnica pendiente en el logo.
 
 NOTA HEREDADA DE FASE 10 (imagenes categorias/productos):
-  - assets/menu.json: 195.852 -> 6.042 bytes. 0 data:image residual.
-  - 9 referencias de imagen en menu.json, todas ruta relativa a
-    assets/img/ (7 categorias + 2 productos):
-      .categorias.hamburguesas.imagen           -> assets/img/cat-hamburguesas.jpg
-      .categorias.salchipapas.imagen            -> assets/img/cat-salchipapas.jpg
-      .categorias.bebidas.imagen                -> assets/img/cat-bebidas.jpg
-      .categorias.combos.imagen                 -> assets/img/cat-combos.jpg
-      .categorias.combos-descuento.imagen       -> assets/img/cat-combos-descuento.jpg
-      .categorias.hamburguesas-carne.imagen     -> assets/img/cat-hamburguesas-carne.jpg
-      .categorias.hamburguesas-pollo.imagen     -> assets/img/cat-hamburguesas-pollo.jpg
-      .categorias.combos-descuento.productos[0].foto -> assets/img/prod-combo-0.jpg
-      .categorias.combos-descuento.productos[2].foto -> assets/img/prod-combo-2.jpg
-  - assets/img/ contiene 10 archivos: los 9 anteriores + logo.jpg.
-  - assets/style.css: .categoria-card .cat-media img.cat-img con
-    aspect-ratio: 1 / 1 y object-fit: cover, para que la imagen de
-    la tarjeta de categoria ocupe todo el espacio disponible.
+  - assets/menu.json paso de 195.852 -> 6.042 bytes. 0 data:image.
+  - 9 referencias de imagen, todas ruta relativa a assets/img/:
+      7 categorias + 2 productos (combo-0, combo-2).
+  - assets/img/ contenia 10 archivos: los 9 anteriores + logo.jpg.
+  - assets/style.css:
+      .categoria-card .cat-media   -> aspect-ratio: 1 / 1
+      .cat-media img.cat-img       -> position absolute,
+                                      inset 0, width 100%,
+                                      height 100%,
+                                      object-fit: cover.
+    El aspect-ratio esta en el CONTENEDOR, no en la img. El efecto
+    visual es el mismo: 1:1 recortado.
   - script.js es retrocompatible (sin cambios en FASE 10):
-    - L256 (mediaHTML): src="' + p.foto + '" (producto).
-    - L433 (categoria): src="' + c.imagen + '" (categoria).
+      L256 (mediaHTML): src="' + p.foto + '" (producto).
+      L433 (categoria): src="' + c.imagen + '" (categoria).
     Ambos aceptan data: URI o ruta relativa indistintamente.
   - index.html y categoria.html NO embeben imagenes de
     categoria/producto (solo <img data-negocio="logo">).
   - Commits de codigo de FASE 10:
-      d8a61cc  migracion inicial de las 3 imagenes residuales.
-      a2e4437  admin: actualizar menu.json (reintento).
-      3b40798  CSS: .cat-img ocupa todo el espacio disponible.
-      fe1315b  migracion de las 9 imagenes restantes.
-  - Commits de cierre documental de FASE 10:
-      73e1f6f  continuidad.md inicial (contiene datos incompletos:
-               decia 3 imagenes / commit d8a61cc).
-      <este>   fix: continuidad.md alineada con estado real.
-  - DEUDA TECNICA PENDIENTE (candidata a FASE 11):
-      admin.html handlers 'subir-imagen-cat' y 'subir-foto'
-      SIGUEN generando base64 y guardandolo en menu.json.
-      Un uso del admin revierte el ahorro de FASE 10.
+      d8a61cc, a2e4437, 3b40798, fe1315b.
+  - Commit de cierre documental de FASE 10:
+      73e1f6f, 7929d49.
 
+NOTA HEREDADA DE FASE 11 (handlers admin a GitHub Contents API):
+  - admin.html: 69 insertions, 16 deletions (commit 38330e0).
+  - Nuevas funciones dentro del primer IIFE:
+      blobABase64(blob)             -> base64 chunked (0x8000)
+      subirArchivoAGitHub(t,r,b,m)  -> GET sha + PUT contents
+  - Handlers agregados al window:
+      window.__jbSubirArchivo = subirArchivoAGitHub
+      window.__jbToken        = getTokenGuardado
+      window.__jbSlugActivo   = slug (asignado en
+                                 seleccionarCategoria)
+  - redimensionarImagen(file, maxLado, calidad, opts) ahora:
+      - usa canvas.toBlob(..., 'image/jpeg', calidad)
+      - si opts.subir: sube el blob via __jbSubirArchivo y
+        resuelve con opts.ruta.
+      - si no opts.subir: rechaza (modo base64 deshabilitado).
+  - Handler subir-foto:
+      Ruta: assets/img/prod-<slug>-<id>.jpg
+      Escribe la ruta resultante en el input [data-campo="foto"].
+      NO incrusta base64.
+  - Handler subir-imagen-cat:
+      Ruta: assets/img/cat-<slug>.jpg
+      Escribe la ruta resultante en [data-cat-imagen].
+      Actualiza preview [data-cat-img-preview] con la ruta.
+      NO incrusta base64.
+  - Textos UI actualizados (L601, L1249).
+  - Placeholders actualizados: cat-<slug>.jpg, prod-<slug>-<id>.jpg.
+  - Subidas reales durante la prueba manual (origin/main):
+      3f50ea5  prod-salchipapas-s4.jpg
+      5090e1c  prod-salchipapas-s5.jpg
+      e901e92  prod-bebidas-b6.jpg
+      5cbd509  prod-combos-descuento-h6.jpg
+      760c3fd  prod-hamburguesas-carne-h8.jpg
+      05cd750  prod-hamburguesas-pollo-h9.jpg
+      + 6 commits "admin: actualizar menu.json" intercalados.
+  - Commit de codigo de FASE 11: 38330e0.
+  - DEUDA DETECTADA (candidata a FASE 12):
+      Si se sube foto a un producto NUEVO (id "nuevo-<timestamp>"),
+      el archivo queda como prod-<slug>-nuevo-<timestamp>.jpg.
+      Al guardar, el id pasa a 'h<N>' pero el archivo conserva
+      el nombre viejo. Funciona, pero el nombre es feo.
+
+------------------------------------------------------------------------
 ------------------------------------------------------------------------
 REGLAS DURAS (VIGENTES)
 ------------------------------------------------------------------------
@@ -325,9 +331,14 @@ FASE 10  - Migracion de imagenes base64 de categorias
             y productos a assets/img/ + ajuste CSS
             de tarjeta de categoria                  [CERRADA
             2026-10-12, commits d8a61cc + a2e4437 +
-            3b40798 + fe1315b + 73e1f6f + <este>]
-FASE 11  - <por definir segun decision del director> [ACTIVA]
+            3b40798 + fe1315b + 73e1f6f + 7929d49]
+FASE 11  - Adaptar handlers admin (subir-imagen-cat y
+            subir-foto) a GitHub Contents API + guardar
+            ruta relativa en menu.json (sin base64)  [CERRADA
+            2026-10-12, commit 38330e0 + subidas
+            de prueba 3f50ea5..9493012]
+FASE 12  - <por definir segun decision del director> [ACTIVA]
 
 ========================================================================
-FIN DEL PROMPT DE TRASPASO - FASE 11
+FIN DEL PROMPT DE TRASPASO - FASE 12
 ========================================================================

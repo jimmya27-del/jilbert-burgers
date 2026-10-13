@@ -30,3 +30,6 @@ _*.ps1
 *.pre-pull-*
 *.local-backup-*
 /style.css
+
+# Archivo local de backups (FASE 11)
+.bak-archive/
