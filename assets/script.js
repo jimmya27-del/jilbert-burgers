@@ -25,7 +25,7 @@
   }
 
   function simboloMoneda() {
-    var m = (menuData && menuData.negocio && menuData.negocio.moneda) ? String(menuData.negocio.moneda) : 'USD';
+    var m = (menuData && menuData.negocio && menuData.negocio.moneda) ? String(menuData.negocio.moneda) : 'EUR';
     if (m === 'EUR') return '\u20ac';
     if (m === 'USD') return '$';
     if (m === 'Bs')  return 'Bs';
@@ -38,7 +38,7 @@
   function totalPrecio() { return carrito.reduce(function (s, it) { return s + it.cantidad * it.precio; }, 0); }
 
   function monedaActual() {
-    return (menuData && menuData.negocio && menuData.negocio.moneda) ? String(menuData.negocio.moneda) : 'USD';
+    return (menuData && menuData.negocio && menuData.negocio.moneda) ? String(menuData.negocio.moneda) : 'EUR';
   }
   function tasaActual() {
     var t = (menuData && menuData.negocio) ? Number(menuData.negocio.tasa_bcv) : 0;

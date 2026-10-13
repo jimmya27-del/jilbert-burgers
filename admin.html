@@ -443,6 +443,15 @@
     var STORAGE_DRAFT = 'jilbert_menu_draft_v1';
     var menuSha = null;
 
+    function simboloDeMoneda(m){
+      var s = (m == null) ? "" : String(m).toUpperCase().trim();
+      if(s === "EUR") return "\u20ac";
+      if(s === "USD") return "$";
+      if(s === "BS" || s === "VES") return "Bs";
+      if(s === "") return "\u20ac";
+      return s;
+    }
+
     function mostrarMensaje(tipo, texto){
       mensaje.className = 'mensaje visible ' + tipo;
       mensaje.textContent = texto;
@@ -513,7 +522,7 @@
       if(p === null || p === undefined || p === ''){ return '\u2014'; }
       var n = Number(p);
       if(isNaN(n)){ return escaparHTML(p); }
-      var s = (simbolo || '$') + n.toFixed(2).replace('.', ',');
+      var s = (simbolo || '\u20ac') + n.toFixed(2).replace('.', ',');
       return s;
     }
 
@@ -575,7 +584,7 @@
         return;
       }
       var productos = cat.productos || [];
-      var simbolo = menuCache.simbolo || '$';
+      var simbolo = menuCache.simbolo || '\u20ac';
 
       var html = '';
       html += '<div class="cabecera-categoria">';
@@ -918,7 +927,9 @@
 
     function subirMenuAGitHub(token, sha, commitMsg){
       var url = 'https://api.github.com/repos/' + OWNER + '/' + REPO + '/contents/' + RUTA_JSON;
-      var texto = JSON.stringify(menuCache, null, 2);
+      var copia = Object.assign({}, menuCache);
+      if ('simbolo' in copia) { delete copia.simbolo; }
+      var texto = JSON.stringify(copia, null, 2);
       var b64 = btoa(unescape(encodeURIComponent(texto)));
       var h = headersGH(token);
       h['Content-Type'] = 'application/json';
@@ -966,6 +977,7 @@
             if(!menuSha){ throw new Error('sha ausente tras reintento'); }
             var draft = leerDraftLocal();
             menuCache = draft ? fusionarDraft(res.json, draft) : res.json;
+            menuCache.simbolo = simboloDeMoneda(menuCache.negocio && menuCache.negocio.moneda);
             return subirMenuAGitHub(token, menuSha, 'admin: actualizar menu.json (reintento)');
           }).then(function(r2){
             if(r2.ok){
@@ -998,6 +1010,7 @@
         var remoto = res.json;
         var draft = leerDraftLocal();
         menuCache = draft ? fusionarDraft(remoto, draft) : remoto;
+        menuCache.simbolo = simboloDeMoneda(menuCache.negocio && menuCache.negocio.moneda);
         pintarSidebar(menuCache);
         var lista = categoriasComoLista(menuCache);
         if(lista.length > 0){
@@ -1177,7 +1190,7 @@
       if(!p){ return; }
       idEditando = id;
       var cat = menuCache.categorias[categoriaActiva];
-      var simbolo = menuCache.simbolo || '$';
+      var simbolo = menuCache.simbolo || '\u20ac';
       var tarjeta = contenidoAdmin.querySelector('.tarjeta-producto[data-id="' + id + '"]');
       if(!tarjeta){ return; }
 
