@@ -684,11 +684,10 @@
       html +=   `<label>Facebook (link de la p&aacute;gina)<input type="text" data-negocio="facebook" value="${escaparHTML(fb)}" placeholder="https://www.facebook.com/..."></label>`;
       html +=   `<label>Correo<input type="email" data-negocio="correo" value="${escaparHTML(mail)}" placeholder="correo@ejemplo.com"></label>`;
 
-      html +=   `<label>Logo del negocio<input type="text" data-negocio="logo" value="${escaparHTML(logo)}" placeholder="assets/img/logo.svg" spellcheck="false"></label>`;
+      html +=   `<label>Logo del negocio<input type="text" data-negocio="logo" value="${escaparHTML(logo)}" placeholder="assets/img/logo.jpg" spellcheck="false"></label>`;
       html +=   `<label>Moneda (codigo ISO, ej: EUR, USD)<input type="text" data-negocio="moneda" value="${escaparHTML((n.moneda != null && n.moneda !== '') ? n.moneda : 'EUR')}" maxlength="8" style="text-transform:uppercase;" spellcheck="false"></label>`;
       html +=   `<label>Tasa BCV (Bs por 1 unidad de moneda)<input type="number" data-negocio="tasa_bcv" value="${escaparHTML(String((n.tasa_bcv != null && n.tasa_bcv !== '') ? n.tasa_bcv : 0))}" min="0" step="0.01"></label>`;
       html +=   `<label>Descuento contado (% OFF)<input type="number" data-negocio="descuento_contado" value="${escaparHTML(String((n.descuento_contado != null && n.descuento_contado !== '') ? n.descuento_contado : 0))}" min="0" max="100" step="1"></label>`;
-      html +=   `<div style="margin-top:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;"><button type="button" class="btn-secundario" data-accion="subir-logo">Elegir logo desde mi computadora</button><span style="font-size:12px;opacity:.7;">Redimensiona a 600px lado mayor (JPEG q0.8) y guarda base64 en menu.json.</span></div>`;
       html +=   `<div class="foto-preview" data-logo-preview></div>`;
       html +=   `<div style="margin-top:12px;padding:12px;background:#f5f5f5;border-radius:8px;">`;
       html +=     `<div style="font-weight:600;margin-bottom:8px;">Ajustar logo en la banda</div>`;
@@ -1516,34 +1515,6 @@
           input.value = dataUrl;
           input.dispatchEvent(new Event('input', { bubbles: true }));
         }
-        inp.remove();
-      }).catch(function(err){
-        alert('Error al procesar la imagen: ' + err.message);
-        inp.remove();
-      });
-    });
-    inp.click();
-  });
-
-  document.addEventListener('click', function(ev){
-    var t = ev.target;
-    if (!t || !t.closest) return;
-    var btn = t.closest('[data-accion="subir-logo"]');
-    if (!btn) return;
-    ev.preventDefault();
-    var inp = document.createElement('input');
-    inp.type = 'file';
-    inp.accept = 'image/*';
-    inp.style.display = 'none';
-    document.body.appendChild(inp);
-    inp.addEventListener('change', function(){
-      var f = inp.files && inp.files[0];
-      if (!f) { inp.remove(); return; }
-      redimensionarImagen(f, 600, 0.8).then(function(dataUrl){
-        var input = document.querySelector('[data-negocio="logo"]');
-        if (input) { input.value = dataUrl; input.dispatchEvent(new Event('input', { bubbles: true })); }
-        var prev = document.querySelector('[data-logo-preview]');
-        if (prev) prev.innerHTML = '<img src="' + dataUrl + '" style="max-width:160px;max-height:160px;border-radius:8px;margin-top:8px;">';
         inp.remove();
       }).catch(function(err){
         alert('Error al procesar la imagen: ' + err.message);
