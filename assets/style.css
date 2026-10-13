@@ -153,12 +153,12 @@ a:hover { color: var(--rojo-oscuro); }
 .categoria-card {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 12px;
+  align-items: stretch;
+  gap: 0;
   background: var(--blanco);
   border: 1px solid var(--borde);
   border-radius: var(--radio);
-  padding: 22px 20px;
+  padding: 0;
   color: var(--negro);
   font-weight: 700;
   font-size: 18px;
@@ -190,13 +190,14 @@ a:hover { color: var(--rojo-oscuro); }
   line-height: 1;
   display: block;
 }
-.categoria-card .label { display: block; }
+.categoria-card .label { display: block; padding: 10px 14px 0; }
 .categoria-card .sub {
   display: block;
   font-size: 13px;
   font-weight: 500;
   color: var(--gris);
   margin-top: 2px;
+  padding: 0 14px 12px;
 }
 
 /* ---------- Grid de productos ---------- */
@@ -490,7 +491,7 @@ a:hover { color: var(--rojo-oscuro); }
 @media (max-width: 480px) {
   .hero { padding: 40px 20px 28px; }
   .categorias { grid-template-columns: repeat(2, 1fr); padding: 0 16px 30px; }
-  .categoria-card { padding: 18px 16px; font-size: 15px; }
+  .categoria-card { padding: 0; font-size: 15px; }
   .categoria-card::after { display: none; }
   .productos { padding: 0 16px 50px; gap: 12px; }
   .producto { padding: 16px; }
@@ -642,12 +643,15 @@ a:hover { color: var(--rojo-oscuro); }
 /* --- Categoria: contenedor del SVG / imagen --- */
 .categoria-card .cat-media {
   position: relative;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
-  width: 80px;
-  height: 80px;
-  margin-bottom: 4px;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  margin: 0;
+  overflow: hidden;
+  background: #FAFAFA;
 }
 .categoria-card .cat-media svg {
   display: block;
@@ -659,9 +663,8 @@ a:hover { color: var(--rojo-oscuro); }
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   display: block;
-  background: #FAFAFA;
 }
 
 /* --- Producto: contenedor de media (foto o placeholder) --- */
