@@ -2,7 +2,7 @@
 PROMPT DE TRASPASO - JILBERT BURGERS
 FASE ENTRANTE: 11 (por definir; recomendacion: adaptar handlers
                del admin para subir binarios a assets/img/)
-FASE SALIENTE: 10 (CERRADA 2026-10-12, commit d8a61cc)
+FASE SALIENTE: 10 (CERRADA 2026-10-12)
 ========================================================================
 
 ------------------------------------------------------------------------
@@ -10,8 +10,9 @@ TU TAREA EN ESTE CHAT (LEER ESTO PRIMERO)
 ------------------------------------------------------------------------
 
 Eres la IA que INICIA la FASE 11. La fase anterior (10) esta CERRADA:
-commit d8a61cc en origin/main, verificada en local y en GitHub Pages.
-No hay working tree sucio ni pendientes bloqueantes.
+todos los commits estan en origin/main y la web ha sido verificada en
+local y en GitHub Pages con Ctrl+F5. No hay working tree sucio ni
+pendientes bloqueantes.
 
 REGLA OBLIGATORIA (2026-10-12): antes de tocar nada, tu PRIMERA tarea
 es un DIAGNOSTICO del entorno y del estado real en disco y en el
@@ -22,11 +23,11 @@ TAREA 0 - DIAGNOSTICO PREVIO (OBLIGATORIA, SOLO LECTURA):
   Ejecutar UN bloque PowerShell (con autocopiado al portapapeles,
   Regla 8) que reporte:
     a) git status -sb
-    b) git log --oneline -10
-    c) git log origin/main --oneline -10
+    b) git log --oneline -12
+    c) git log origin/main --oneline -12
     d) HEAD vs origin/main (rev-parse de ambos)
-    e) tamanos de: assets/script.js, index.html, categoria.html,
-       admin.html, assets/menu.json, continuidad.md
+    e) tamanos de: assets/script.js, assets/style.css, index.html,
+       categoria.html, admin.html, assets/menu.json, continuidad.md
     f) menu.json:
          negocio.moneda, negocio.tasa_bcv, negocio.descuento_contado
          (valor + tipo)
@@ -34,19 +35,23 @@ TAREA 0 - DIAGNOSTICO PREVIO (OBLIGATORIA, SOLO LECTURA):
          Recorrer el arbol buscando strings que empiecen con
          'data:image' y reportar PATH + campo + longitud.
          Tras FASE 10 se espera 0 coincidencias.
+         Listar cada .categorias.<slug>.imagen y cada
+         .categorias.<slug>.productos[i].foto con su ruta.
     g) assets/img/: listar contenido con tamanos y dimensiones JPEG.
-    h) script.js: TODAS las menciones de 'imagen' y 'foto'
-       (contexto de 2 lineas). Confirmar que el render sigue
-       aceptando data: URI y ruta relativa indistintamente.
+    h) assets/style.css: reglas de .categoria-card .cat-media img.cat-img
+       (aspect-ratio y object-fit). Confirmar que estan puestas a 1/1
+       y cover respectivamente.
     i) admin.html: TODAS las menciones de 'imagen', 'foto',
        'subir-imagen-cat', 'subir-foto', 'data-cat-imagen',
-       'data-campo="foto"', 'subirMenuAGitHub'.
+       'data-campo="foto"', 'subirMenuAGitHub', 'redimensionarImagen'.
        Localizar:
-         - handler 'subir-imagen-cat' (~L1530)
-         - handler 'subir-foto' (~L1499)
-         - funcion redimensionarImagen (~L1467)
+         - handler 'subir-imagen-cat'
+         - handler 'subir-foto'
+         - funcion redimensionarImagen
          - flujo de guardado (subirMenuAGitHub)
        Confirmar si siguen generando data: URI (base64).
+    j) Listar archivos .bak-* y scripts sueltos (_*.ps1) en la raiz,
+       para que el director decida si limpiarlos.
   Reportar hallazgos y ESPERAR OK del director antes de proponer
   cualquier cambio.
 
@@ -56,12 +61,12 @@ TAREA PRINCIPAL DE FASE 11 (RECOMENDADA - CONFIRMAR):
    via GitHub Contents API, y guarden solo la ruta relativa en
    menu.json. Eliminar el flujo que incrusta base64."
 
-  JUSTIFICACION: tras FASE 10 menu.json esta en 5.851 bytes.
-  Pero los botones "Elegir imagen de categoria desde mi computadora"
-  (data-accion='subir-imagen-cat') y "Elegir foto desde mi
-  computadora" (data-accion='subir-foto') SIGUEN generando base64
-  y guardandolo en menu.json. Un solo uso infla el JSON y deshace
-  el objetivo de FASE 10.
+  JUSTIFICACION: tras FASE 10 menu.json esta en 6.042 bytes y sin
+  data:image. Pero los botones "Elegir imagen de categoria desde mi
+  computadora" (data-accion='subir-imagen-cat') y "Elegir foto
+  desde mi computadora" (data-accion='subir-foto') SIGUEN generando
+  base64 y guardandolo en menu.json. Un solo uso del admin infla el
+  JSON y deshace el objetivo de FASE 10.
 
   ALTERNATIVAS (decide el director):
     (a) FASE 11 = adaptar handlers admin (recomendado).
@@ -74,21 +79,22 @@ OBJETIVO (una linea, si se elige (a)):
 
 ALCANCE (orientativo, confirmar tras Tarea 0):
   SI TOCAR (si se elige (a)):
-    - admin.html: handlers 'subir-imagen-cat' (~L1530) y
-      'subir-foto' (~L1499). Funcion redimensionarImagen (~L1467).
-      Flujo de guardado (subirMenuAGitHub). Posible reutilizacion
-      de la misma GitHub Contents API que ya usa el guardado de
-      menu.json.
+    - admin.html: handlers 'subir-imagen-cat' y 'subir-foto'.
+      Funcion redimensionarImagen. Flujo de guardado
+      (subirMenuAGitHub). Reutilizar la misma GitHub Contents API
+      ya usada para guardar menu.json, subiendo el binario a
+      assets/img/<nombre>.<ext>.
     - Nomenclatura de archivos subidos: definir con el director
       (ej. assets/img/cat-<slug>.jpg y assets/img/prod-<id>.jpg).
     - Si el PAT en localStorage no tiene permisos de escritura
       sobre assets/img/, reportar y NO escribir.
   NO TOCAR:
     - Logica del carrito, panel de pago, WhatsApp, negocio.pago.*.
-      7-C/7-D/7-F cerradas.
     - .negocio.logo, .negocio.logo_pos (cerrados en FASE 9).
     - Moneda, tasa, descuento (cerrados en FASE 8).
     - script.js render (ya soporta data: y ruta relativa).
+    - assets/style.css .categoria-card .cat-media img.cat-img
+      (cerrado en FASE 10).
 
 CONDICIONES DE CIERRE (3 condiciones vigentes):
   1. Director verifica en local que la tarea funciona.
@@ -131,22 +137,37 @@ NOTA HEREDADA DE FASE 9 (logo):
   - NO HAY deuda tecnica pendiente en el logo.
 
 NOTA HEREDADA DE FASE 10 (imagenes categorias/productos):
-  - assets/menu.json: 195.852 -> 5.851 bytes (ahorro 190.001).
-  - 3 imagenes migradas a binarios externos en assets/img/:
-      .categorias.salchipapas.imagen
-        -> assets/img/cat-salchipapas.jpg (32.401 bytes)
-      .categorias.combos-descuento.productos[0].foto
-        -> assets/img/prod-combo-0.jpg (46.785 bytes)
-      .categorias.combos-descuento.productos[2].foto
-        -> assets/img/prod-combo-2.jpg (63.322 bytes)
-  - script.js es retrocompatible desde antes de FASE 10:
+  - assets/menu.json: 195.852 -> 6.042 bytes. 0 data:image residual.
+  - 9 referencias de imagen en menu.json, todas ruta relativa a
+    assets/img/ (7 categorias + 2 productos):
+      .categorias.hamburguesas.imagen           -> assets/img/cat-hamburguesas.jpg
+      .categorias.salchipapas.imagen            -> assets/img/cat-salchipapas.jpg
+      .categorias.bebidas.imagen                -> assets/img/cat-bebidas.jpg
+      .categorias.combos.imagen                 -> assets/img/cat-combos.jpg
+      .categorias.combos-descuento.imagen       -> assets/img/cat-combos-descuento.jpg
+      .categorias.hamburguesas-carne.imagen     -> assets/img/cat-hamburguesas-carne.jpg
+      .categorias.hamburguesas-pollo.imagen     -> assets/img/cat-hamburguesas-pollo.jpg
+      .categorias.combos-descuento.productos[0].foto -> assets/img/prod-combo-0.jpg
+      .categorias.combos-descuento.productos[2].foto -> assets/img/prod-combo-2.jpg
+  - assets/img/ contiene 10 archivos: los 9 anteriores + logo.jpg.
+  - assets/style.css: .categoria-card .cat-media img.cat-img con
+    aspect-ratio: 1 / 1 y object-fit: cover, para que la imagen de
+    la tarjeta de categoria ocupe todo el espacio disponible.
+  - script.js es retrocompatible (sin cambios en FASE 10):
     - L256 (mediaHTML): src="' + p.foto + '" (producto).
     - L433 (categoria): src="' + c.imagen + '" (categoria).
     Ambos aceptan data: URI o ruta relativa indistintamente.
   - index.html y categoria.html NO embeben imagenes de
     categoria/producto (solo <img data-negocio="logo">).
-  - commit de codigo: d8a61cc.
-  - commit de cierre documental: <este mismo>.
+  - Commits de codigo de FASE 10:
+      d8a61cc  migracion inicial de las 3 imagenes residuales.
+      a2e4437  admin: actualizar menu.json (reintento).
+      3b40798  CSS: .cat-img ocupa todo el espacio disponible.
+      fe1315b  migracion de las 9 imagenes restantes.
+  - Commits de cierre documental de FASE 10:
+      73e1f6f  continuidad.md inicial (contiene datos incompletos:
+               decia 3 imagenes / commit d8a61cc).
+      <este>   fix: continuidad.md alineada con estado real.
   - DEUDA TECNICA PENDIENTE (candidata a FASE 11):
       admin.html handlers 'subir-imagen-cat' y 'subir-foto'
       SIGUEN generando base64 y guardandolo en menu.json.
@@ -209,7 +230,7 @@ NOTAS OPERATIVAS:
 - PROHIBIDO abrir DevTools / F12 para verificar. Toda verificacion
   tecnica se hace con PowerShell sobre el codigo en disco.
 
-NOTAS OPERATIVAS NUEVAS (derivadas de errores de FASE 8 y 9,
+NOTAS OPERATIVAS NUEVAS (derivadas de errores de FASE 8, 9 y 10,
 OBLIGATORIAS desde 2026-10-12):
 - PROHIBIDO usar here-strings pegados en consola PowerShell: se
   parsean fragilmente y pueden quedar vacios o truncados.
@@ -225,14 +246,19 @@ OBLIGATORIAS desde 2026-10-12):
   hacer Move-Item -Force al original.
 - Los umbrales de aborto por tamano deben calibrarse con el tamano
   REAL medido antes (no a ojo).
-- NUEVO (derivado de FASE 9, intento 1 del Paso 3): el tamano en
-  bytes de un archivo de texto NO es igual a la suma de .Length de
-  sus lineas + CRLF cuando hay caracteres no-ASCII (acentos
-  literales, emojis, etc.) que ocupan mas bytes en UTF-8 que chars
-  en .Length. Calcular sizeEsperado con
-  $utf8.GetBytes($newRaw).Length. Ademas, hacer read-back del tmp
-  con la misma codificacion y comparar -ceq string-vs-string; ese
-  es el chequeo fuerte, el size es secundario.
+- NUEVO (derivado de FASE 9): el tamano en bytes de un archivo de
+  texto NO es igual a la suma de .Length de sus lineas + CRLF
+  cuando hay caracteres no-ASCII (acentos literales, emojis, etc.)
+  que ocupan mas bytes en UTF-8 que chars en .Length. Calcular
+  sizeEsperado con $utf8.GetBytes($newRaw).Length. Ademas, hacer
+  read-back del tmp con la misma codificacion y comparar -ceq
+  string-vs-string; ese es el chequeo fuerte, el size es secundario.
+- NUEVO (derivado de FASE 10): commitear codigo y commitear
+  continuidad.md deben describir el MISMO estado. Si entre el
+  commit de codigo y el commit de cierre pasa trabajo adicional
+  (migraciones extra, ajustes CSS, admin updates), hay que releer
+  git log ANTES de escribir continuidad.md para no documentar un
+  estado obsoleto.
 
 ------------------------------------------------------------------------
 SERVIDOR LOCAL (necesario para probar)
@@ -296,8 +322,10 @@ FASE 9   - Migracion del logo base64 de menu.json a
             archivo externo                          [CERRADA
             2026-10-12, commits 45bf94f + 2bc3c41]
 FASE 10  - Migracion de imagenes base64 de categorias
-            y productos a assets/img/                [CERRADA
-            2026-10-12, commit d8a61cc]
+            y productos a assets/img/ + ajuste CSS
+            de tarjeta de categoria                  [CERRADA
+            2026-10-12, commits d8a61cc + a2e4437 +
+            3b40798 + fe1315b + 73e1f6f + <este>]
 FASE 11  - <por definir segun decision del director> [ACTIVA]
 
 ========================================================================
