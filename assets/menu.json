@@ -86,7 +86,8 @@
           "precio": 1.5,
           "emoji": "🥤",
           "foto": "",
-          "badge": ""
+          "badge": "",
+          "activo": false
         },
         {
           "id": "b6",
@@ -94,7 +95,7 @@
           "desc": "Refresco Coca-Cola en presentación de 1 Litro.",
           "precio": 2,
           "emoji": "🥤",
-          "foto": "",
+          "foto": "assets/img/prod-bebidas-b6.jpg",
           "badge": ""
         }
       ]
