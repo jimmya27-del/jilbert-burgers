@@ -51,7 +51,8 @@
           "nombre": "Salchipapa Especial",
           "desc": "Papas, salchicha, carne, pollo, queso y salsas de la casa.",
           "precio": 6,
-          "emoji": "🍟"
+          "emoji": "🍟",
+          "activo": false
         },
         {
           "id": "s4",
@@ -59,7 +60,7 @@
           "desc": "¿Un antojo clásico? 🍿 ¡Nuestra Salchipapa Clásica es para ti! 🍿 Papas fritas doradas 🥓 Salchichas jugosas 🥓 Salsas secretas 🥓 Queso de año gratinado 🧅 Peso Aprox: 400 gr 🍿 ¡Puro sabor tradicional!",
           "precio": 7,
           "emoji": "🍟",
-          "foto": "",
+          "foto": "assets/img/prod-salchipapas-s4.jpg",
           "badge": ""
         },
         {
