@@ -7,7 +7,7 @@
       "pago_movil": {
         "banco": "BCV",
         "telefono": "04124409025",
-        "cedula": "",
+        "cedula": "30123456",
         "titular": "Jilbert Del valle"
       },
       "transferencia": {
@@ -17,7 +17,7 @@
         "cedula": "",
         "titular": ""
       },
-      "instrucciones": ""
+      "instrucciones": "Efectivo"
     },
     "whatsapp": "0412 4409025",
     "direccion": "Barrio San Luis, calle Juan Borges N° 11-B, Maracay, Aragua",
