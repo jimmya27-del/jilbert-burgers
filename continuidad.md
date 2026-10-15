@@ -9,9 +9,11 @@ STACK
 - Fuente de datos: assets/menu.json (negocio, hero, categorias con productos).
 
 ESTADO GIT AL CIERRE DE FASE 15
-- HEAD local = origin/main = 813d9e5.
+- HEAD local = origin/main = bb2bb97.
 - Working tree limpio.
 - Ultimos commits:
+    bb2bb97  FASE 15.1: agrega favicon (logo.jpg) en las 7 paginas
+    0204066  admin: actualizar menu.json
     813d9e5  FASE 15: oculta transferencia vacia, hero admin-only,
              compartir WhatsApp flotante+menu, skeleton loader,
              limpia emojis
@@ -52,9 +54,18 @@ QUE SE CERRO EN FASE 15 (ya en produccion)
   * Animacion sk-shimmer, se reemplaza al llegar el fetch de menu.json.
 - Cache busting actualizado a v=20261015c en ambos HTML.
 
+QUE SE CERRO EN FASE 15.1 (ya en produccion)
+- Favicon en las 7 paginas HTML (index, categoria, hamburguesas,
+  salchipapas, bebidas, combos, admin):
+  <link rel="icon" type="image/jpeg" href="assets/img/logo.jpg">
+  Ubicado justo despues de </title>.
+  El director verifico visualmente: la pestana del navegador muestra
+  el logo de Jilbert en lugar del icono generico.
+  NOTA: se rompe el DESCARTADO previo de FASE 15 (h8). Decision nueva.
+
 DECISIONES DEL DIRECTOR EN FASE 15 (no reabrir sin motivo)
 - WhatsApp sin codigo de pais: NO importa, solo se vende en Venezuela.
-- Favicon propio: NO se agrega, se deja como esta.
+- Favicon propio: SI, agregado en FASE 15.1 (logo.jpg) en las 7 paginas.
 - Badge MAS VENDIDO en categoria.html: NO se replica.
 - Meta description: ya existia en el head de index.html.
 - Doble descuento: NO existe, solo aplica el % configurado en admin.
@@ -136,7 +147,7 @@ DINAMICA
 
 PROMPT DE TRASPASO - FASE 16
 Continuamos Jilbert Burgers. Lee este contexto completo antes de actuar.
-Estado: FASE 15 cerrada (header sin SVG duplicado, emojis fuera del
+Estado: FASE 15.1 cerrada (favicon logo.jpg en las 7 paginas, header sin SVG duplicado, emojis fuera del
 menu.json, selector de tipo de pago dinamico, hero sin hardcode,
 boton Compartir WhatsApp flotante + item en menu hamburguesa,
 skeleton loader en index y categoria).
@@ -144,7 +155,7 @@ Backlog Fase 16 disponible en este documento.
 Reglas duras y dinamica PRO ZOERUN vigentes.
 PRIMERA ACCION: confirmar estado git con
   git fetch origin; git status; git log --oneline -3; git log --oneline -3 origin/main
-Esperar: HEAD local == origin/main == 813d9e5, working tree clean.
+Esperar: HEAD local == origin/main == bb2bb97, working tree clean.
 Si NO coincide, PARAR y pedir al director.
 Luego preguntar al director cual es la siguiente tarea entre el backlog.
 NO asumir. NO empezar sin confirmacion.
