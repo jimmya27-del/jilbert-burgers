@@ -124,10 +124,18 @@ a:hover { color: var(--rojo-oscuro); }
 }
 .hero h1 span { color: var(--rojo); }
 .hero p {
-  color: var(--rojo);
-  font-weight: 700;
-  font-size: 17px;
-  max-width: 520px;
+  display: inline-block;
+  background: linear-gradient(135deg, var(--rojo) 0%, #a01414 100%);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1.45;
+  padding: 12px 26px;
+  border-radius: 999px;
+  box-shadow: 0 10px 24px rgba(200, 30, 30, 0.32), inset 0 1px 0 rgba(255,255,255,0.18);
+  max-width: 92%;
   margin: 0 auto;
 }
 
