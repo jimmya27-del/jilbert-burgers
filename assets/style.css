@@ -239,7 +239,6 @@ a:hover { color: var(--rojo-oscuro); }
   color: var(--gris);
   font-size: 14px;
   line-height: 1.5;
-  flex-grow: 1;
 }
 .producto .precio {
   font-weight: 800;

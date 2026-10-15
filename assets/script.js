@@ -366,13 +366,13 @@
           mediaHTML(p) +
           badgeHTML(p.badge) +
           '<h3>' + p.nombre + '</h3>' +
-          '<p class="desc">' + p.desc + '</p>' +
           '<div class="precio">' + formatearPrecio(p.precio) + '</div>' +
           '<div class="acciones">' +
             '<button type="button" class="btn-menos" data-accion="menos" data-id="' + p.id + '">-</button>' +
             '<span class="contador" data-id="' + p.id + '">0</span>' +
             '<button type="button" class="btn-agregar" data-accion="mas" data-id="' + p.id + '">Agregar</button>' +
           '</div>' +
+          '<p class="desc">' + p.desc + '</p>' +
         '</div>';
     }).join('');
     refrescarTarjetas();
@@ -517,13 +517,13 @@
           mediaHTML(p) +
           badgeHTML(p.badge) +
           '<h3>' + p.nombre + '</h3>' +
-          '<p class="desc">' + p.desc + '</p>' +
           '<div class="precio">' + formatearPrecio(p.precio) + '</div>' +
           '<div class="acciones">' +
             '<button type="button" class="btn-menos" data-accion="menos" data-id="' + p.id + '">-</button>' +
             '<span class="contador" data-id="' + p.id + '">0</span>' +
             '<button type="button" class="btn-agregar" data-accion="mas" data-id="' + p.id + '">Agregar</button>' +
           '</div>' +
+          '<p class="desc">' + p.desc + '</p>' +
         '</div>';
     });
     html += '</div>';
