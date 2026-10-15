@@ -393,6 +393,7 @@
     <aside class="admin-sidebar">
       <h2>Configuraci&oacute;n</h2>
       <ul id="listaConfig">
+        <li id="itemTodos"><span>&#128203; Todos los productos</span></li>
         <li id="itemNegocio"><span>&#9881;&#65039; Datos del negocio</span></li>
       </ul>
       <h2>Categor&iacute;as</h2>
@@ -434,6 +435,7 @@
     var estadoToken   = document.getElementById('estadoToken');
     var listaCategorias = document.getElementById('listaCategorias');
     var itemNegocio     = document.getElementById('itemNegocio');
+    var itemTodos       = document.getElementById('itemTodos');
     var vistaActiva     = 'categoria';
     var contenidoAdmin  = document.getElementById('contenidoAdmin');
 
@@ -570,6 +572,7 @@
       window.__jbSlugActivo = slug;
       vistaActiva = 'categoria';
       if(itemNegocio){ itemNegocio.classList.remove('activo'); }
+      if(itemTodos){ itemTodos.classList.remove('activo'); }
       Array.prototype.forEach.call(listaCategorias.children, function(li){
         li.classList.toggle('activo', li.dataset.slug === slug);
       });
@@ -631,8 +634,6 @@
                       (activo ? 'Activo' : 'Inactivo') + '</span>';
         html +=   '</div>';
         html +=   '<div class="acciones-tarjeta">';
-        html +=     '<button type="button" class="btn-mover btn-subir" data-accion="subir" data-id="' + pid + '"' + (idx === 0 ? ' disabled' : '') + ' title="Subir">\u25B2</button>';
-        html +=     '<button type="button" class="btn-mover btn-bajar" data-accion="bajar" data-id="' + pid + '"' + (idx === productos.length - 1 ? ' disabled' : '') + ' title="Bajar">\u25BC</button>';
         html +=     '<button type="button" class="btn-editar" data-id="' + pid + '">\u270F\uFE0F Editar</button>';
         html +=     '<button type="button" class="btn-toggle' + (activo ? '' : ' inactivo') + '" data-id="' + pid + '">' + (activo ? 'Desactivar' : 'Activar') + '</button>';
         html +=     '<button type="button" class="btn-borrar" data-id="' + pid + '">\uD83D\uDDD1\uFE0F Borrar</button>';
@@ -651,6 +652,7 @@
         li.classList.remove("activo");
       });
       if(itemNegocio){ itemNegocio.classList.add("activo"); }
+      if(itemTodos){ itemTodos.classList.remove("activo"); }
 
       var n    = menuCache.negocio || {};
       var wa   = (n.whatsapp  != null && n.whatsapp  !== "") ? n.whatsapp  : (menuCache.whatsapp || "");
@@ -1219,11 +1221,30 @@
       marcarDraftEnHeader();
     }
 
+    function buscarProductoGlobal(id){
+      var cats = (menuCache && menuCache.categorias) || {};
+      var slugs = Object.keys(cats);
+      for(var i = 0; i < slugs.length; i++){
+        var arr = cats[slugs[i]].productos || [];
+        for(var j = 0; j < arr.length; j++){
+          if(arr[j].id === id) return { p: arr[j], slug: slugs[i] };
+        }
+      }
+      return null;
+    }
+
+    function repintarVistaActual(){
+      if(vistaActiva === 'todos'){ pintarTodosAdmin(); }
+      else if(categoriaActiva){ pintarCategoria(categoriaActiva); }
+    }
+
     function activarEdicion(id){
-      var p = buscarProducto(id);
+      var encontrado = (vistaActiva === 'todos') ? buscarProductoGlobal(id) : null;
+      var p = encontrado ? encontrado.p : buscarProducto(id);
       if(!p){ return; }
       idEditando = id;
-      var cat = menuCache.categorias[categoriaActiva];
+      var slugActual = encontrado ? encontrado.slug : categoriaActiva;
+      var cat = menuCache.categorias[slugActual];
       var simbolo = menuCache.simbolo || '\u20ac';
       var tarjeta = contenidoAdmin.querySelector('.tarjeta-producto[data-id="' + id + '"]');
       if(!tarjeta){ return; }
@@ -1232,7 +1253,7 @@
       var opcionesCat = '';
       Object.keys(menuCache.categorias).forEach(function(slug){
         var c = menuCache.categorias[slug];
-        var sel = (slug === categoriaActiva) ? ' selected' : '';
+        var sel = (slug === slugActual) ? ' selected' : '';
         opcionesCat += '<option value="' + escaparHTML(slug) + '"' + sel + '>' +
                        escaparHTML(c.titulo || slug) + '</option>';
       });
@@ -1282,17 +1303,22 @@
       if(formDiv){ formDiv.parentNode.removeChild(formDiv); }
       tarjeta.classList.remove('editando');
       idEditando = null;
-      if(String(id).indexOf('nuevo-') === 0 && menuCache && menuCache.categorias[categoriaActiva]){
-        var catN = menuCache.categorias[categoriaActiva];
-        catN.productos = (catN.productos || []).filter(function(x){ return x.id !== id; });
+      if(String(id).indexOf('nuevo-') === 0 && menuCache){
+        var slug = categoriaActiva || (buscarProductoGlobal(id) && buscarProductoGlobal(id).slug);
+        if(slug && menuCache.categorias[slug]){
+          var catN = menuCache.categorias[slug];
+          catN.productos = (catN.productos || []).filter(function(x){ return x.id !== id; });
+        }
         pintarSidebar(menuCache);
-        pintarCategoria(categoriaActiva);
+        repintarVistaActual();
       }
     }
 
     function guardarEdicion(id){
-      var p = buscarProducto(id);
+      var encontrado = (vistaActiva === 'todos') ? buscarProductoGlobal(id) : null;
+      var p = encontrado ? encontrado.p : buscarProducto(id);
       if(!p){ return; }
+      var slugActual = encontrado ? encontrado.slug : categoriaActiva;
       var tarjeta = contenidoAdmin.querySelector('.tarjeta-producto[data-id="' + id + '"]');
       if(!tarjeta){ return; }
 
@@ -1321,8 +1347,8 @@
       p.badge  = badge;
 
       // Si cambio de categoria, mover de array
-      if(nuevaCat && nuevaCat !== categoriaActiva){
-        var catVieja = menuCache.categorias[categoriaActiva];
+      if(nuevaCat && nuevaCat !== slugActual){
+        var catVieja = menuCache.categorias[slugActual];
         var catNueva = menuCache.categorias[nuevaCat];
         if(catVieja && catNueva){
           catVieja.productos = catVieja.productos.filter(function(x){ return x.id !== id; });
@@ -1338,7 +1364,7 @@
       // Repintar
       idEditando = null;
       pintarSidebar(menuCache);
-      pintarCategoria(categoriaActiva);
+      repintarVistaActual();
 
       // Feedback breve
       var aviso = document.createElement('div');
@@ -1346,6 +1372,91 @@
       aviso.style.cssText = 'position:fixed;bottom:24px;right:24px;background:var(--verde);color:#fff;padding:12px 20px;border-radius:10px;font-weight:600;font-size:14px;box-shadow:0 6px 20px rgba(0,0,0,.2);z-index:9999;';
       document.body.appendChild(aviso);
       setTimeout(function(){ if(aviso.parentNode) aviso.parentNode.removeChild(aviso); }, 2200);
+    }
+
+    function listaGlobalOrdenada(){
+      var todos = [];
+      var cats = (menuCache && menuCache.categorias) || {};
+      Object.keys(cats).forEach(function(slug){
+        var arr = cats[slug].productos || [];
+        arr.forEach(function(p){ todos.push({ p: p, slug: slug }); });
+      });
+      todos.sort(function(a,b){
+        var oa = (a.p.orden != null) ? Number(a.p.orden) : 9999;
+        var ob = (b.p.orden != null) ? Number(b.p.orden) : 9999;
+        return oa - ob;
+      });
+      return todos;
+    }
+
+    function pintarTodosAdmin(){
+      if(!menuCache){ return; }
+      vistaActiva = 'todos';
+      categoriaActiva = null;
+      if(itemNegocio){ itemNegocio.classList.remove("activo"); }
+      if(itemTodos){ itemTodos.classList.add("activo"); }
+      Array.prototype.forEach.call(listaCategorias.children, function(li){ li.classList.remove("activo"); });
+      var simbolo = menuCache.simbolo || "\u20ac";
+      var todos = listaGlobalOrdenada();
+      var html = "";
+      html += "<div class=\"cabecera-categoria\">";
+      html +=   "<div style=\"display:flex;align-items:center;gap:12px;flex-wrap:wrap;\">";
+      html +=     "<h1>&#128203; Todos los productos</h1>";
+      html +=     "<span class=\"contador\">" + todos.length + " producto" + (todos.length === 1 ? "" : "s") + "</span>";
+      html +=   "</div>";
+      html += "</div>";
+        html += "<p style=\"margin:0 0 12px;font-size:13px;opacity:.7;\">El orden de esta lista es el que ve el cliente. Cambia el n&uacute;mero para reordenar (cruza categor&iacute;as).</p>";
+      if(todos.length === 0){
+        html += "<div class=\"vacio\">No hay productos.</div>";
+        contenidoAdmin.innerHTML = html;
+        return;
+      }
+      html += "<div class=\"lista-productos\">";
+      todos.forEach(function(item, idx){
+        var p = item.p;
+        var activo = (p.activo !== false);
+        var pid = escaparHTML(p.id || "");
+        var catTitulo = (menuCache.categorias[item.slug] && menuCache.categorias[item.slug].titulo) || item.slug;
+        html += "<div class=\"tarjeta-producto" + (activo ? "" : " inactivo") + "\" data-id=\"" + pid + "\" data-cat=\"" + escaparHTML(item.slug) + "\">";
+        html +=   "<div class=\"fila-sup\">";
+        var badgeTxt = etiquetaBadge(p.badge);
+        var badgeKey = String(p.badge || "").toLowerCase();
+        var badgeHTML = badgeTxt ? "<span class=\"badge badge-" + badgeKey + "\">" + escaparHTML(badgeTxt) + "</span>" : "";
+        html +=     "<span class=\"nombre\">" + badgeHTML + escaparHTML(p.nombre) + "</span>";
+        html +=     "<span class=\"precio\">" + formatearPrecio(p.precio, simbolo) + "</span>";
+        html +=   "</div>";
+        html +=   "<div class=\"descripcion\">" + escaparHTML(p.desc || p.descripcion || "") + "</div>";
+        html +=   "<div class=\"meta\">";
+        html +=     "<span class=\"id\">orden: " + (p.orden != null ? p.orden : "-") + " \u00b7 " + escaparHTML(catTitulo) + " \u00b7 id: " + pid + "</span>";
+        html +=     "<span class=\"" + (activo ? "estado-activo" : "estado-inactivo") + "\">" + (activo ? "Activo" : "Inactivo") + "</span>";
+        html +=   "</div>";
+        html +=   "<div class=\"acciones-tarjeta\">";
+        html +=     '<input type="number" class="input-orden" data-id="' + pid + '" value="' + (idx + 1) + '" min="1" max="' + todos.length + '" title="Posicion" style="width:52px;padding:4px 6px;font-size:13px;text-align:center;">';
+        html +=     "<button type=\"button\" class=\"btn-editar\" data-id=\"" + pid + "\">\u270F\uFE0F Editar</button>";
+        html +=     "<button type=\"button\" class=\"btn-toggle" + (activo ? "" : " inactivo") + "\" data-id=\"" + pid + "\">" + (activo ? "Desactivar" : "Activar") + "</button>";
+        html +=     "<button type=\"button\" class=\"btn-borrar\" data-id=\"" + pid + "\">\uD83D\uDDD1\uFE0F Borrar</button>";
+        html +=   "</div>";
+        html += "</div>";
+      });
+      html += "</div>";
+      contenidoAdmin.innerHTML = html;
+    }
+
+    function moverProductoGlobal(id, dir){
+      if(!menuCache){ return; }
+      var todos = listaGlobalOrdenada();
+      var idx = -1;
+      for(var i = 0; i < todos.length; i++){ if(todos[i].p.id === id){ idx = i; break; } }
+      if(idx < 0){ return; }
+      var j = (dir === "subir") ? (idx - 1) : (idx + 1);
+      if(j < 0 || j >= todos.length){ return; }
+      var a = todos[idx].p, b = todos[j].p;
+      var oa = (a.orden != null) ? Number(a.orden) : (idx + 1);
+      var ob = (b.orden != null) ? Number(b.orden) : (j + 1);
+      a.orden = ob; b.orden = oa;
+      guardarDraftLocal();
+      marcarDraftEnHeader();
+      pintarTodosAdmin();
     }
 
     function moverProducto(id, dir){
@@ -1365,22 +1476,29 @@
     }
 
     function toggleActivo(id){
-      var p = buscarProducto(id);
+      var encontrado = (vistaActiva === 'todos') ? buscarProductoGlobal(id) : null;
+      var p = encontrado ? encontrado.p : buscarProducto(id);
       if(!p){ return; }
       p.activo = (p.activo === false) ? true : false;
       guardarDraftLocal();
-      pintarCategoria(categoriaActiva);
+      marcarDraftEnHeader();
+      pintarSidebar(menuCache);
+      repintarVistaActual();
     }
 
     function borrarProducto(id){
-      var p = buscarProducto(id);
+      var encontrado = (vistaActiva === 'todos') ? buscarProductoGlobal(id) : null;
+      var p = encontrado ? encontrado.p : buscarProducto(id);
       if(!p){ return; }
       if(!confirm('\u00bfBorrar "' + (p.nombre || id) + '"? Esta accion no se puede deshacer.')){ return; }
-      var cat = menuCache.categorias[categoriaActiva];
+      var slug = encontrado ? encontrado.slug : categoriaActiva;
+      var cat = menuCache.categorias[slug];
+      if(!cat){ return; }
       cat.productos = cat.productos.filter(function(x){ return x.id !== id; });
       guardarDraftLocal();
+      marcarDraftEnHeader();
       pintarSidebar(menuCache);
-      pintarCategoria(categoriaActiva);
+      repintarVistaActual();
     }
 
     function agregarProducto(){
@@ -1388,8 +1506,15 @@
       var cat = menuCache.categorias[categoriaActiva];
       if(!cat){ return; }
       cat.productos = cat.productos || [];
+      var maxOrden = 0;
+      Object.keys(menuCache.categorias || {}).forEach(function(s){
+        ((menuCache.categorias[s] || {}).productos || []).forEach(function(x){
+          var o = (x.orden != null) ? Number(x.orden) : 0;
+          if(!isNaN(o) && o > maxOrden) maxOrden = o;
+        });
+      });
       var nuevoId = 'nuevo-' + Date.now();
-      var nuevo = { id:nuevoId, nombre:'', desc:'', precio:0, foto: '', badge: '', activo:true };
+      var nuevo = { id:nuevoId, nombre:'', desc:'', precio:0, foto: '', badge: '', activo:true, orden: (maxOrden + 1) };
       cat.productos.push(nuevo);
       pintarCategoria(categoriaActiva);
       activarEdicion(nuevoId);
@@ -1415,8 +1540,11 @@
       }
 
       // Prioridad 1b: mover arriba/abajo
-      if(accion === 'subir'){ moverProducto(id, 'subir'); return; }
-      if(accion === 'bajar'){ moverProducto(id, 'bajar'); return; }
+      if(accion === 'subir' || accion === 'bajar'){
+        if(vistaActiva === 'todos'){ moverProductoGlobal(id, accion); }
+        else { moverProducto(id, accion); }
+        return;
+      }
 
       // IA6b: imagen por categoria
       if(accion === 'guardar-imagen-cat'){ guardarImagenCategoria(categoriaActiva); return; }
@@ -1430,8 +1558,56 @@
       if(btn.classList.contains('btn-borrar')){ borrarProducto(id); return; }
     });
 
+    contenidoAdmin.addEventListener('change', function(e){
+      var inp = e.target;
+      if(!inp || !inp.classList || !inp.classList.contains('input-orden')){ return; }
+      var id = inp.getAttribute('data-id');
+      var val = parseInt(inp.value, 10);
+      if(!id || isNaN(val) || val < 1){ return; }
+      if(vistaActiva === 'todos'){ reordenarGlobal(id, val); }
+      else { reordenarCategoria(id, val); }
+    });
+
+    function reordenarGlobal(id, nuevaPos){
+      if(!menuCache){ return; }
+      var todos = listaGlobalOrdenada();
+      var idx = -1;
+      for(var i = 0; i < todos.length; i++){ if(todos[i].p.id === id){ idx = i; break; } }
+      if(idx < 0){ return; }
+      if(nuevaPos > todos.length){ nuevaPos = todos.length; }
+      var destino = nuevaPos - 1;
+      if(destino === idx){ pintarTodosAdmin(); return; }
+      var movido = todos.splice(idx, 1)[0];
+      todos.splice(destino, 0, movido);
+      for(var k = 0; k < todos.length; k++){ todos[k].p.orden = k + 1; }
+      guardarDraftLocal();
+      marcarDraftEnHeader();
+      pintarTodosAdmin();
+    }
+
+    function reordenarCategoria(id, nuevaPos){
+      if(!menuCache || !categoriaActiva){ return; }
+      var cat = menuCache.categorias[categoriaActiva];
+      if(!cat){ return; }
+      var arr = cat.productos || [];
+      var idx = -1;
+      for(var i = 0; i < arr.length; i++){ if(arr[i].id === id){ idx = i; break; } }
+      if(idx < 0){ return; }
+      if(nuevaPos > arr.length){ nuevaPos = arr.length; }
+      var destino = nuevaPos - 1;
+      if(destino === idx){ pintarCategoria(categoriaActiva); return; }
+      var movido = arr.splice(idx, 1)[0];
+      arr.splice(destino, 0, movido);
+      guardarDraftLocal();
+      marcarDraftEnHeader();
+      pintarCategoria(categoriaActiva);
+    }
+
     if(itemNegocio){
       itemNegocio.addEventListener("click", function(){ pintarNegocio(); });
+    }
+    if(itemTodos){
+      itemTodos.addEventListener("click", function(){ pintarTodosAdmin(); });
     }
 
     var guardado = getTokenGuardado();

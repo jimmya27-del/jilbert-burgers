@@ -491,25 +491,90 @@
     return svg + img;
   }
 
-  function pintarCategorias() {
-    var cont = document.getElementById('lista-categorias');
+  function pintarTodosLosProductos() {
+    var cont = document.getElementById('lista-productos');
     if (!cont || !menuData) return;
     var cats = menuData.categorias || {};
-    var html = '';
+    var todos = [];
     Object.keys(cats).forEach(function (slug) {
       var c = cats[slug] || {};
       var prods = c.productos || [];
-      if (prods.length === 0) return;
-      var titulo = c.titulo || slug;
-      var sub = prods.length + ' producto' + (prods.length === 1 ? '' : 's');
+      prods.forEach(function (p) {
+        if (p.activo === false) return;
+        todos.push({ p: p, slug: slug });
+      });
+    });
+    todos.sort(function (a, b) {
+      var oa = (a.p.orden != null) ? Number(a.p.orden) : 9999;
+      var ob = (b.p.orden != null) ? Number(b.p.orden) : 9999;
+      return oa - ob;
+    });
+    var html = '<div class="grupo-grid">';
+    todos.forEach(function (item) {
+      var p = item.p;
       html += '' +
-        '<a class="categoria-card" href="categoria.html?cat=' + encodeURIComponent(slug) + '">' +
-          '<span class="cat-media" aria-hidden="true">' + catMediaHTML(c, slug) + '</span>' +
-          '<span class="label">' + titulo + '</span>' +
-          '<span class="sub">' + sub + '</span>' +
-        '</a>';
+        '<div class="producto" data-id="' + p.id + '" data-cat="' + item.slug + '">' +
+          mediaHTML(p) +
+          badgeHTML(p.badge) +
+          '<h3>' + p.nombre + '</h3>' +
+          '<p class="desc">' + p.desc + '</p>' +
+          '<div class="precio">' + formatearPrecio(p.precio) + '</div>' +
+          '<div class="acciones">' +
+            '<button type="button" class="btn-menos" data-accion="menos" data-id="' + p.id + '">-</button>' +
+            '<span class="contador" data-id="' + p.id + '">0</span>' +
+            '<button type="button" class="btn-agregar" data-accion="mas" data-id="' + p.id + '">Agregar</button>' +
+          '</div>' +
+        '</div>';
+    });
+    html += '</div>';
+    cont.innerHTML = html;
+    refrescarTarjetas();
+  }
+
+  function pintarMenuLateral() {
+    var cont = document.getElementById('menu-lateral-lista');
+    if (!cont || !menuData) return;
+    var cats = menuData.categorias || {};
+    var html = '<button type="button" class="menu-item activo" data-filtro="todos">Todos</button>';
+    Object.keys(cats).forEach(function (slug) {
+      var c = cats[slug] || {};
+      var prods = (c.productos || []).filter(function (p) { return p.activo !== false; });
+      if (prods.length === 0) return;
+      html += '<button type="button" class="menu-item" data-filtro="' + slug + '">' + (c.titulo || slug) + '</button>';
     });
     cont.innerHTML = html;
+  }
+
+  function aplicarFiltro(slug) {
+    var prods = document.querySelectorAll('#lista-productos .producto');
+    Array.prototype.forEach.call(prods, function (el) {
+      var cat = el.getAttribute('data-cat');
+      if (slug === 'todos' || cat === slug) el.classList.remove('oculto');
+      else el.classList.add('oculto');
+    });
+    var items = document.querySelectorAll('#menu-lateral-lista .menu-item');
+    Array.prototype.forEach.call(items, function (it) {
+      if (it.getAttribute('data-filtro') === slug) it.classList.add('activo');
+      else it.classList.remove('activo');
+    });
+    cerrarMenuLateral();
+  }
+
+  function abrirMenuLateral() {
+    var m = document.getElementById('menu-lateral');
+    var o = document.getElementById('menu-overlay');
+    var b = document.getElementById('btn-hamburguesa');
+    if (m) { m.classList.add('abierto'); m.setAttribute('aria-hidden','false'); }
+    if (o) { o.classList.add('abierto'); o.setAttribute('aria-hidden','false'); }
+    if (b) b.setAttribute('aria-expanded','true');
+  }
+  function cerrarMenuLateral() {
+    var m = document.getElementById('menu-lateral');
+    var o = document.getElementById('menu-overlay');
+    var b = document.getElementById('btn-hamburguesa');
+    if (m) { m.classList.remove('abierto'); m.setAttribute('aria-hidden','true'); }
+    if (o) { o.classList.remove('abierto'); o.setAttribute('aria-hidden','true'); }
+    if (b) b.setAttribute('aria-expanded','false');
   }
   function init() {
     leerCarrito();
@@ -524,6 +589,22 @@
     if (btnWa) btnWa.addEventListener('click', enviarPorWhatsAppDirecto);
     var btnContado = document.getElementById('carrito-contado');
     if (btnContado) btnContado.addEventListener('click', abrirPanelContado);
+    var btnHamb = document.getElementById('btn-hamburguesa');
+    if (btnHamb) btnHamb.addEventListener('click', abrirMenuLateral);
+    var btnMenuCerrar = document.getElementById('menu-lateral-cerrar');
+    if (btnMenuCerrar) btnMenuCerrar.addEventListener('click', cerrarMenuLateral);
+    var overlayMenu = document.getElementById('menu-overlay');
+    if (overlayMenu) overlayMenu.addEventListener('click', cerrarMenuLateral);
+    var menuLista = document.getElementById('menu-lateral-lista');
+    if (menuLista) {
+      menuLista.addEventListener('click', function (ev) {
+        var t = ev.target;
+        if (t.tagName !== 'BUTTON') return;
+        var f = t.getAttribute('data-filtro');
+        if (!f) return;
+        aplicarFiltro(f);
+      });
+    }
     var listaCarrito = document.getElementById('carrito-lista');
     if (listaCarrito) {
       listaCarrito.addEventListener('click', function (ev) {
@@ -563,7 +644,8 @@
         aplicarNegocio();
         aplicarLogoPos();
         aplicarHero();
-        pintarCategorias();
+        pintarTodosLosProductos();
+        pintarMenuLateral();
         var cat = document.body.getAttribute('data-categoria');
         if (!cat) {
           try {

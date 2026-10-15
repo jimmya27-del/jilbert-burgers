@@ -5,12 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jilbert Burgers &middot; Comida r&aacute;pida en Maracay</title>
 <meta name="description" content="Hamburguesas, salchipapas, bebidas y combos. Pide por WhatsApp en Maracay, Aragua.">
-<link rel="stylesheet" href="assets/style.css?v=20261015a">
+<link rel="stylesheet" href="assets/style.css?v=20261015b">
 </head>
-<body>
+<body data-vista="todos">
 
-<!-- Cabecera -->
 <header class="cabecera">
+  <button class="btn-hamburguesa" id="btn-hamburguesa" aria-label="Abrir men&uacute;" aria-expanded="false">
+    <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true">
+      <rect x="3" y="6"  width="18" height="2" rx="1" fill="currentColor"/>
+      <rect x="3" y="11" width="18" height="2" rx="1" fill="currentColor"/>
+      <rect x="3" y="16" width="18" height="2" rx="1" fill="currentColor"/>
+    </svg>
+  </button>
   <a href="index.html" class="logo" style="text-decoration:none;color:inherit;">
     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <circle cx="50" cy="50" r="48" fill="#FFC107" stroke="#D32F2F" stroke-width="4"/>
@@ -19,33 +25,35 @@
     </svg>
     <span>Jilbert Burgers</span>
   </a>
-  <nav>
-    <a href="index.html">Inicio</a>
-  </nav>
 </header>
 
-<!-- Logo del negocio (franja) -->
+<aside class="menu-lateral" id="menu-lateral" aria-hidden="true">
+  <header class="menu-lateral-head">
+    <h3>Men&uacute;</h3>
+    <button id="menu-lateral-cerrar" aria-label="Cerrar men&uacute;">&times;</button>
+  </header>
+  <nav class="menu-lateral-lista" id="menu-lateral-lista"></nav>
+</aside>
+<div class="overlay" id="menu-overlay" aria-hidden="true"></div>
+
 <section class="logo-banda">
   <img data-negocio="logo" alt="Jilbert Burgers" class="logo-banda-img">
 </section>
 
-<!-- Hero -->
 <section class="hero">
   <h1 id="hero-titulo">&iexcl;Las mejores <span>hamburguesas</span> de Maracay!</h1>
-  <p id="hero-subtitulo">Pide f&aacute;cil por WhatsApp. Elige tu categor&iacute;a, agrega al carrito y env&iacute;a tu pedido en segundos.</p>
+  <p id="hero-subtitulo">Pide f&aacute;cil por WhatsApp. Elige tus productos, agrega al carrito y env&iacute;a tu pedido en segundos.</p>
 </section>
 
-<!-- Categorias (se generan dinamicamente desde menu.json) -->
 <h2 class="seccion-titulo">Nuestro Men&uacute;</h2>
-<section class="categorias" id="lista-categorias"></section>
-<!-- Boton carrito flotante -->
+<section class="productos-todos" id="lista-productos"></section>
+
 <button class="carrito-btn" id="carrito-btn" aria-label="Ver carrito">
   <span class="icono">&#128722;</span>
   <span>Mi pedido</span>
   <span class="badge" id="carrito-badge" style="display:none;">0</span>
 </button>
 
-<!-- Panel del carrito -->
 <aside class="carrito-panel" id="carrito-panel" aria-label="Carrito de compras">
   <header>
     <h2>Tu Pedido</h2>
@@ -60,7 +68,6 @@
   </div>
 </aside>
 
-<!-- Pie -->
 <footer class="pie">
   <strong>Jilbert Burgers</strong>
   <p class="direccion" data-negocio="direccion">Barrio San Luis, calle Juan Borges N&deg; 11-B, Maracay, Aragua</p>
@@ -69,6 +76,6 @@
   <p class="copy">&copy; 2026 Jilbert Burgers. Todos los derechos reservados.</p>
 </footer>
 
-<script src="assets/script.js?v=20261015a"></script>
+<script src="assets/script.js?v=20261015b"></script>
 </body>
 </html>
