@@ -38,7 +38,18 @@
     "hamburguesas": {
       "titulo": "Hamburguesas",
       "imagen": "assets/img/cat-hamburguesas.jpg",
-      "productos": []
+      "productos": [
+        {
+          "id": "h10",
+          "nombre": "BURGERS CRISPY ESPECIAL",
+          "desc": "El Crispy Deluxe: Una experiencia de lujo.\nDisfruta de un esponjoso  pan brioche con lechuga y tomate frescos, coronada con 150g de nuestro jugoso pollo crispy. Acompañamos este  clásico mejorado con: huevo frito, jamón de espalda y tocineta ahumada de primera calidad.\nLa mezcla de quesos mozzarella y cheddar derretidos une todos los sabores, mientras las crujientes papitas cabello de ángel añaden textura, todo acompañado de nuestras salsas JB.\nY como cortesía de la casa, una ración de papas fritas",
+          "precio": 9.99,
+          "foto": "assets/img/prod-hamburguesas-nuevo-1792107819973.jpg",
+          "badge": "",
+          "activo": true,
+          "orden": 11
+        }
+      ]
     },
     "salchipapas": {
       "titulo": "Salchipapas",
@@ -162,6 +173,16 @@
           "foto": "assets/img/prod-hamburguesas-pollo-h9.jpg",
           "badge": "",
           "orden": 1
+        },
+        {
+          "id": "h10",
+          "nombre": "BURGERS CRISPY ESPECIAL",
+          "desc": "El Crispy Deluxe: Una experiencia de lujo.\nDisfruta de un esponjoso  pan brioche con lechuga y tomate frescos, coronada con 150g de nuestro jugoso pollo crispy. Acompañamos este  clásico mejorado con: huevo frito, jamón de espalda y tocineta ahumada de primera calidad.\nLa mezcla de quesos mozzarella y cheddar derretidos une todos los sabores, mientras las crujientes papitas cabello de ángel añaden textura, todo acompañado de nuestras salsas JB.\nY como cortesía de la casa, una ración de papas fritas",
+          "precio": 9.99,
+          "foto": "assets/img/prod-hamburguesas-nuevo-1792107819973.jpg",
+          "badge": "",
+          "activo": true,
+          "orden": 11
         }
       ]
     }
