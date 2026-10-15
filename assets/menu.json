@@ -52,7 +52,8 @@
           "desc": "Papas, salchicha, carne, pollo, queso y salsas de la casa.",
           "precio": 6,
           "emoji": "🍟",
-          "activo": false
+          "activo": false,
+          "orden": 9
         },
         {
           "id": "s4",
@@ -61,7 +62,8 @@
           "precio": 7,
           "emoji": "🍟",
           "foto": "assets/img/prod-salchipapas-s4.jpg",
-          "badge": ""
+          "badge": "",
+          "orden": 5
         },
         {
           "id": "s5",
@@ -70,7 +72,8 @@
           "precio": 5,
           "emoji": "🍟",
           "foto": "assets/img/prod-salchipapas-s5.jpg",
-          "badge": ""
+          "badge": "",
+          "orden": 3
         }
       ]
     },
@@ -87,7 +90,8 @@
           "emoji": "🥤",
           "foto": "",
           "badge": "",
-          "activo": false
+          "activo": false,
+          "orden": 10
         },
         {
           "id": "b6",
@@ -96,7 +100,8 @@
           "precio": 2,
           "emoji": "🥤",
           "foto": "assets/img/prod-bebidas-b6.jpg",
-          "badge": ""
+          "badge": "",
+          "orden": 8
         }
       ]
     },
@@ -118,7 +123,8 @@
           "precio": 21.5,
           "emoji": "🍔",
           "foto": "assets/img/prod-combo-2.jpg",
-          "badge": ""
+          "badge": "",
+          "orden": 2
         },
         {
           "id": "h5",
@@ -127,7 +133,8 @@
           "precio": 14.99,
           "emoji": "🍔",
           "foto": "assets/img/prod-combo-0.jpg",
-          "badge": ""
+          "badge": "",
+          "orden": 6
         },
         {
           "id": "h6",
@@ -136,7 +143,8 @@
           "precio": 12.99,
           "emoji": "🍔",
           "foto": "assets/img/prod-combos-descuento-h6.jpg",
-          "badge": ""
+          "badge": "",
+          "orden": 7
         }
       ]
     },
@@ -152,7 +160,8 @@
           "precio": 8.5,
           "emoji": "🍔",
           "foto": "assets/img/prod-hamburguesas-carne-h8.jpg",
-          "badge": ""
+          "badge": "",
+          "orden": 4
         }
       ]
     },
@@ -168,7 +177,8 @@
           "precio": 8.5,
           "emoji": "🍗",
           "foto": "assets/img/prod-hamburguesas-pollo-h9.jpg",
-          "badge": ""
+          "badge": "",
+          "orden": 1
         }
       ]
     }
