@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Menu | Jilbert Burgers</title>
-<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/style.css?v=20261015a">
 </head>
 <body data-categoria="">
 
@@ -49,31 +49,9 @@
   <div class="carrito-lista" id="carrito-lista"></div>
   <div class="carrito-pie">
     <div class="total"><span>Total</span><span id="carrito-total">&euro;0.00</span></div>
-    <button class="btn-wa" id="carrito-enviar">Finalizar pedido</button>
+    <button class="btn-wa" id="carrito-wa">Enviar por WhatsApp</button>
+    <button class="btn-contado" id="carrito-contado">Contado (10% OFF)</button>
     <button class="btn-vaciar" id="carrito-vaciar">Vaciar carrito</button>
-  </div>
-  <div class="carrito-pago-panel" id="carrito-pago-panel" aria-hidden="true">
-    <header class="carrito-pago-head">
-      <h3>Pago del pedido</h3>
-      <button id="carrito-pago-cerrar" aria-label="Volver al carrito">&times;</button>
-    </header>
-
-    <div class="pago-total">
-      <span>Total a pagar</span>
-      <strong id="pago-total-valor"></strong>
-      <span class="carrito-total-bs" id="pago-total-bs"></span>
-    </div>
-
-    <div class="pago-caminos" role="group" aria-label="Forma de pago">
-      <button class="pago-camino activo" id="pago-camino-contado" data-camino="contado">Contado <span id="pago-off-label"></span></button>
-      <button class="pago-camino" id="pago-camino-credito" data-camino="credito">Cr&eacute;dito (precio normal)</button>
-    </div>
-
-    <div class="pago-datos" id="pago-datos"></div>
-
-    <div class="pago-instrucciones" id="pago-instrucciones"></div>
-
-    <button class="btn-wa" id="pago-confirmar">Continuar</button>
   </div>
 </aside>
 
@@ -89,6 +67,6 @@
   </p>
 </footer>
 
-<script src="assets/script.js"></script>
+<script src="assets/script.js?v=20261015a"></script>
 </body>
 </html>

@@ -54,10 +54,9 @@
   }
 
   // ============================================================
-  // FASE 7-C - Panel de pago del carrito
-  // Todo dinamico desde menu.json (.negocio.*)
+  // FASE 12-BIS - Pago del carrito (sin prompts nativos)
+  // Dos acciones directas: Enviar por WhatsApp | Contado
   // ============================================================
-  var caminoPago = 'contado';
 
   function descuentoContado() {
     var d = (menuData && menuData.negocio) ? Number(menuData.negocio.descuento_contado) : 0;
@@ -74,17 +73,53 @@
     return carrito.reduce(function (s, it) { return s + (Number(it.precio) * Number(it.cantidad)); }, 0);
   }
 
-  function totalSegunCamino() {
-    var t = totalCarrito();
-    if (caminoPago === 'contado') { t = t * (1 - descuentoContado() / 100); }
-    return t;
+  function totalContado() {
+    return totalCarrito() * (1 - descuentoContado() / 100);
   }
 
-  function abrirPanelPago() {
-    if (carrito.length === 0) { alert('El carrito est\u00E1 vac\u00EDo.'); return; }
+  function inyectarPanelPago() {
+    var aside = document.getElementById('carrito-panel');
+    if (!aside) return;
+    if (document.getElementById('carrito-pago-panel')) return;
+    var div = document.createElement('div');
+    div.className = 'carrito-pago-panel';
+    div.id = 'carrito-pago-panel';
+    div.setAttribute('aria-hidden', 'true');
+    div.innerHTML = '' +
+      '<header class="carrito-pago-head">' +
+        '<h3>Pago del pedido</h3>' +
+        '<button type="button" id="carrito-pago-cerrar" aria-label="Volver al carrito">&times;</button>' +
+      '</header>' +
+      '<div class="pago-total">' +
+        '<span id="pago-total-label">Total a pagar</span>' +
+        '<strong id="pago-total-valor"></strong>' +
+        '<span class="carrito-total-bs" id="pago-total-bs"></span>' +
+      '</div>' +
+      '<div class="pago-datos" id="pago-datos"></div>' +
+      '<form class="pago-form" id="pago-form" autocomplete="off">' +
+        '<label>Nombre<input type="text" id="pago-nombre" required></label>' +
+        '<label>Direcci\u00F3n o nota<input type="text" id="pago-nota"></label>' +
+        '<label>Tipo de pago<select id="pago-tipo">' +
+          '<option value="Efectivo">Efectivo</option>' +
+          '<option value="Pago m\u00F3vil">Pago m\u00F3vil</option>' +
+          '<option value="Transferencia">Transferencia</option>' +
+        '</select></label>' +
+        '<label>Referencia del pago<input type="text" id="pago-referencia"></label>' +
+        '<button type="submit" class="btn-wa" id="pago-enviar">Enviar por WhatsApp</button>' +
+      '</form>';
+    aside.appendChild(div);
+    var form = div.querySelector('#pago-form');
+    if (form) form.addEventListener('submit', function (ev) { ev.preventDefault(); enviarContado(); });
+    var btnCerrar = div.querySelector('#carrito-pago-cerrar');
+    if (btnCerrar) btnCerrar.addEventListener('click', cerrarPanelPago);
+  }
+
+  function abrirPanelContado() {
+    if (carrito.length === 0) { mostrarMensajeCarrito('El carrito est\u00E1 vac\u00EDo.'); return; }
+    inyectarPanelPago();
     var p = document.getElementById('carrito-pago-panel');
     if (!p) return;
-    renderPago();
+    renderPagoContado();
     p.classList.add('abierto');
     p.setAttribute('aria-hidden', 'false');
   }
@@ -96,35 +131,16 @@
     p.setAttribute('aria-hidden', 'true');
   }
 
-  function seleccionarCamino(c) {
-    caminoPago = (c === 'credito') ? 'credito' : 'contado';
-    var bc = document.getElementById('pago-camino-contado');
-    var bcr = document.getElementById('pago-camino-credito');
-    if (bc)  bc.classList.toggle('activo',  caminoPago === 'contado');
-    if (bcr) bcr.classList.toggle('activo', caminoPago === 'credito');
-    renderPago();
-  }
-
-  function renderPago() {
+  function renderPagoContado() {
+    try { console.log('[pago]', { descRaw: (menuData && menuData.negocio) ? menuData.negocio.descuento_contado : 'NO-NEGOCIO', d: descuentoContado(), carrito: totalCarrito(), total: totalContado() }); } catch(e){}
     var d = descuentoContado();
-    var total = totalSegunCamino();
-
-    var btnConfirmar = document.getElementById('pago-confirmar');
-    if (btnConfirmar) {
-      btnConfirmar.textContent = (caminoPago === 'contado')
-        ? 'Ya pagu\u00E9 - enviar pedido'
-        : 'Enviar pedido, pago al recibir';
-    }
-
-    var lblOff = document.getElementById('pago-off-label');
-    if (lblOff) lblOff.textContent = '(' + d + '% OFF)';
-
+    var total = totalContado();
+    var lbl = document.getElementById('pago-total-label');
+    if (lbl) lbl.textContent = 'Total contado (' + d + '% OFF)';
     var tot = document.getElementById('pago-total-valor');
     if (tot) tot.textContent = formatearPrecio(total);
-
     var totBs = document.getElementById('pago-total-bs');
     if (totBs) totBs.innerHTML = equivalenteBsHTML(total);
-
     var datos = document.getElementById('pago-datos');
     if (datos) {
       var pg = pagoConfig();
@@ -156,13 +172,85 @@
         datos.innerHTML = html;
       }
     }
-
-    var ins = document.getElementById('pago-instrucciones');
-    if (ins) {
-      var txt = (pagoConfig() && pagoConfig().instrucciones) ? String(pagoConfig().instrucciones) : '';
-      ins.innerHTML = txt ? '<h4>Instrucciones</h4><p>' + txt + '</p>' : '';
-    }
   }
+
+  function mostrarMensajeCarrito(txt) {
+    var lista = document.getElementById('carrito-lista');
+    if (!lista) return;
+    var aviso = document.createElement('div');
+    aviso.className = 'carrito-aviso';
+    aviso.textContent = txt;
+    lista.insertBefore(aviso, lista.firstChild);
+    setTimeout(function () { if (aviso.parentNode) aviso.parentNode.removeChild(aviso); }, 2500);
+  }
+
+  function construirLineasPedido(opciones) {
+    var lineas = [];
+    lineas.push('*Pedido Jilbert Burgers*');
+    if (opciones.camino === 'contado') {
+      lineas.push('*Contado - ' + descuentoContado() + '% OFF*');
+    } else {
+      lineas.push('*Enviar por WhatsApp (pago a coordinar)*');
+    }
+    lineas.push('');
+    carrito.forEach(function (it) {
+      lineas.push('\u2022 ' + it.cantidad + ' x ' + it.nombre + ' = ' + formatearPrecio(it.precio * it.cantidad));
+    });
+    lineas.push('');
+    if (opciones.camino === 'contado') {
+      var sub = totalCarrito(); var dcto = descuentoContado(); var mDesc = sub * (dcto / 100);
+      lineas.push('*Subtotal:* ' + formatearPrecio(sub));
+      lineas.push('*Descuento contado (' + dcto + '%):* -' + formatearPrecio(mDesc));
+      lineas.push('*Total a pagar:* ' + formatearPrecio(sub - mDesc));
+    } else {
+      lineas.push('*Total:* ' + formatearPrecio(totalCarrito()));
+    }
+    if (opciones.nombre)     lineas.push('*Cliente:* ' + opciones.nombre);
+    if (opciones.nota)       lineas.push('*Direcci\u00F3n/Nota:* ' + opciones.nota);
+    if (opciones.tipoPago)   lineas.push('*Tipo de pago:* ' + opciones.tipoPago);
+    if (opciones.referencia) lineas.push('*Referencia:* ' + opciones.referencia);
+    return lineas;
+  }
+
+  function abrirWhatsAppConLineas(lineas) {
+    var num = normalizarWhatsApp(menuData && menuData.negocio ? menuData.negocio.whatsapp : '');
+    if (!num) { mostrarMensajeCarrito('N\u00FAmero de WhatsApp no configurado.'); return; }
+    var url = 'https://wa.me/' + num + '?text=' + encodeURIComponent(lineas.join('\n'));
+    var w = window.open(url, '_blank');
+    if (!w) { location.href = url; }
+  }
+
+  function enviarPorWhatsAppDirecto() {
+    if (carrito.length === 0) { mostrarMensajeCarrito('El carrito est\u00E1 vac\u00EDo.'); return; }
+    abrirWhatsAppConLineas(construirLineasPedido({ camino: 'wa' })); limpiarCarritoTrasEnvio();
+  }
+
+  function enviarContado() {
+    if (carrito.length === 0) { mostrarMensajeCarrito('El carrito est\u00E1 vac\u00EDo.'); return; }
+    var nombre = String(((document.getElementById('pago-nombre') || {}).value) || '').trim();
+    var nota   = String(((document.getElementById('pago-nota')   || {}).value) || '').trim();
+    var tipo   = String(((document.getElementById('pago-tipo')   || {}).value) || '').trim();
+    var ref    = String(((document.getElementById('pago-referencia') || {}).value) || '').trim();
+    if (!nombre) { mostrarMensajeCarrito('Pon tu nombre.'); return; }
+    abrirWhatsAppConLineas(construirLineasPedido({
+      camino: 'contado',
+      nombre: nombre,
+      nota: nota,
+      tipoPago: tipo,
+      referencia: ref
+    }));
+    limpiarCarritoTrasEnvio();
+    cerrarPanelPago();
+  }
+  function limpiarCarritoTrasEnvio() {
+    carrito = [];
+    guardarCarrito();
+    pintarCarrito();
+    refrescarTarjetas();
+    var badge = document.getElementById('carrito-badge');
+    if (badge) { badge.style.display = 'none'; badge.textContent = '0'; }
+  }
+
   function cantidadDe(id) {
     var it = carrito.find(function (x) { return x.id === id; });
     return it ? it.cantidad : 0;
@@ -373,44 +461,12 @@
   }
 
   function abrirPanel() { var p = document.getElementById('carrito-panel'); if (p) p.classList.add('abierto'); }
-  function cerrarPanel() { var p = document.getElementById('carrito-panel'); if (p) p.classList.remove('abierto'); }
+  function cerrarPanel() { var p = document.getElementById('carrito-panel'); if (p) p.classList.remove('abierto'); cerrarPanelPago(); }
 
   function normalizarWhatsApp(raw) {
     var d = String(raw || '').replace(/\D/g, '');
     if (d.length === 11 && d.charAt(0) === '0') { d = '58' + d.slice(1); }
     return d;
-  }
-
-  function enviarWhatsApp(camino) {
-    if (carrito.length === 0) { alert('El carrito est\u00E1 vac\u00EDo.'); return; }
-    var nombre = prompt('\u00BFTu nombre?');
-    if (nombre === null) return;
-    var nota = prompt('Direcci\u00F3n o nota para el pedido (opcional):');
-    if (nota === null) nota = '';
-    caminoPago = (camino === 'credito') ? 'credito' : 'contado';
-    var lineas = [];
-    lineas.push('*Pedido Jilbert Burgers*');
-    if (caminoPago === 'contado') {
-      lineas.push('*Ya pagu\u00E9, adjunto comprobante*');
-    } else {
-      lineas.push('*Pago al recibir, precio normal*');
-    }
-    lineas.push('');
-    carrito.forEach(function (it) {
-      lineas.push('\u2022 ' + it.cantidad + ' x ' + it.nombre + ' = ' + formatearPrecio(it.precio * it.cantidad));
-    });
-    lineas.push('');
-    if (caminoPago === 'contado') {
-      lineas.push('*Total (con ' + descuentoContado() + '% OFF):* ' + formatearPrecio(totalSegunCamino()));
-    } else {
-      lineas.push('*Total:* ' + formatearPrecio(totalSegunCamino()));
-    }
-    if (nombre) lineas.push('*Cliente:* ' + nombre);
-    if (nota)   lineas.push('*Direcci\u00F3n/Nota:* ' + nota);
-    var num = normalizarWhatsApp(menuData && menuData.negocio ? menuData.negocio.whatsapp : '');
-    if (!num) { alert('N\u00FAmero de WhatsApp no configurado en menu.json.'); return; }
-    var url = 'https://wa.me/' + num + '?text=' + encodeURIComponent(lineas.join('\n'));
-    var _w = window.open(url, '_blank'); if (!_w) { location.href = url; }
   }
 
   function svgCategoria(slug) {
@@ -464,20 +520,10 @@
     if (btnCerrar) btnCerrar.addEventListener('click', cerrarPanel);
     var btnVaciar = document.getElementById('carrito-vaciar');
     if (btnVaciar) btnVaciar.addEventListener('click', vaciar);
-    var btnEnviar = document.getElementById('carrito-enviar');
-    if (btnEnviar) btnEnviar.addEventListener('click', abrirPanelPago);
-    var btnPagoCerrar = document.getElementById('carrito-pago-cerrar');
-    if (btnPagoCerrar) btnPagoCerrar.addEventListener('click', cerrarPanelPago);
-    var btnCaminoContado = document.getElementById('pago-camino-contado');
-    if (btnCaminoContado) btnCaminoContado.addEventListener('click', function () { seleccionarCamino('contado'); });
-    var btnCaminoCredito = document.getElementById('pago-camino-credito');
-    if (btnCaminoCredito) btnCaminoCredito.addEventListener('click', function () { seleccionarCamino('credito'); });
-    var btnPagoConfirmar = document.getElementById('pago-confirmar');
-    if (btnPagoConfirmar) btnPagoConfirmar.addEventListener('click', function () {
-      enviarWhatsApp(caminoPago);
-      cerrarPanelPago();
-    });
-
+    var btnWa = document.getElementById('carrito-wa');
+    if (btnWa) btnWa.addEventListener('click', enviarPorWhatsAppDirecto);
+    var btnContado = document.getElementById('carrito-contado');
+    if (btnContado) btnContado.addEventListener('click', abrirPanelContado);
     var listaCarrito = document.getElementById('carrito-lista');
     if (listaCarrito) {
       listaCarrito.addEventListener('click', function (ev) {
