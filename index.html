@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jilbert Burgers &middot; Comida r&aacute;pida en Maracay</title>
 <meta name="description" content="Hamburguesas, salchipapas, bebidas y combos. Pide por WhatsApp en Maracay, Aragua.">
-<link rel="stylesheet" href="assets/style.css?v=20261015b">
+<link rel="stylesheet" href="assets/style.css?v=20261015c">
 </head>
 <body data-vista="todos">
 
@@ -36,17 +36,24 @@
 </section>
 
 <section class="hero">
-  <h1 id="hero-titulo">&iexcl;Las mejores <span>hamburguesas</span> de Maracay!</h1>
-  <p id="hero-subtitulo">Pide f&aacute;cil por WhatsApp. Elige tus productos, agrega al carrito y env&iacute;a tu pedido en segundos.</p>
+  <h1 id="hero-titulo"></h1>
+  <p id="hero-subtitulo"></p>
 </section>
 
 <h2 class="seccion-titulo">Nuestro Men&uacute;</h2>
-<section class="productos-todos" id="lista-productos"></section>
+<section class="productos-todos" id="lista-productos"><div class="skeleton-grid"><div class="skeleton-card"><div class="sk-media"></div><div class="sk-line sk-titulo"></div><div class="sk-line sk-precio"></div><div class="sk-line sk-btn"></div><div class="sk-line sk-desc"></div></div><div class="skeleton-card"><div class="sk-media"></div><div class="sk-line sk-titulo"></div><div class="sk-line sk-precio"></div><div class="sk-line sk-btn"></div><div class="sk-line sk-desc"></div></div><div class="skeleton-card"><div class="sk-media"></div><div class="sk-line sk-titulo"></div><div class="sk-line sk-precio"></div><div class="sk-line sk-btn"></div><div class="sk-line sk-desc"></div></div><div class="skeleton-card"><div class="sk-media"></div><div class="sk-line sk-titulo"></div><div class="sk-line sk-precio"></div><div class="sk-line sk-btn"></div><div class="sk-line sk-desc"></div></div><div class="skeleton-card"><div class="sk-media"></div><div class="sk-line sk-titulo"></div><div class="sk-line sk-precio"></div><div class="sk-line sk-btn"></div><div class="sk-line sk-desc"></div></div><div class="skeleton-card"><div class="sk-media"></div><div class="sk-line sk-titulo"></div><div class="sk-line sk-precio"></div><div class="sk-line sk-btn"></div><div class="sk-line sk-desc"></div></div></div></section>
 
 <button class="carrito-btn" id="carrito-btn" aria-label="Ver carrito">
   <span class="icono">&#128722;</span>
   <span>Mi pedido</span>
   <span class="badge" id="carrito-badge" style="display:none;">0</span>
+</button>
+
+<button class="share-btn" id="compartir-btn" aria-label="Compartir men&uacute; por WhatsApp" title="Compartir men&uacute;">
+  <svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true" fill="currentColor">
+    <path d="M16 3C9.4 3 4 8.4 4 15c0 2.4.7 4.7 2 6.6L4 29l7.6-2c1.9 1 3.9 1.5 6 1.5h.4C24.6 28.5 28 23.6 28 15 28 8.4 22.6 3 16 3zm0 22.5h-.4c-1.8 0-3.5-.5-5-1.4l-.4-.2-4.5 1.2 1.2-4.4-.2-.4C6 18.9 5.5 17 5.5 15 5.5 9.2 10.2 4.5 16 4.5S26.5 9.2 26.5 15 21.8 25.5 16 25.5zm5.7-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7.1c-.3-.2-1.3-.5-2.5-1.6-1-.9-1.6-1.9-1.8-2.2-.2-.3 0-.5.1-.6.1-.1.3-.4.5-.6.2-.2.3-.3.4-.5.1-.2 0-.4 0-.5s-.7-1.7-.9-2.3c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.2 5 4.5.7.3 1.2.5 1.7.6.7.2 1.3.2 1.8.1.6-.1 1.9-.8 2.2-1.6.3-.8.3-1.4.2-1.6-.1-.2-.3-.3-.6-.4z"/>
+  </svg>
+  <span>Compartir</span>
 </button>
 
 <aside class="carrito-panel" id="carrito-panel" aria-label="Carrito de compras">
@@ -71,6 +78,6 @@
   <p class="copy">&copy; 2026 Jilbert Burgers. Todos los derechos reservados.</p>
 </footer>
 
-<script src="assets/script.js?v=20261015b"></script>
+<script src="assets/script.js?v=20261015c"></script>
 </body>
 </html>

@@ -99,11 +99,7 @@
       '<form class="pago-form" id="pago-form" autocomplete="off">' +
         '<label>Nombre<input type="text" id="pago-nombre" required></label>' +
         '<label>Direcci\u00F3n o nota<input type="text" id="pago-nota"></label>' +
-        '<label>Tipo de pago<select id="pago-tipo">' +
-          '<option value="Efectivo">Efectivo</option>' +
-          '<option value="Pago m\u00F3vil">Pago m\u00F3vil</option>' +
-          '<option value="Transferencia">Transferencia</option>' +
-        '</select></label>' +
+        '<label>Tipo de pago<select id="pago-tipo"></select></label>' +
         '<label>Referencia del pago<input type="text" id="pago-referencia"></label>' +
         '<button type="submit" class="btn-wa" id="pago-enviar">Enviar por WhatsApp</button>' +
       '</form>';
@@ -170,6 +166,28 @@
           html += '</ul></div>';
         }
         datos.innerHTML = html;
+      }
+    }
+    poblarTiposPago();
+  }
+
+  function poblarTiposPago() {
+    var sel = document.getElementById('pago-tipo');
+    if (!sel) return;
+    var pg = pagoConfig();
+    var pm = (pg && pg.pago_movil) ? pg.pago_movil : null;
+    var tr = (pg && pg.transferencia) ? pg.transferencia : null;
+    var hayPm = pm && (pm.banco || pm.telefono || pm.cedula || pm.titular);
+    var hayTr = tr && (tr.banco || tr.cuenta || tr.tipo || tr.cedula || tr.titular);
+    var previo = sel.value;
+    var html = '<option value="Efectivo">Efectivo</option>';
+    if (hayPm) html += '<option value="Pago m\u00F3vil">Pago m\u00F3vil</option>';
+    if (hayTr) html += '<option value="Transferencia">Transferencia</option>';
+    sel.innerHTML = html;
+    if (previo) {
+      var opts = sel.options;
+      for (var i = 0; i < opts.length; i++) {
+        if (opts[i].value === previo) { sel.value = previo; break; }
       }
     }
   }
@@ -544,6 +562,7 @@
       if (prods.length === 0) return;
       html += '<button type="button" class="menu-item" data-filtro="' + slug + '">' + (c.titulo || slug) + '</button>';
     });
+    html += '<button type="button" class="menu-item menu-item-compartir" data-accion="compartir">Compartir men&uacute;</button>';
     cont.innerHTML = html;
   }
 
@@ -578,6 +597,19 @@
     if (o) { o.classList.remove('abierto'); o.setAttribute('aria-hidden','true'); }
     if (b) b.setAttribute('aria-expanded','false');
   }
+  function compartirMenu() {
+    var url = window.location.origin + window.location.pathname.replace(/[^/]*$/, 'index.html');
+    var texto = 'Mira el men\u00FA de Jilbert Burgers: ' + url;
+    try {
+      if (navigator.share) {
+        navigator.share({ title: 'Jilbert Burgers', text: 'Mira el men\u00FA de Jilbert Burgers', url: url });
+        return;
+      }
+    } catch (e) {}
+    var w = window.open('https://wa.me/?text=' + encodeURIComponent(texto), '_blank');
+    if (!w) location.href = 'https://wa.me/?text=' + encodeURIComponent(texto);
+  }
+
   function init() {
     leerCarrito();
 
@@ -591,6 +623,8 @@
     if (btnWa) btnWa.addEventListener('click', enviarPorWhatsAppDirecto);
     var btnContado = document.getElementById('carrito-contado');
     if (btnContado) btnContado.addEventListener('click', abrirPanelContado);
+    var btnShare = document.getElementById('compartir-btn');
+    if (btnShare) btnShare.addEventListener('click', compartirMenu);
     var btnHamb = document.getElementById('btn-hamburguesa');
     if (btnHamb) btnHamb.addEventListener('click', abrirMenuLateral);
     var btnMenuCerrar = document.getElementById('menu-lateral-cerrar');
@@ -600,8 +634,10 @@
     var menuLista = document.getElementById('menu-lateral-lista');
     if (menuLista) {
       menuLista.addEventListener('click', function (ev) {
-        var t = ev.target;
-        if (t.tagName !== 'BUTTON') return;
+        var t = ev.target.closest ? ev.target.closest('button') : null;
+        if (!t) return;
+        var acc = t.getAttribute('data-accion');
+        if (acc === 'compartir') { cerrarMenuLateral(); compartirMenu(); return; }
         var f = t.getAttribute('data-filtro');
         if (!f) return;
         aplicarFiltro(f);
