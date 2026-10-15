@@ -210,6 +210,7 @@ a:hover { color: var(--rojo-oscuro); }
   margin: 0 auto;
 }
 .producto {
+  position: relative;
   background: var(--blanco);
   border: 1px solid var(--borde);
   border-radius: var(--radio);
@@ -707,6 +708,33 @@ a:hover { color: var(--rojo-oscuro); }
 .producto .badge-prod.badge-nuevo { background: var(--amarillo-suave); color: #7A5B00; }
 .producto .badge-prod.badge-top   { background: var(--rojo);           color: var(--blanco); }
 .producto .badge-prod.badge-promo { background: var(--amarillo);       color: #4A3A00; }
+
+/* --- Tarjeta destacada: producto en posicion 1 (premium dorado) --- */
+.producto.destacado {
+  border: 3px solid #f4a300;
+  background: linear-gradient(180deg, #fff4d6 0%, #fffaf0 40%, #ffffff 100%);
+  box-shadow: 0 0 0 4px rgba(244, 163, 0, 0.35), 0 12px 32px rgba(244, 163, 0, 0.45), var(--sombra-md);
+}
+.producto .badge-top-flotante {
+  position: absolute;
+  top: -18px;
+  left: -18px;
+  background: linear-gradient(135deg, #ffe08a 0%, #ffc94a 35%, #f4a300 65%, #d98a00 100%);
+  color: #2b1a00;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  padding: 10px 22px;
+  border-radius: 999px;
+  border: 2px solid #fff4d6;
+  line-height: 1.2;
+  z-index: 3;
+  box-shadow: 0 8px 22px rgba(0,0,0,.35), 0 0 0 4px rgba(244,163,0,.35);
+  pointer-events: none;
+  white-space: nowrap;
+  text-shadow: 0 1px 0 rgba(255,255,255,.45);
+}
 
 /* ============================================================ 
    FASE 7-B - Equivalente en Bs del total del carrito 

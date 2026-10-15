@@ -510,10 +510,12 @@
       return oa - ob;
     });
     var html = '<div class="grupo-grid">';
-    todos.forEach(function (item) {
+    todos.forEach(function (item, idx) {
       var p = item.p;
+      var esDestacado = (idx === 0);
       html += '' +
-        '<div class="producto" data-id="' + p.id + '" data-cat="' + item.slug + '">' +
+        '<div class="producto' + (esDestacado ? ' destacado' : '') + '" data-id="' + p.id + '" data-cat="' + item.slug + '">' +
+          (esDestacado ? '<span class="badge-top-flotante">&#x2605; MAS VENDIDO</span>' : '') +
           mediaHTML(p) +
           badgeHTML(p.badge) +
           '<h3>' + p.nombre + '</h3>' +
