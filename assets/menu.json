@@ -55,7 +55,7 @@
         {
           "id": "s4",
           "nombre": "Salchipapas normal grande",
-          "desc": "¿Un antojo clásico? 🍿 ¡Nuestra Salchipapa Clásica es para ti! 🍿 Papas fritas doradas 🥓 Salchichas jugosas 🥓 Salsas secretas 🥓 Queso de año gratinado 🧅 Peso Aprox: 400 gr 🍿 ¡Puro sabor tradicional!",
+          "desc": "¿Un antojo clásico?  ¡Nuestra Salchipapa Clásica es para ti!  Papas fritas doradas  Salchichas jugosas  Salsas secretas Queso de año gratinado  Peso Aprox: 400 gr  ¡Puro sabor tradicional!",
           "precio": 7,
           "foto": "assets/img/prod-salchipapas-s4.jpg",
           "badge": "",
@@ -63,8 +63,8 @@
         },
         {
           "id": "s5",
-          "nombre": "Salchipapas normal pequeño (150gr de papas.)",
-          "desc": "¿Un antojo clásico? 🍿 ¡Nuestra Salchipapa Clásica Pequeña es para ti! 🍿 Papas fritas doradas 🥓 Salchichas jugosas 🥓 Salsas secretas 🥓 Queso de año gratinado 🧅 Peso Aprox: 200 gr 🍿 ¡Puro sabor tradicional!",
+          "nombre": "Salchipapas normal pequeño",
+          "desc": "¿Un antojo clásico?  ¡Nuestra Salchipapa Clásica Pequeña es para ti!  Papas fritas doradas  Salchichas jugosas  Salsas secretas, Queso de año gratinado, Peso Aprox: 250 gr  ¡Puro sabor tradicional!",
           "precio": 5,
           "foto": "assets/img/prod-salchipapas-s5.jpg",
           "badge": "",
@@ -118,7 +118,7 @@
         {
           "id": "h5",
           "nombre": "COMBO (1) CLÁSICO JILBERT",
-          "desc": "Combo Clasico Jilbert 🍔🍟 ¡Dos clásicos llenos de sabor! Disfruta de: 🍔 1 Hamburguesa Normal 🍟 1 Salchipapa Normal Grande 🥤 1 Refresco de 1L. Precio Especial ~ 🟩",
+          "desc": "Combo Clasico Jilbert  ¡Dos clásicos llenos de sabor! Disfruta de:  1 Hamburguesa Normal  1 Salchipapa Normal Grande  1 Refresco de 1L. Precio Especial ~",
           "precio": 14.99,
           "foto": "assets/img/prod-combo-0.jpg",
           "badge": "",
@@ -127,7 +127,7 @@
         {
           "id": "h6",
           "nombre": "COMBO (6) NIÑOS",
-          "desc": "¡Combo Consentidos! Porque los más pequeños merecen lo mejor 🍧 Incluye: 🍱 3 Salchipapas Normales pequeños 🍾 1 Refresco Coca-Cola de 1L 💰 Precio Imperdible 🥳 ¡Sabor, diversión y ahorro en un solo combo!",
+          "desc": "¡Combo Consentidos! Porque los más pequeños merecen lo mejor, Incluye:  3 Salchipapas Normales pequeños,  1 Refresco Coca-Cola de 1L,  Precio Imperdible  ¡Sabor, diversión y ahorro en un solo combo!",
           "precio": 12.99,
           "foto": "assets/img/prod-combos-descuento-h6.jpg",
           "badge": "",
