@@ -124,8 +124,9 @@ a:hover { color: var(--rojo-oscuro); }
 }
 .hero h1 span { color: var(--rojo); }
 .hero p {
-  color: var(--gris);
-  font-size: 16px;
+  color: var(--rojo);
+  font-weight: 700;
+  font-size: 17px;
   max-width: 520px;
   margin: 0 auto;
 }
