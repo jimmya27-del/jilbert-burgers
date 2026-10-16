@@ -50,7 +50,7 @@
           "desc": "Papas, salchicha, carne, pollo, queso y salsas de la casa.",
           "precio": 6,
           "activo": false,
-          "orden": 9
+          "orden": 11
         },
         {
           "id": "s4",
@@ -84,7 +84,7 @@
           "foto": "",
           "badge": "",
           "activo": false,
-          "orden": 10
+          "orden": 12
         },
         {
           "id": "b6",
@@ -93,7 +93,7 @@
           "precio": 2,
           "foto": "assets/img/prod-bebidas-b6.jpg",
           "badge": "",
-          "orden": 8
+          "orden": 10
         }
       ]
     },
@@ -122,7 +122,7 @@
           "precio": 14.99,
           "foto": "assets/img/prod-combo-0.jpg",
           "badge": "",
-          "orden": 6
+          "orden": 8
         },
         {
           "id": "h6",
@@ -131,7 +131,7 @@
           "precio": 12.99,
           "foto": "assets/img/prod-combos-descuento-h6.jpg",
           "badge": "",
-          "orden": 7
+          "orden": 9
         }
       ]
     },
@@ -156,7 +156,7 @@
           "foto": "assets/img/prod-hamburguesas-nuevo-1792108148609.jpg",
           "badge": "",
           "activo": true,
-          "orden": 12
+          "orden": 7
         }
       ]
     },
@@ -181,7 +181,7 @@
           "foto": "assets/img/prod-hamburguesas-nuevo-1792107819973.jpg",
           "badge": "",
           "activo": true,
-          "orden": 11
+          "orden": 6
         }
       ]
     }
