@@ -38,28 +38,7 @@
     "hamburguesas": {
       "titulo": "Hamburguesas",
       "imagen": "assets/img/cat-hamburguesas.jpg",
-      "productos": [
-        {
-          "id": "h10",
-          "nombre": "BURGERS CRISPY ESPECIAL",
-          "desc": "El Crispy Deluxe: Una experiencia de lujo.\nDisfruta de un esponjoso  pan brioche con lechuga y tomate frescos, coronada con 150g de nuestro jugoso pollo crispy. Acompañamos este  clásico mejorado con: huevo frito, jamón de espalda y tocineta ahumada de primera calidad.\nLa mezcla de quesos mozzarella y cheddar derretidos une todos los sabores, mientras las crujientes papitas cabello de ángel añaden textura, todo acompañado de nuestras salsas JB.\nY como cortesía de la casa, una ración de papas fritas",
-          "precio": 9.99,
-          "foto": "assets/img/prod-hamburguesas-nuevo-1792107819973.jpg",
-          "badge": "",
-          "activo": true,
-          "orden": 11
-        },
-        {
-          "id": "h11",
-          "nombre": "BURGERS DE CARNE ESPECIAL",
-          "desc": "¡La hamburguesa que no se guarda nada!\n\n120g de jugosa carne, huevo, jamón frito, tocineta ahumada y una doble capa de quesos mozzarella y cheddar derretidos. Con lechuga y tomate fresco en pan brioche, papitas cabello de ángel, nuestras salsas JB y ¡de regalo! papas fritas de la mejor calidad.",
-          "precio": 9.99,
-          "foto": "assets/img/prod-hamburguesas-nuevo-1792108148609.jpg",
-          "badge": "",
-          "activo": true,
-          "orden": 12
-        }
-      ]
+      "productos": []
     },
     "salchipapas": {
       "titulo": "Salchipapas",
