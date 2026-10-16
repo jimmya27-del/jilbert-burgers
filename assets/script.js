@@ -53,6 +53,14 @@
            ' <span class="carrito-bs-tasa">(' + t.toFixed(2).replace('.', ',') + ' Bs/u)</span>';
   }
 
+  function equivalenteBsTexto(total) {
+    if (monedaActual() === 'Bs') return '';
+    var t = tasaActual();
+    if (t <= 0) return '';
+    var bs = total * t;
+    return ' / Bs ' + bs.toFixed(2).replace('.', ',');
+  }
+
   // ============================================================
   // FASE 12-BIS - Pago del carrito (sin prompts nativos)
   // Dos acciones directas: Enviar por WhatsApp | Contado
@@ -219,9 +227,9 @@
       var sub = totalCarrito(); var dcto = descuentoContado(); var mDesc = sub * (dcto / 100);
       lineas.push('*Subtotal:* ' + formatearPrecio(sub));
       lineas.push('*Descuento contado (' + dcto + '%):* -' + formatearPrecio(mDesc));
-      lineas.push('*Total a pagar:* ' + formatearPrecio(sub - mDesc));
+      lineas.push('*Total a pagar:* ' + formatearPrecio(sub - mDesc) + equivalenteBsTexto(sub - mDesc));
     } else {
-      lineas.push('*Total:* ' + formatearPrecio(totalCarrito()));
+      lineas.push('*Total:* ' + formatearPrecio(totalCarrito()) + equivalenteBsTexto(totalCarrito()));
     }
     if (opciones.nombre)     lineas.push('*Cliente:* ' + opciones.nombre);
     if (opciones.nota)       lineas.push('*Direcci\u00F3n/Nota:* ' + opciones.nota);
