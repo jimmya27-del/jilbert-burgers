@@ -1,7 +1,7 @@
 {
   "negocio": {
     "moneda": "EUR",
-    "tasa_bcv": 980.61,
+    "tasa_bcv": 977.68,
     "descuento_contado": 10,
     "pago": {
       "pago_movil": {
