@@ -492,7 +492,6 @@
     intentarAbrirUpsell();
   }
 
-  var UPSELL_STORAGE_KEY = 'jilbert_upsell_visto_v1';
   var _upsellProductoActual = null;
 
   function buscarProductoPorId(id) {
@@ -509,28 +508,18 @@
     return encontrado;
   }
 
-  function upsellYaVisto() {
-    try { return sessionStorage.getItem(UPSELL_STORAGE_KEY) === '1'; } catch (e) { return false; }
-  }
-
-  function marcarUpsellVisto() {
-    try { sessionStorage.setItem(UPSELL_STORAGE_KEY, '1'); } catch (e) {}
-  }
-
   function cerrarUpsell() {
     var m = document.getElementById('upsell-modal');
     if (!m) return;
     m.classList.remove('abierto');
     m.setAttribute('aria-hidden', 'true');
     _upsellProductoActual = null;
-    marcarUpsellVisto();
   }
 
   function intentarAbrirUpsell() {
     if (!menuData) return;
     var upId = menuData.upsell_id;
     if (!upId || typeof upId !== 'string') return;
-    if (upsellYaVisto()) return;
     if (!carrito || carrito.length === 0) return;
     var yaEnCarrito = carrito.some(function (it) { return it.id === upId; });
     if (yaEnCarrito) return;
