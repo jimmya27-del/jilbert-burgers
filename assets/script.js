@@ -605,7 +605,7 @@
       var esDestacado = (idx === 0);
       html += '' +
         '<div class="producto' + (esDestacado ? ' destacado' : '') + '" data-id="' + p.id + '" data-cat="' + item.slug + '">' +
-          (esDestacado ? '<span class="badge-top-flotante">&#x2605; MAS VENDIDO</span>' : '') +
+          (esDestacado ? '<span class="badge-top-flotante">&#x2605; LA M&Aacute;S VENDIDA</span>' : '') +
           mediaHTML(p) +
           badgeHTML(p.badge) +
           '<h3>' + p.nombre + '</h3>' +
