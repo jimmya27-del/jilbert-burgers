@@ -104,6 +104,16 @@
           "foto": "assets/img/prod-bebidas-b6.jpg",
           "badge": "",
           "orden": 12
+        },
+        {
+          "id": "h14",
+          "nombre": "CREMITOS DE FRUTA",
+          "desc": "🍓🍑🍍🍹 Cremitos de Fruta\n\nNuestros heladitos cremosos de la casa, servidos en su vasito con tapita, listos para llevar y disfrutar donde quieras. Súper cremositos, pero con el sabor real de la fruta. Elige tu favorito: fresa, durazno, piña o parchita. Un postre rico, refrescante y del tamaño perfecto para consentirte.",
+          "precio": 1,
+          "foto": "",
+          "badge": "nuevo",
+          "activo": true,
+          "orden": 15
         }
       ]
     },
