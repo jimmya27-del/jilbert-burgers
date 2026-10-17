@@ -677,6 +677,9 @@
       var trCed   = tr.cedula   || "";
       var trTit   = tr.titular  || "";
       var instrucciones = (p.instrucciones != null) ? p.instrucciones : "";
+      var upsellId = (menuCache.upsell_id != null && menuCache.upsell_id !== "") ? menuCache.upsell_id : "";
+      var upsellOpts = '<option value="">(ninguno)</option>';
+      (function(){ var cats = menuCache.categorias || {}; Object.keys(cats).forEach(function(ck){ var cat = cats[ck] || {}; var prods = cat.productos || []; prods.forEach(function(pr){ if(pr && pr.id){ var s = (upsellId === pr.id) ? ' selected' : ''; var nom = (pr.nombre || pr.id) + ' (' + ck + ')'; upsellOpts += '<option value="' + escaparHTML(pr.id) + '"' + s + '>' + escaparHTML(nom) + '</option>'; } }); }); })();
 
       var html = "";
       html += `<div class="cabecera-categoria">`;
@@ -692,6 +695,7 @@
       html +=   `<label>Moneda (codigo ISO, ej: EUR, USD)<input type="text" data-negocio="moneda" value="${escaparHTML((n.moneda != null && n.moneda !== '') ? n.moneda : 'EUR')}" maxlength="8" style="text-transform:uppercase;" spellcheck="false"></label>`;
       html +=   `<label>Tasa BCV (Bs por 1 unidad de moneda)<input type="number" data-negocio="tasa_bcv" value="${escaparHTML(String((n.tasa_bcv != null && n.tasa_bcv !== '') ? n.tasa_bcv : 0))}" min="0" step="0.01"></label>`;
       html +=   `<label>Descuento contado (% OFF)<input type="number" data-negocio="descuento_contado" value="${escaparHTML(String((n.descuento_contado != null && n.descuento_contado !== '') ? n.descuento_contado : 0))}" min="0" max="100" step="1"></label>`;
+      html +=   `<label>Producto de upselling (se ofrece al abrir el carrito)<select data-negocio="upsell_id">${upsellOpts}</select></label>`;
       html +=   `<div class="foto-preview" data-logo-preview></div>`;
       html +=   `<div style="margin-top:12px;padding:12px;background:#f5f5f5;border-radius:8px;">`;
       html +=     `<div style="font-weight:600;margin-bottom:8px;">Ajustar logo en la banda</div>`;
@@ -824,6 +828,9 @@
         }),
         instrucciones: vPago("instrucciones")
       };
+      var upsellSel = contenidoAdmin.querySelector('[data-negocio="upsell_id"]');
+      var upsellVal = upsellSel ? upsellSel.value : (menuCache.upsell_id || "");
+      menuCache.upsell_id = upsellVal;
       menuCache.negocio = Object.assign({}, menuCache.negocio, {
         whatsapp: wa, direccion: dir, facebook: fb, correo: mail, logo: logo, logo_pos: logoPos,
         moneda: monedaVal, tasa_bcv: tasaVal, descuento_contado: descVal, pago: pago
@@ -916,6 +923,9 @@
       Object.keys(catsDraft).forEach(function(slug){
         if(!out.categorias[slug]){ out.categorias[slug] = catsDraft[slug]; }
       });
+      if(typeof draft.upsell_id === "string"){ out.upsell_id = draft.upsell_id; }
+      else if(typeof remoto.upsell_id === "string"){ out.upsell_id = remoto.upsell_id; }
+      else { out.upsell_id = ""; }
       return out;
     }
 

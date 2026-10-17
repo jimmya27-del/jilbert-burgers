@@ -1077,3 +1077,22 @@ a:hover { color: var(--rojo-oscuro); }
   0%   { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
+
+
+/* PASO upsell - modal de producto sugerido */
+.upsell-modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;z-index:1200;padding:16px;box-sizing:border-box;}
+.upsell-modal.abierto{display:flex;}
+.upsell-dialog{background:#fff;border-radius:14px;max-width:380px;width:100%;padding:18px;box-shadow:0 20px 60px rgba(0,0,0,.35);font-family:inherit;}
+.upsell-dialog h3{margin:0 0 12px;font-size:17px;color:var(--texto,#222);}
+.upsell-cuerpo{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;}
+.upsell-cuerpo img{width:80px;height:80px;object-fit:cover;border-radius:10px;background:#f2f2f2;flex:0 0 auto;}
+.upsell-info{flex:1 1 auto;min-width:0;}
+.upsell-nombre{font-weight:700;font-size:15px;color:var(--texto,#222);margin-bottom:4px;}
+.upsell-desc{font-size:12px;color:#666;margin-bottom:6px;max-height:44px;overflow:hidden;}
+.upsell-precio{font-weight:700;color:var(--verde,#1f8a3b);font-size:15px;}
+.upsell-acciones{display:flex;gap:8px;justify-content:flex-end;}
+.upsell-acciones button{border:0;border-radius:8px;padding:9px 14px;font-weight:600;font-size:13px;cursor:pointer;font-family:inherit;}
+.upsell-btn-no{background:#eee;color:#333;}
+.upsell-btn-no:active{background:#ddd;}
+.upsell-btn-si{background:var(--verde,#1f8a3b);color:#fff;}
+.upsell-btn-si:active{opacity:.9;}

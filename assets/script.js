@@ -486,7 +486,82 @@
     setTimeout(function () { card.classList.remove('pop'); }, 280);
   }
 
-  function abrirPanel() { var p = document.getElementById('carrito-panel'); if (p) p.classList.add('abierto'); }
+  function abrirPanel() {
+    var p = document.getElementById('carrito-panel');
+    if (p) p.classList.add('abierto');
+    intentarAbrirUpsell();
+  }
+
+  var UPSELL_STORAGE_KEY = 'jilbert_upsell_visto_v1';
+  var _upsellProductoActual = null;
+
+  function buscarProductoPorId(id) {
+    if (!menuData || !menuData.categorias || !id) return null;
+    var cats = menuData.categorias;
+    var encontrado = null;
+    Object.keys(cats).forEach(function (slug) {
+      if (encontrado) return;
+      var prods = (cats[slug] && cats[slug].productos) ? cats[slug].productos : [];
+      for (var i = 0; i < prods.length; i++) {
+        if (prods[i] && prods[i].id === id) { encontrado = prods[i]; return; }
+      }
+    });
+    return encontrado;
+  }
+
+  function upsellYaVisto() {
+    try { return sessionStorage.getItem(UPSELL_STORAGE_KEY) === '1'; } catch (e) { return false; }
+  }
+
+  function marcarUpsellVisto() {
+    try { sessionStorage.setItem(UPSELL_STORAGE_KEY, '1'); } catch (e) {}
+  }
+
+  function cerrarUpsell() {
+    var m = document.getElementById('upsell-modal');
+    if (!m) return;
+    m.classList.remove('abierto');
+    m.setAttribute('aria-hidden', 'true');
+    _upsellProductoActual = null;
+    marcarUpsellVisto();
+  }
+
+  function intentarAbrirUpsell() {
+    if (!menuData) return;
+    var upId = menuData.upsell_id;
+    if (!upId || typeof upId !== 'string') return;
+    if (upsellYaVisto()) return;
+    if (!carrito || carrito.length === 0) return;
+    var yaEnCarrito = carrito.some(function (it) { return it.id === upId; });
+    if (yaEnCarrito) return;
+    var prod = buscarProductoPorId(upId);
+    if (!prod) return;
+    if (prod.activo === false) return;
+    var modal = document.getElementById('upsell-modal');
+    if (!modal) return;
+    var img = document.getElementById('upsell-img');
+    var nom = document.getElementById('upsell-nombre');
+    var desc = document.getElementById('upsell-desc');
+    var pre = document.getElementById('upsell-precio');
+    if (img) {
+      var srcImg = prod.foto || prod.imagen || '';
+      if (srcImg) { img.src = srcImg; img.style.display = 'block'; }
+      else { img.removeAttribute('src'); img.style.display = 'none'; }
+    }
+    if (nom) nom.textContent = prod.nombre || '';
+    if (desc) desc.textContent = prod.desc || prod.descripcion || '';
+    if (pre) pre.textContent = formatearPrecio(prod.precio);
+    _upsellProductoActual = prod;
+    modal.classList.add('abierto');
+    modal.setAttribute('aria-hidden', 'false');
+  }
+
+  function aceptarUpsell() {
+    if (_upsellProductoActual) {
+      agregar(_upsellProductoActual);
+    }
+    cerrarUpsell();
+  }
   function cerrarPanel() { var p = document.getElementById('carrito-panel'); if (p) p.classList.remove('abierto'); cerrarPanelPago(); }
 
   function normalizarWhatsApp(raw) {
@@ -631,6 +706,12 @@
     if (btnWa) btnWa.addEventListener('click', enviarPorWhatsAppDirecto);
     var btnContado = document.getElementById('carrito-contado');
     if (btnContado) btnContado.addEventListener('click', abrirPanelContado);
+    var btnUpsellSi = document.getElementById('upsell-si');
+    if (btnUpsellSi) btnUpsellSi.addEventListener('click', aceptarUpsell);
+    var btnUpsellNo = document.getElementById('upsell-no');
+    if (btnUpsellNo) btnUpsellNo.addEventListener('click', cerrarUpsell);
+    var upsellModalEl = document.getElementById('upsell-modal');
+    if (upsellModalEl) upsellModalEl.addEventListener('click', function (ev) { if (ev.target === upsellModalEl) cerrarUpsell(); });
     var btnShare = document.getElementById('compartir-btn');
     if (btnShare) btnShare.addEventListener('click', compartirMenu);
     var btnHamb = document.getElementById('btn-hamburguesa');
