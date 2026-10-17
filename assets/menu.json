@@ -45,14 +45,6 @@
       "imagen": "assets/img/cat-salchipapas.jpg",
       "productos": [
         {
-          "id": "s2",
-          "nombre": "Salchipapa Especial",
-          "desc": "Papas, salchicha, carne, pollo, queso y salsas de la casa.",
-          "precio": 6,
-          "activo": false,
-          "orden": 12
-        },
-        {
           "id": "s4",
           "nombre": "Salchipapas normal grande",
           "desc": "¿Un antojo clásico?  ¡Nuestra Salchipapa Clásica es para ti!  Papas fritas doradas  Salchichas jugosas  Salsas secretas Queso de año gratinado  Peso Aprox: 400 gr  ¡Puro sabor tradicional!",
@@ -72,13 +64,21 @@
         },
         {
           "id": "h12",
-          "nombre": "SALCHIPAPA CON POLLO CRISPY",
-          "desc": "",
+          "nombre": "SALCHIPAPA CRISPY ESPECIAL",
+          "desc": "Salchipapa Crispy Especial\nPapas fritas doraditas y crujientes, salchichas, pollo crispy, cheddar y mozzarella derretidos, bañada con nuestras salsas de la casa. El antojo que sí vale la pena.",
           "precio": 9.99,
           "foto": "",
           "badge": "nuevo",
           "activo": true,
           "orden": 8
+        },
+        {
+          "id": "s2",
+          "nombre": "Salchipapa Especial",
+          "desc": "Papas, salchicha, carne, pollo, queso y salsas de la casa.",
+          "precio": 6,
+          "activo": false,
+          "orden": 12
         }
       ]
     },
