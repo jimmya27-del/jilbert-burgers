@@ -109,7 +109,7 @@
         '<label>Direcci\u00F3n o nota<input type="text" id="pago-nota"></label>' +
         '<label>Tipo de pago<select id="pago-tipo"></select></label>' +
         '<label>Referencia del pago<input type="text" id="pago-referencia"></label>' +
-        '<button type="submit" class="btn-wa" id="pago-enviar">Consultar por WhatsApp</button>' +
+        '<button type="submit" class="btn-wa" id="pago-enviar">Confirmar y enviar pago</button>' +
       '</form>';
     aside.appendChild(div);
     var form = div.querySelector('#pago-form');
