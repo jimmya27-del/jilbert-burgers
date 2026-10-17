@@ -30,7 +30,6 @@
       "y": 0
     }
   },
-  "upsell_id": "b6",
   "hero": {
     "titulo": "Comida Rápida, pero Bien Hecha...",
     "subtitulo": "DESCUENTO ESPECIAL PARA COMPRAS DESDE ESTE MENU"
@@ -193,8 +192,19 @@
           "badge": "",
           "activo": true,
           "orden": 6
+        },
+        {
+          "id": "h13",
+          "nombre": "BURGERS MIXTA ESPECIAL",
+          "desc": "",
+          "precio": 13,
+          "foto": "assets/img/prod-hamburguesas-pollo-nuevo-1792253177235.jpg",
+          "badge": "nuevo",
+          "activo": true,
+          "orden": 14
         }
       ]
     }
-  }
+  },
+  "upsell_id": "b6"
 }
