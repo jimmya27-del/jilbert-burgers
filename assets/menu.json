@@ -39,18 +39,7 @@
     "hamburguesas": {
       "titulo": "Hamburguesas",
       "imagen": "assets/img/cat-hamburguesas.jpg",
-      "productos": [
-        {
-          "id": "h12",
-          "nombre": "SALCHIPAPA CON POLLO CRISPY",
-          "desc": "",
-          "precio": 9.99,
-          "foto": "",
-          "badge": "nuevo",
-          "activo": true,
-          "orden": 13
-        }
-      ]
+      "productos": []
     },
     "salchipapas": {
       "titulo": "Salchipapas",
