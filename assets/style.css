@@ -7,20 +7,20 @@
 
 :root {
   --amarillo:  #FFC107;
-  --amarillo-suave: #FFF3C4;
+  --amarillo-suave: #3D3000;
   --rojo:      #D32F2F;
   --rojo-oscuro: #B71C1C;
-  --negro:     #111111;
-  --gris:      #6B6B6B;
-  --gris-claro:#F5F5F5;
-  --blanco:    #FFFFFF;
-  --fondo:     #FAFAFA;
-  --borde:     #EAEAEA;
+  --negro:     #F0F0F0;
+  --gris:      #A8A8A8;
+  --gris-claro:#2A2A2A;
+  --blanco:    #1A1A1A;
+  --fondo:     #0F0F0F;
+  --borde:     #2E2E2E;
   --radio:     16px;
   --radio-sm:  10px;
-  --sombra-sm: 0 1px 3px rgba(0,0,0,.04), 0 1px 2px rgba(0,0,0,.06);
-  --sombra-md: 0 4px 16px rgba(0,0,0,.06);
-  --sombra-lg: 0 12px 40px rgba(0,0,0,.12);
+  --sombra-sm: 0 1px 3px rgba(0,0,0,.3), 0 1px 2px rgba(0,0,0,.4);
+  --sombra-md: 0 4px 16px rgba(0,0,0,.4);
+  --sombra-lg: 0 12px 40px rgba(0,0,0,.6);
   --trans:     .2s cubic-bezier(.4,0,.2,1);
 }
 
@@ -1096,3 +1096,35 @@ a:hover { color: var(--rojo-oscuro); }
 .upsell-btn-no:active{background:#ddd;}
 .upsell-btn-si{background:var(--verde,#1f8a3b);color:#fff;}
 .upsell-btn-si:active{opacity:.9;}
+
+
+/* ===== DARK THEME OVERRIDES ===== */
+body { background: var(--fondo); color: var(--negro); }
+header, .barra, nav { background: rgba(26,26,26,.92) !important; }
+.hero { background: linear-gradient(180deg, #2a2200 0%, var(--fondo) 100%) !important; }
+.hero h1, .hero p { color: #eeeeee !important; }
+.carrito-panel { background: var(--blanco); }
+.carrito-panel header button:hover { background: #333333 !important; }
+.carrito-pie { background: var(--blanco) !important; border-color: var(--borde) !important; }
+.pago-bloque { background: #222222 !important; }
+.pago-form input, .pago-form select, .pago-form textarea { background: #222222 !important; color: #eeeeee !important; border-color: #444444 !important; }
+.pago-form input::placeholder, .pago-form textarea::placeholder { color: #777777 !important; }
+.pago-vacio, .pago-bloque li span { color: #999999 !important; }
+.pago-total { border-color: #333333 !important; background: #1a1a1a !important; }
+.pago-total > strong { color: var(--rojo) !important; }
+.upsell-dialog { background: #1a1a1a !important; color: #eeeeee !important; }
+.upsell-dialog h3, .upsell-nombre { color: #eeeeee !important; }
+.upsell-desc { color: #aaaaaa !important; }
+.upsell-btn-no { background: #333333 !important; color: #eeeeee !important; }
+.upsell-btn-no:active { background: #444444 !important; }
+.upsell-cuerpo img { background: #2a2a2a !important; }
+.menu-lateral { background: #1a1a1a !important; }
+.menu-item { color: #dddddd !important; }
+.menu-item:hover { background: rgba(255,193,7,0.15) !important; }
+.producto { background: var(--blanco) !important; }
+.producto .acciones .btn-menos:hover { background: #333333 !important; }
+.badge-prod.badge-nuevo { background: #4a3a00 !important; color: #FFD54F !important; }
+.badge-prod.badge-promo { background: var(--amarillo) !important; color: #111111 !important; }
+.pie .direccion { color: #999999 !important; }
+.skeleton { background: linear-gradient(90deg, #222222 0%, #2a2a2a 50%, #222222 100%) !important; }
+.form-edicion { background: #1a1a1a !important; }
