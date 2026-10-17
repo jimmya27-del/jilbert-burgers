@@ -51,7 +51,7 @@
           "desc": "Papas, salchicha, carne, pollo, queso y salsas de la casa.",
           "precio": 6,
           "activo": false,
-          "orden": 11
+          "orden": 12
         },
         {
           "id": "s4",
@@ -79,7 +79,7 @@
           "foto": "",
           "badge": "nuevo",
           "activo": true,
-          "orden": 13
+          "orden": 8
         }
       ]
     },
@@ -95,7 +95,7 @@
           "foto": "assets/img/prod-bebidas-b6.jpg",
           "badge": "",
           "activo": false,
-          "orden": 12
+          "orden": 13
         },
         {
           "id": "b6",
@@ -104,7 +104,7 @@
           "precio": 2,
           "foto": "assets/img/prod-bebidas-b6.jpg",
           "badge": "",
-          "orden": 10
+          "orden": 11
         }
       ]
     },
@@ -133,7 +133,7 @@
           "precio": 14.99,
           "foto": "assets/img/prod-combo-0.jpg",
           "badge": "",
-          "orden": 8
+          "orden": 9
         },
         {
           "id": "h6",
@@ -142,7 +142,7 @@
           "precio": 12.99,
           "foto": "assets/img/prod-combos-descuento-h6.jpg",
           "badge": "",
-          "orden": 9
+          "orden": 10
         }
       ]
     },
