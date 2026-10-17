@@ -20,7 +20,7 @@
       "instrucciones": "Efectivo"
     },
     "whatsapp": "04124409025",
-    "direccion": "Barrio San Luis, calle Juan Borges NÂ° 11-B, Maracay, Aragua",
+    "direccion": "Barrio San Luis, calle Juan Borges N° 11-B, Maracay, Aragua",
     "facebook": "https://www.facebook.com/profile.php?id=61577402302384",
     "correo": "jilbertburgers@gmail.com",
     "logo": "assets/img/logo.jpg",
@@ -32,7 +32,7 @@
   },
   "upsell_id": "b5",
   "hero": {
-    "titulo": "Comida RÃ¡pida, pero Bien Hecha...",
+    "titulo": "Comida Rápida, pero Bien Hecha...",
     "subtitulo": "DESCUENTO ESPECIAL PARA COMPRAS DESDE ESTE MENU"
   },
   "categorias": {
@@ -56,7 +56,7 @@
         {
           "id": "s4",
           "nombre": "Salchipapas normal grande",
-          "desc": "Â¿Un antojo clÃ¡sico?  Â¡Nuestra Salchipapa ClÃ¡sica es para ti!  Papas fritas doradas  Salchichas jugosas  Salsas secretas Queso de aÃ±o gratinado  Peso Aprox: 400 gr  Â¡Puro sabor tradicional!",
+          "desc": "¿Un antojo clásico?  ¡Nuestra Salchipapa Clásica es para ti!  Papas fritas doradas  Salchichas jugosas  Salsas secretas Queso de año gratinado  Peso Aprox: 400 gr  ¡Puro sabor tradicional!",
           "precio": 7,
           "foto": "assets/img/prod-salchipapas-s4.jpg",
           "badge": "",
@@ -64,8 +64,8 @@
         },
         {
           "id": "s5",
-          "nombre": "Salchipapas normal pequeÃ±o",
-          "desc": "Â¿Un antojo clÃ¡sico?  Â¡Nuestra Salchipapa ClÃ¡sica PequeÃ±a es para ti!  Papas fritas doradas  Salchichas jugosas  Salsas secretas, Queso de aÃ±o gratinado, Peso Aprox: 250 gr  Â¡Puro sabor tradicional!",
+          "nombre": "Salchipapas normal pequeño",
+          "desc": "¿Un antojo clásico?  ¡Nuestra Salchipapa Clásica Pequeña es para ti!  Papas fritas doradas  Salchichas jugosas  Salsas secretas, Queso de año gratinado, Peso Aprox: 250 gr  ¡Puro sabor tradicional!",
           "precio": 5,
           "foto": "assets/img/prod-salchipapas-s5.jpg",
           "badge": "",
@@ -80,7 +80,7 @@
         {
           "id": "b5",
           "nombre": "Refresco Coca cola de lata",
-          "desc": "Refresco Coca-Cola en presentaciÃ³n de lata.",
+          "desc": "Refresco Coca-Cola en presentación de lata.",
           "precio": 1.5,
           "foto": "assets/img/prod-bebidas-b6.jpg",
           "badge": "",
@@ -90,7 +90,7 @@
         {
           "id": "b6",
           "nombre": "Refresco Coca-Cola de 1 Litro",
-          "desc": "Refresco Coca-Cola en presentaciÃ³n de 1 Litro.",
+          "desc": "Refresco Coca-Cola en presentación de 1 Litro.",
           "precio": 2,
           "foto": "assets/img/prod-bebidas-b6.jpg",
           "badge": "",
@@ -118,8 +118,8 @@
         },
         {
           "id": "h5",
-          "nombre": "COMBO (1) CLÃSICO JILBERT",
-          "desc": "Combo Clasico Jilbert  Â¡Dos clÃ¡sicos llenos de sabor! Disfruta de:  1 Hamburguesa Normal  1 Salchipapa Normal Grande  1 Refresco de 1L. Precio Especial ~",
+          "nombre": "COMBO (1) CLÁSICO JILBERT",
+          "desc": "Combo Clasico Jilbert  ¡Dos clásicos llenos de sabor! Disfruta de:  1 Hamburguesa Normal  1 Salchipapa Normal Grande  1 Refresco de 1L. Precio Especial ~",
           "precio": 14.99,
           "foto": "assets/img/prod-combo-0.jpg",
           "badge": "",
@@ -128,7 +128,7 @@
         {
           "id": "h6",
           "nombre": "COMBO (6) NIÃ‘OS",
-          "desc": "Â¡Combo Consentidos! Porque los mÃ¡s pequeÃ±os merecen lo mejor, Incluye:  3 Salchipapas Normales pequeÃ±os,  1 Refresco Coca-Cola de 1L,  Precio Imperdible  Â¡Sabor, diversiÃ³n y ahorro en un solo combo!",
+          "desc": "¡Combo Consentidos! Porque los más pequeños merecen lo mejor, Incluye:  3 Salchipapas Normales pequeños,  1 Refresco Coca-Cola de 1L,  Precio Imperdible  ¡Sabor, diversión y ahorro en un solo combo!",
           "precio": 12.99,
           "foto": "assets/img/prod-combos-descuento-h6.jpg",
           "badge": "",
