@@ -82,7 +82,7 @@
           "nombre": "Refresco Coca cola de lata",
           "desc": "Refresco Coca-Cola en presentaciÃ³n de lata.",
           "precio": 1.5,
-          "foto": "",
+          "foto": "assets/img/prod-bebidas-b6.jpg",
           "badge": "",
           "activo": true,
           "orden": 12
