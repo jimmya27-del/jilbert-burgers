@@ -84,7 +84,7 @@
           "precio": 1.5,
           "foto": "",
           "badge": "",
-          "activo": false,
+          "activo": true,
           "orden": 12
         },
         {
