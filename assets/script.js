@@ -378,6 +378,17 @@
            '</div>';
   }
 
+  function descHTML(p) {
+    var d = (p && p.desc) ? String(p.desc) : '';
+    if (!d) return '';
+    return '<details class="desc-detalle">' +
+             '<summary class="desc-toggle">' +
+               '<span class="txt-mas">Ver m\u00E1s</span>' +
+               '<span class="txt-menos">Ver menos</span>' +
+             '</summary>' +
+             '<p class="desc">' + d + '</p>' +
+           '</details>';
+  }
   function pintarProductos(categoria) {
     var cont = document.getElementById('lista-productos');
     if (!cont || !menuData) return;
@@ -398,7 +409,7 @@
             '<span class="contador" data-id="' + p.id + '">0</span>' +
             '<button type="button" class="btn-agregar" data-accion="mas" data-id="' + p.id + '">Agregar</button>' +
           '</div>' +
-          '<p class="desc">' + p.desc + '</p>' +
+          descHTML(p) +
         '</div>';
     }).join('');
     refrescarTarjetas();
@@ -615,7 +626,7 @@
             '<span class="contador" data-id="' + p.id + '">0</span>' +
             '<button type="button" class="btn-agregar" data-accion="mas" data-id="' + p.id + '">Agregar</button>' +
           '</div>' +
-          '<p class="desc">' + p.desc + '</p>' +
+          descHTML(p) +
         '</div>';
     });
     html += '</div>';
