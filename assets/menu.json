@@ -78,7 +78,7 @@
           "desc": "Papas, salchicha, carne, pollo, queso y salsas de la casa.",
           "precio": 6,
           "activo": false,
-          "orden": 13
+          "orden": 14
         }
       ]
     },
@@ -94,7 +94,7 @@
           "foto": "assets/img/prod-bebidas-b6.jpg",
           "badge": "",
           "activo": false,
-          "orden": 14
+          "orden": 15
         },
         {
           "id": "b6",
@@ -113,7 +113,7 @@
           "foto": "assets/img/prod-bebidas-h14.jpg",
           "badge": "nuevo",
           "activo": true,
-          "orden": 15
+          "orden": 13
         }
       ]
     },
