@@ -677,9 +677,11 @@
       var trCed   = tr.cedula   || "";
       var trTit   = tr.titular  || "";
       var instrucciones = (p.instrucciones != null) ? p.instrucciones : "";
-      var upsellId = (menuCache.upsell_id != null && menuCache.upsell_id !== "") ? menuCache.upsell_id : "";
-      var upsellOpts = '<option value="">(ninguno)</option>';
-      (function(){ var cats = menuCache.categorias || {}; Object.keys(cats).forEach(function(ck){ var cat = cats[ck] || {}; var prods = cat.productos || []; prods.forEach(function(pr){ if(pr && pr.id){ var s = (upsellId === pr.id) ? ' selected' : ''; var nom = (pr.nombre || pr.id) + ' (' + ck + ')'; upsellOpts += '<option value="' + escaparHTML(pr.id) + '"' + s + '>' + escaparHTML(nom) + '</option>'; } }); }); })();
+      var upsellId  = (menuCache.upsell_id   != null && menuCache.upsell_id   !== "") ? menuCache.upsell_id   : "";
+      var upsellId2 = (menuCache.upsell_id_2 != null && menuCache.upsell_id_2 !== "") ? menuCache.upsell_id_2 : "";
+      var upsellOpts  = '<option value="">(ninguno)</option>';
+      var upsellOpts2 = '<option value="">(ninguno)</option>';
+      (function(){ var cats = menuCache.categorias || {}; Object.keys(cats).forEach(function(ck){ var cat = cats[ck] || {}; var prods = cat.productos || []; prods.forEach(function(pr){ if(pr && pr.id){ var nom = (pr.nombre || pr.id) + ' (' + ck + ')'; var o = '<option value="' + escaparHTML(pr.id) + '"'; var s1 = (upsellId  === pr.id) ? ' selected' : ''; var s2 = (upsellId2 === pr.id) ? ' selected' : ''; upsellOpts  += o + s1 + '>' + escaparHTML(nom) + '</option>'; upsellOpts2 += o + s2 + '>' + escaparHTML(nom) + '</option>'; } }); }); })();
 
       var html = "";
       html += `<div class="cabecera-categoria">`;
@@ -695,7 +697,8 @@
       html +=   `<label>Moneda (codigo ISO, ej: EUR, USD)<input type="text" data-negocio="moneda" value="${escaparHTML((n.moneda != null && n.moneda !== '') ? n.moneda : 'EUR')}" maxlength="8" style="text-transform:uppercase;" spellcheck="false"></label>`;
       html +=   `<label>Tasa BCV (Bs por 1 unidad de moneda)<input type="number" data-negocio="tasa_bcv" value="${escaparHTML(String((n.tasa_bcv != null && n.tasa_bcv !== '') ? n.tasa_bcv : 0))}" min="0" step="0.01"></label>`;
       html +=   `<label>Descuento contado (% OFF)<input type="number" data-negocio="descuento_contado" value="${escaparHTML(String((n.descuento_contado != null && n.descuento_contado !== '') ? n.descuento_contado : 0))}" min="0" max="100" step="1"></label>`;
-      html +=   `<label>Producto de upselling (se ofrece al abrir el carrito)<select data-negocio="upsell_id">${upsellOpts}</select></label>`;
+      html +=   `<label>Upselling opci&oacute;n 1 (se ofrece si el cliente a&uacute;n no la tiene en el carrito)<select data-negocio="upsell_id">${upsellOpts}</select></label>`;
+      html +=   `<label>Upselling opci&oacute;n 2 (se ofrece si la opci&oacute;n 1 ya est&aacute; en el carrito)<select data-negocio="upsell_id_2">${upsellOpts2}</select></label>`;
       html +=   `<div class="foto-preview" data-logo-preview></div>`;
       html +=   `<div style="margin-top:12px;padding:12px;background:#f5f5f5;border-radius:8px;">`;
       html +=     `<div style="font-weight:600;margin-bottom:8px;">Ajustar logo en la banda</div>`;
@@ -831,6 +834,9 @@
       var upsellSel = contenidoAdmin.querySelector('[data-negocio="upsell_id"]');
       var upsellVal = upsellSel ? upsellSel.value : (menuCache.upsell_id || "");
       menuCache.upsell_id = upsellVal;
+      var upsellSel2 = contenidoAdmin.querySelector('[data-negocio="upsell_id_2"]');
+      var upsellVal2 = upsellSel2 ? upsellSel2.value : (menuCache.upsell_id_2 || "");
+      menuCache.upsell_id_2 = upsellVal2;
       menuCache.negocio = Object.assign({}, menuCache.negocio, {
         whatsapp: wa, direccion: dir, facebook: fb, correo: mail, logo: logo, logo_pos: logoPos,
         moneda: monedaVal, tasa_bcv: tasaVal, descuento_contado: descVal, pago: pago
@@ -926,6 +932,9 @@
       if(typeof draft.upsell_id === "string"){ out.upsell_id = draft.upsell_id; }
       else if(typeof remoto.upsell_id === "string"){ out.upsell_id = remoto.upsell_id; }
       else { out.upsell_id = ""; }
+      if(typeof draft.upsell_id_2 === "string"){ out.upsell_id_2 = draft.upsell_id_2; }
+      else if(typeof remoto.upsell_id_2 === "string"){ out.upsell_id_2 = remoto.upsell_id_2; }
+      else { out.upsell_id_2 = ""; }
       return out;
     }
 
@@ -1571,7 +1580,13 @@
 
     contenidoAdmin.addEventListener('change', function(e){
       var inp = e.target;
-      if(!inp || !inp.classList || !inp.classList.contains('input-orden')){ return; }
+      if(!inp){ return; }
+      var keyUpsell = inp.getAttribute ? inp.getAttribute('data-negocio') : null;
+      if(keyUpsell === 'upsell_id' || keyUpsell === 'upsell_id_2'){
+        if(menuCache){ menuCache[keyUpsell] = inp.value; guardarDraftLocal(); marcarDraftEnHeader(); }
+        return;
+      }
+      if(!inp.classList || !inp.classList.contains('input-orden')){ return; }
       var id = inp.getAttribute('data-id');
       var val = parseInt(inp.value, 10);
       if(!id || isNaN(val) || val < 1){ return; }

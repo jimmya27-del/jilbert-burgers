@@ -529,14 +529,21 @@
 
   function intentarAbrirUpsell() {
     if (!menuData) return;
-    var upId = menuData.upsell_id;
-    if (!upId || typeof upId !== 'string') return;
     if (!carrito || carrito.length === 0) return;
-    var yaEnCarrito = carrito.some(function (it) { return it.id === upId; });
-    if (yaEnCarrito) return;
-    var prod = buscarProductoPorId(upId);
+    var ids = [menuData.upsell_id, menuData.upsell_id_2];
+    var prod = null;
+    for (var i = 0; i < ids.length; i++) {
+      var upId = ids[i];
+      if (!upId || typeof upId !== 'string') continue;
+      var yaEnCarrito = carrito.some(function (it) { return it.id === upId; });
+      if (yaEnCarrito) continue;
+      var cand = buscarProductoPorId(upId);
+      if (!cand) continue;
+      if (cand.activo === false) continue;
+      prod = cand;
+      break;
+    }
     if (!prod) return;
-    if (prod.activo === false) return;
     var modal = document.getElementById('upsell-modal');
     if (!modal) return;
     var img = document.getElementById('upsell-img');
@@ -559,6 +566,9 @@
   function aceptarUpsell() {
     if (_upsellProductoActual) {
       agregar(_upsellProductoActual);
+      cerrarUpsell();
+      setTimeout(intentarAbrirUpsell, 350);
+      return;
     }
     cerrarUpsell();
   }
