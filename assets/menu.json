@@ -67,7 +67,7 @@
           "nombre": "SALCHIPAPA CRISPY ESPECIAL",
           "desc": "Salchipapa Crispy Especial\nPapas fritas doraditas y crujientes, salchichas, pollo crispy, cheddar y mozzarella derretidos, bañada con nuestras salsas de la casa. El antojo que sí vale la pena.",
           "precio": 9.99,
-          "foto": "",
+          "foto": "assets/img/prod-bebidas-h12.jpg",
           "badge": "nuevo",
           "activo": true,
           "orden": 8
