@@ -399,7 +399,7 @@
     }
     cont.innerHTML = cat.productos.map(function (p) {
       return '' +
-        '<div class="producto" data-id="' + p.id + '" data-cat="' + categoria + '">' +
+        '<div class="producto' + (String(p.badge || '').toLowerCase() === 'nuevo' ? ' es-nuevo' : '') + '" data-id="' + p.id + '" data-cat="' + categoria + '">' +
           mediaHTML(p) +
           badgeHTML(p.badge) +
           '<h3>' + p.nombre + '</h3>' +
@@ -625,7 +625,7 @@
       var p = item.p;
       var esDestacado = (idx === 0);
       html += '' +
-        '<div class="producto' + (esDestacado ? ' destacado' : '') + '" data-id="' + p.id + '" data-cat="' + item.slug + '">' +
+        '<div class="producto' + (esDestacado ? ' destacado' : '') + (String(p.badge || '').toLowerCase() === 'nuevo' ? ' es-nuevo' : '') + '" data-id="' + p.id + '" data-cat="' + item.slug + '">' +
           (esDestacado ? '<span class="badge-top-flotante">&#x2605; LA M&Aacute;S VENDIDA</span>' : '') +
           mediaHTML(p) +
           badgeHTML(p.badge) +

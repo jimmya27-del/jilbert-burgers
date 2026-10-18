@@ -1150,3 +1150,59 @@ header, .barra, nav { background: rgba(26,26,26,.92) !important; }
 .form-edicion { background: #1a1a1a !important; }
 
 .producto .desc-toggle { color: #A8A8A8 !important; }
+
+/* ============================================================
+   FASE 7 - Tarjeta "nuevo": se nota mas que las demas
+   ============================================================ */
+.producto.es-nuevo {
+  border: 2px solid #f4a300;
+  background: linear-gradient(180deg, #fff8e6 0%, #ffffff 55%);
+  box-shadow:
+    0 0 0 3px rgba(244, 163, 0, 0.22),
+    0 10px 28px rgba(244, 163, 0, 0.28),
+    var(--sombra-md);
+  overflow: visible;
+}
+.producto.es-nuevo:hover {
+  border-color: #d98a00;
+  box-shadow:
+    0 0 0 4px rgba(244, 163, 0, 0.30),
+    0 14px 34px rgba(244, 163, 0, 0.38),
+    var(--sombra-md);
+  transform: translateY(-3px);
+}
+.producto.es-nuevo .badge-prod.badge-nuevo { display: none; }
+
+.producto.es-nuevo::before {
+  content: 'NUEVO';
+  position: absolute;
+  top: -12px;
+  right: -10px;
+  padding: 6px 12px;
+  background: linear-gradient(135deg, #ff5a5f 0%, #d32f2f 60%, #a01717 100%);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: .08em;
+  border-radius: 999px;
+  box-shadow: 0 6px 16px rgba(211, 47, 47, 0.45);
+  transform: rotate(4deg);
+  animation: jilbertNuevoPulse 2.4s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 3;
+}
+@keyframes jilbertNuevoPulse {
+  0%, 100% { transform: rotate(4deg) translateY(0); }
+  50%      { transform: rotate(4deg) translateY(-3px); }
+}
+.producto.es-nuevo.seleccionado {
+  border-color: var(--rojo);
+  box-shadow:
+    0 0 0 3px rgba(211, 47, 47, 0.18),
+    0 10px 28px rgba(211, 47, 47, 0.28),
+    var(--sombra-md);
+}
+@media (prefers-reduced-motion: reduce) {
+  .producto.es-nuevo::before { animation: none; }
+  .producto.es-nuevo:hover { transform: none; }
+}
