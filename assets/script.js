@@ -108,12 +108,20 @@
         '<label>Nombre<input type="text" id="pago-nombre" required></label>' +
         '<label>Direcci\u00F3n o nota<input type="text" id="pago-nota"></label>' +
         '<label>Tipo de pago<select id="pago-tipo"></select></label>' +
-        '<label>Referencia del pago<input type="text" id="pago-referencia"></label>' +
+        '<label id="pago-referencia-wrap" style="display:none">Referencia del pago<input type="text" id="pago-referencia"></label>' +
         '<button type="submit" class="btn-wa" id="pago-enviar">Confirmar y enviar pago</button>' +
       '</form>';
     aside.appendChild(div);
     var form = div.querySelector('#pago-form');
     if (form) form.addEventListener('submit', function (ev) { ev.preventDefault(); enviarContado(); });
+    var selTipo = div.querySelector('#pago-tipo');
+    if (selTipo) selTipo.addEventListener('change', function () {
+      var wrap = document.getElementById('pago-referencia-wrap');
+      var inp = document.getElementById('pago-referencia');
+      var mostrar = selTipo.value === 'Pago m\u00F3vil';
+      if (wrap) wrap.style.display = mostrar ? '' : 'none';
+      if (!mostrar && inp) inp.value = '';
+    });
     var btnCerrar = div.querySelector('#carrito-pago-cerrar');
     if (btnCerrar) btnCerrar.addEventListener('click', cerrarPanelPago);
   }
@@ -234,7 +242,7 @@
     if (opciones.nombre)     lineas.push('*Cliente:* ' + opciones.nombre);
     if (opciones.nota)       lineas.push('*Direcci\u00F3n/Nota:* ' + opciones.nota);
     if (opciones.tipoPago)   lineas.push('*Tipo de pago:* ' + opciones.tipoPago);
-    if (opciones.referencia) lineas.push('*Referencia:* ' + opciones.referencia);
+    if (opciones.referencia && opciones.tipoPago === 'Pago m\u00F3vil') lineas.push('*Referencia:* ' + opciones.referencia);
     return lineas;
   }
 
@@ -263,7 +271,7 @@
       nombre: nombre,
       nota: nota,
       tipoPago: tipo,
-      referencia: ref
+      referencia: (tipo === 'Pago m\u00F3vil') ? ref : ''
     }));
     limpiarCarritoTrasEnvio();
     cerrarPanelPago();
