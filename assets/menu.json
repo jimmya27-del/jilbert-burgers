@@ -103,7 +103,7 @@
           "precio": 2,
           "foto": "assets/img/prod-bebidas-b6.jpg",
           "badge": "",
-          "orden": 12
+          "orden": 13
         },
         {
           "id": "h14",
@@ -113,7 +113,7 @@
           "foto": "assets/img/prod-bebidas-h14.jpg",
           "badge": "nuevo",
           "activo": true,
-          "orden": 13
+          "orden": 10
         }
       ]
     },
@@ -142,7 +142,7 @@
           "precio": 14.99,
           "foto": "assets/img/prod-combo-0.jpg",
           "badge": "",
-          "orden": 10
+          "orden": 11
         },
         {
           "id": "h6",
@@ -151,7 +151,7 @@
           "precio": 12.99,
           "foto": "assets/img/prod-combos-descuento-h6.jpg",
           "badge": "",
-          "orden": 11
+          "orden": 12
         }
       ]
     },
@@ -218,5 +218,4 @@
   },
   "upsell_id": "h14",
   "upsell_id_2": "b6"
-
 }
