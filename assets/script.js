@@ -383,8 +383,8 @@
     if (!d) return '';
     return '<details class="desc-detalle">' +
              '<summary class="desc-toggle">' +
-               '<span class="txt-mas">Ver m\u00E1s</span>' +
-               '<span class="txt-menos">Ver menos</span>' +
+               '<span class="txt-mas">Ver descripci\u00F3n</span>' +
+               '<span class="txt-menos">Ocultar descripci\u00F3n</span>' +
              '</summary>' +
              '<p class="desc">' + d + '</p>' +
            '</details>';
@@ -754,6 +754,7 @@
         if (!id || !cat || !menuData) return;
         var prod = menuData.categorias[cat].productos.find(function (x) { return x.id === id; });
         if (!prod) return;
+        if (ev.target.closest && ev.target.closest('.desc-detalle')) { return; }
         if (ev.target.classList && ev.target.classList.contains('btn-menos')) {
           if (cantidadDe(id) > 0) { cambiarCantidad(id, -1); animarTarjeta(card); }
           ev.stopPropagation();
