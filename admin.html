@@ -1650,7 +1650,22 @@
       var el = e.target;
       if(!el || !el.getAttribute){ return; }
       if(el.getAttribute('data-campo') === 'foto'){
-        actualizarPreviewFoto(el.closest('.tarjeta-producto'));
+        var tarjeta = el.closest('.tarjeta-producto');
+        if(tarjeta){
+          var idProd = tarjeta.getAttribute('data-id');
+          var nuevoFoto = (el.value || '').trim();
+          if(idProd && menuCache && menuCache.categorias){
+            Object.keys(menuCache.categorias).forEach(function(slug){
+              var arr = (menuCache.categorias[slug] && menuCache.categorias[slug].productos) || [];
+              for(var k=0; k<arr.length; k++){
+                if(arr[k] && arr[k].id === idProd){ arr[k].foto = nuevoFoto; }
+              }
+            });
+            guardarDraftLocal();
+            marcarDraftEnHeader();
+          }
+        }
+        actualizarPreviewFoto(tarjeta);
       }
     });
 
@@ -1749,7 +1764,9 @@
       redimensionarImagen(f, 600, 0.8, { subir:true, token:token, ruta:ruta, commitMsg:'admin: subir ' + ruta }).then(function(rutaFinal){
         var input = tarjeta.querySelector('[data-campo="foto"]');
         if (input) { input.value = rutaFinal; input.dispatchEvent(new Event('input', { bubbles: true })); }
-        alert('Foto subida a ' + rutaFinal + '. Pulsa "Guardar en GitHub" para persistir menu.json.');
+                alert('Foto subida a ' + rutaFinal + '. Guardando men\u00FA en GitHub\u2026');
+        var btnGH = document.getElementById('btnGuardarGH');
+        if(btnGH){ btnGH.click(); }
         inp.remove();
       }).catch(function(err){
         alert('Error al subir la foto: ' + (err && err.message ? err.message : err));
