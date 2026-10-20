@@ -1,7 +1,7 @@
 {
   "negocio": {
-    "moneda": "EUR",
-    "tasa_bcv": 985.73,
+    "moneda": "USD",
+    "tasa_bcv": 881.88,
     "descuento_contado": 10,
     "pago": {
       "pago_movil": {
@@ -48,7 +48,7 @@
           "id": "s4",
           "nombre": "Salchipapas normal grande",
           "desc": "¿Un antojo clásico?  ¡Nuestra Salchipapa Clásica es para ti!  Papas fritas doradas  Salchichas jugosas  Salsas secretas Queso de año gratinado  Peso Aprox: 400 gr  ¡Puro sabor tradicional!",
-          "precio": 7,
+          "precio": 8,
           "foto": "assets/img/prod-salchipapas-s4.jpg",
           "badge": "",
           "orden": 5
@@ -57,7 +57,7 @@
           "id": "s5",
           "nombre": "Salchipapas normal pequeño",
           "desc": "¿Un antojo clásico?  ¡Nuestra Salchipapa Clásica Pequeña es para ti!  Papas fritas doradas  Salchichas jugosas  Salsas secretas, Queso de año gratinado, Peso Aprox: 250 gr  ¡Puro sabor tradicional!",
-          "precio": 5,
+          "precio": 5.5,
           "foto": "assets/img/prod-salchipapas-s5.jpg",
           "badge": "",
           "orden": 3
@@ -130,7 +130,7 @@
           "id": "h7",
           "nombre": "COMBO ENAMORADOS",
           "desc": "2 Hamburguesas de pollo crispy + Salchipapas normal grande + Coca-Cola 1LITRO precio normal 26. PRECIO ESPECIAL 21,50 AHORRAS aproximadamente 25%",
-          "precio": 21.5,
+          "precio": 24.5,
           "foto": "assets/img/prod-combo-2.jpg",
           "badge": "",
           "orden": 2
@@ -139,16 +139,16 @@
           "id": "h5",
           "nombre": "COMBO (1) CLÁSICO JILBERT",
           "desc": "Combo Clasico Jilbert  ¡Dos clásicos llenos de sabor! Disfruta de:  1 Hamburguesa Normal  1 Salchipapa Normal Grande  1 Refresco de 1L. Precio Especial ~",
-          "precio": 14.99,
+          "precio": 16.99,
           "foto": "assets/img/prod-combo-0.jpg",
           "badge": "",
           "orden": 11
         },
         {
           "id": "h6",
-          "nombre": "COMBO (6) NIÃ‘OS",
+          "nombre": "COMBO (6) NIÑOS",
           "desc": "¡Combo Consentidos! Porque los más pequeños merecen lo mejor, Incluye:  3 Salchipapas Normales pequeños,  1 Refresco Coca-Cola de 1L,  Precio Imperdible  ¡Sabor, diversión y ahorro en un solo combo!",
-          "precio": 12.99,
+          "precio": 14.5,
           "foto": "assets/img/prod-combos-descuento-h6.jpg",
           "badge": "",
           "orden": 12
@@ -163,7 +163,7 @@
           "id": "h8",
           "nombre": "BURGER DE CARNE NORMAL",
           "desc": "¡Sabor clásico con el toque JB! Disfruta de 120g de nuestra jugosa carne, los quesos Mozzarella y Cheddar derretidos, lechuga y tomate fresco, todo en un suave pan brioche. Con papitas cabello de ángel, nuestras salsas secretas y ¡de regalo! unas papas fritas premium.",
-          "precio": 8.5,
+          "precio": 9.5,
           "foto": "assets/img/prod-hamburguesas-carne-h8.jpg",
           "badge": "",
           "orden": 4
@@ -172,7 +172,7 @@
           "id": "h11",
           "nombre": "BURGER DE CARNE ESPECIAL",
           "desc": "¡La hamburguesa que no se guarda nada!\n\n120g de jugosa carne, huevo, jamón frito, tocineta ahumada y una doble capa de quesos mozzarella y cheddar derretidos. Con lechuga y tomate fresco en pan brioche, papitas cabello de ángel, nuestras salsas JB y ¡de regalo! papas fritas de la mejor calidad.",
-          "precio": 9.99,
+          "precio": 11.5,
           "foto": "assets/img/prod-hamburguesas-nuevo-1792108148609.jpg",
           "badge": "",
           "activo": true,
@@ -188,16 +188,16 @@
           "id": "h9",
           "nombre": "BURGER CRISPY DE POLLO",
           "desc": "¡La hamburguesa que lo tiene TODO! Pan brioche, pollo crispy de 150g, y una doble mezcla de quesos mozzarella y cheddar derretidos. Acompañada de papitas cabello de ángel, nuestras salsas secretas de JB y, ¡de regalo!, una ración de papas fritas premium.",
-          "precio": 8.5,
+          "precio": 9.5,
           "foto": "assets/img/prod-hamburguesas-pollo-h9.jpg",
-          "badge": "",
+          "badge": "top",
           "orden": 1
         },
         {
           "id": "h10",
           "nombre": "BURGER CRISPY ESPECIAL",
           "desc": "El Crispy Deluxe: Una experiencia de lujo.\nDisfruta de un esponjoso  pan brioche con lechuga y tomate frescos, coronada con 150g de nuestro jugoso pollo crispy. Acompañamos este  clásico mejorado con: huevo frito, jamón de espalda y tocineta ahumada de primera calidad.\nLa mezcla de quesos mozzarella y cheddar derretidos une todos los sabores, mientras las crujientes papitas cabello de ángel añaden textura, todo acompañado de nuestras salsas JB.\nY como cortesía de la casa, una ración de papas fritas",
-          "precio": 9.99,
+          "precio": 11.5,
           "foto": "assets/img/prod-hamburguesas-nuevo-1792107819973.jpg",
           "badge": "",
           "activo": true,
