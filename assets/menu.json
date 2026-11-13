@@ -1,8 +1,8 @@
 {
   "negocio": {
     "moneda": "USD",
-    "tasa_bcv": 896.12,
-    "descuento_contado": 10,
+    "tasa_bcv": 911.62,
+    "descuento_contado": 0,
     "pago": {
       "pago_movil": {
         "banco": "Banco de Venezuela",
@@ -32,7 +32,7 @@
   },
   "hero": {
     "titulo": "Comida Rápida, pero Bien Hecha...",
-    "subtitulo": "OFERTA ESPECIAL DEL 10% PARA COMPRAS DESDE ESTE MENU"
+    "subtitulo": "TODAS NUESTRAS BURGERS VAN CON RACION DE PAPAS GRATIS"
   },
   "categorias": {
     "hamburguesas": {
