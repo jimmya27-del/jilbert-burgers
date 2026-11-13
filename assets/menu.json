@@ -1,9 +1,9 @@
-﻿{
+{
   "negocio": {
     "moneda": "USD",
     "tasa_bcv": 911.62,
     "descuento_contado": 0,
-    "texto_boton_pago": "",
+    "texto_boton_pago": "PAGAR AHORA",
     "pago": {
       "pago_movil": {
         "banco": "Banco de Venezuela",
