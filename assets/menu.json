@@ -71,7 +71,10 @@
           "foto": "assets/img/prod-bebidas-h12.jpg",
           "badge": "nuevo",
           "activo": true,
-          "orden": 8
+          "orden": 8,
+          "likes": 0,
+          "extras": [],
+          "ingredientes": []
         },
         {
           "id": "s2",
@@ -114,7 +117,10 @@
           "foto": "assets/img/prod-bebidas-h14.jpg",
           "badge": "nuevo",
           "activo": true,
-          "orden": 10
+          "orden": 10,
+          "likes": 0,
+          "extras": [],
+          "ingredientes": []
         }
       ]
     },
@@ -212,7 +218,10 @@
           "foto": "assets/img/prod-hamburguesas-pollo-nuevo-1792253177235.jpg",
           "badge": "nuevo",
           "activo": true,
-          "orden": 9
+          "orden": 9,
+          "likes": 0,
+          "extras": [],
+          "ingredientes": []
         }
       ]
     }
