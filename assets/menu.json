@@ -113,7 +113,7 @@
           "precio": 1,
           "foto": "assets/img/prod-bebidas-h14.jpg",
           "badge": "nuevo",
-          "activo": true,
+          "activo": false,
           "orden": 10
         }
       ]
