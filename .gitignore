@@ -33,3 +33,10 @@ _*.ps1
 
 # Archivo local de backups (FASE 11)
 .bak-archive/
+# Notas internas / traspasos - no publicar
+AVANCE-PROYECTO.txt
+PROMPT_TRASPASO*
+TRASPASO-*
+
+# Backups de menu.json
+assets/menu.json.bak2
