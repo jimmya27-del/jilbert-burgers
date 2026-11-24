@@ -54,7 +54,17 @@
                                                                  "precio":  8,
                                                                  "foto":  "assets/img/prod-salchipapas-s4.jpg",
                                                                  "badge":  "",
-                                                                 "orden":  5
+                                                                 "orden":  5,
+                                                                 "media":  [
+                                                                               {
+                                                                                   "tipo":  "foto",
+                                                                                   "src":  "assets/img/prod-salchipapas-s4.jpg"
+                                                                               },
+                                                                               {
+                                                                                   "tipo":  "foto",
+                                                                                   "src":  "assets/img/1795541720743-WhatsApp_Image_2026-10-11_at_9.18.04_PM20.jpeg"
+                                                                               }
+                                                                           ]
                                                              },
                                                              {
                                                                  "id":  "s5",
@@ -63,7 +73,13 @@
                                                                  "precio":  5.5,
                                                                  "foto":  "assets/img/prod-salchipapas-s5.jpg",
                                                                  "badge":  "",
-                                                                 "orden":  3
+                                                                 "orden":  3,
+                                                                 "media":  [
+                                                                               {
+                                                                                   "tipo":  "foto",
+                                                                                   "src":  "assets/img/prod-salchipapas-s5.jpg"
+                                                                               }
+                                                                           ]
                                                              },
                                                              {
                                                                  "id":  "h12",
@@ -73,7 +89,13 @@
                                                                  "foto":  "assets/img/prod-bebidas-h12.jpg",
                                                                  "badge":  "nuevo",
                                                                  "activo":  true,
-                                                                 "orden":  8
+                                                                 "orden":  8,
+                                                                 "media":  [
+                                                                               {
+                                                                                   "tipo":  "foto",
+                                                                                   "src":  "assets/img/prod-bebidas-h12.jpg"
+                                                                               }
+                                                                           ]
                                                              },
                                                              {
                                                                  "id":  "s2",
@@ -81,7 +103,10 @@
                                                                  "desc":  "Papas, salchicha, carne, pollo, queso y salsas de la casa.",
                                                                  "precio":  6,
                                                                  "activo":  false,
-                                                                 "orden":  14
+                                                                 "orden":  14,
+                                                                 "media":  [
+
+                                                                           ]
                                                              }
                                                          ]
                                        },
@@ -97,7 +122,13 @@
                                                              "foto":  "assets/img/prod-bebidas-b6.jpg",
                                                              "badge":  "",
                                                              "activo":  false,
-                                                             "orden":  15
+                                                             "orden":  15,
+                                                             "media":  [
+                                                                           {
+                                                                               "tipo":  "foto",
+                                                                               "src":  "assets/img/prod-bebidas-b6.jpg"
+                                                                           }
+                                                                       ]
                                                          },
                                                          {
                                                              "id":  "b6",
@@ -106,7 +137,13 @@
                                                              "precio":  2,
                                                              "foto":  "assets/img/prod-bebidas-b6.jpg",
                                                              "badge":  "",
-                                                             "orden":  13
+                                                             "orden":  13,
+                                                             "media":  [
+                                                                           {
+                                                                               "tipo":  "foto",
+                                                                               "src":  "assets/img/prod-bebidas-b6.jpg"
+                                                                           }
+                                                                       ]
                                                          },
                                                          {
                                                              "id":  "h14",
@@ -116,7 +153,13 @@
                                                              "foto":  "assets/img/prod-bebidas-h14.jpg",
                                                              "badge":  "nuevo",
                                                              "activo":  false,
-                                                             "orden":  10
+                                                             "orden":  10,
+                                                             "media":  [
+                                                                           {
+                                                                               "tipo":  "foto",
+                                                                               "src":  "assets/img/prod-bebidas-h14.jpg"
+                                                                           }
+                                                                       ]
                                                          }
                                                      ]
                                    },
@@ -138,7 +181,13 @@
                                                                       "precio":  24.5,
                                                                       "foto":  "assets/img/prod-hamburguesas-h7.jpg",
                                                                       "badge":  "",
-                                                                      "orden":  2
+                                                                      "orden":  2,
+                                                                      "media":  [
+                                                                                    {
+                                                                                        "tipo":  "foto",
+                                                                                        "src":  "assets/img/prod-hamburguesas-h7.jpg"
+                                                                                    }
+                                                                                ]
                                                                   },
                                                                   {
                                                                       "id":  "h5",
@@ -147,7 +196,13 @@
                                                                       "precio":  16.99,
                                                                       "foto":  "assets/img/prod-combo-0.jpg",
                                                                       "badge":  "",
-                                                                      "orden":  11
+                                                                      "orden":  11,
+                                                                      "media":  [
+                                                                                    {
+                                                                                        "tipo":  "foto",
+                                                                                        "src":  "assets/img/prod-combo-0.jpg"
+                                                                                    }
+                                                                                ]
                                                                   },
                                                                   {
                                                                       "id":  "h6",
@@ -156,7 +211,13 @@
                                                                       "precio":  14.5,
                                                                       "foto":  "assets/img/prod-combos-descuento-h6.jpg",
                                                                       "badge":  "",
-                                                                      "orden":  12
+                                                                      "orden":  12,
+                                                                      "media":  [
+                                                                                    {
+                                                                                        "tipo":  "foto",
+                                                                                        "src":  "assets/img/prod-combos-descuento-h6.jpg"
+                                                                                    }
+                                                                                ]
                                                                   }
                                                               ]
                                             },
@@ -171,7 +232,13 @@
                                                                         "precio":  9.5,
                                                                         "foto":  "assets/img/prod-hamburguesas-carne-h8.jpg",
                                                                         "badge":  "",
-                                                                        "orden":  4
+                                                                        "orden":  4,
+                                                                        "media":  [
+                                                                                      {
+                                                                                          "tipo":  "foto",
+                                                                                          "src":  "assets/img/prod-hamburguesas-carne-h8.jpg"
+                                                                                      }
+                                                                                  ]
                                                                     },
                                                                     {
                                                                         "id":  "h11",
@@ -181,7 +248,13 @@
                                                                         "foto":  "assets/img/prod-hamburguesas-nuevo-1792108148609.jpg",
                                                                         "badge":  "",
                                                                         "activo":  true,
-                                                                        "orden":  7
+                                                                        "orden":  7,
+                                                                        "media":  [
+                                                                                      {
+                                                                                          "tipo":  "foto",
+                                                                                          "src":  "assets/img/prod-hamburguesas-nuevo-1792108148609.jpg"
+                                                                                      }
+                                                                                  ]
                                                                     }
                                                                 ]
                                               },
@@ -196,7 +269,25 @@
                                                                         "precio":  9.5,
                                                                         "foto":  "assets/img/prod-hamburguesas-pollo-h9.jpg",
                                                                         "badge":  "top",
-                                                                        "orden":  1
+                                                                        "orden":  1,
+                                                                        "media":  [
+                                                                                      {
+                                                                                          "tipo":  "foto",
+                                                                                          "src":  "assets/img/prod-hamburguesas-pollo-h9.jpg"
+                                                                                      },
+                                                                                      {
+                                                                                          "tipo":  "video",
+                                                                                          "src":  "assets/video/1795525833967-WhatsApp_Video_2026-11-24_at_9.04.02_AM.mp4"
+                                                                                      },
+                                                                                      {
+                                                                                          "tipo":  "foto",
+                                                                                          "src":  "assets/img/1795525925713-WhatsApp_Image_2026-07-23_at_4.35.46_PM.jpeg"
+                                                                                      },
+                                                                                      {
+                                                                                          "tipo":  "foto",
+                                                                                          "src":  "assets/img/1795526346623-WhatsApp_Image_2026-08-31_at_11.27.49_PM.jpeg"
+                                                                                      }
+                                                                                  ]
                                                                     },
                                                                     {
                                                                         "id":  "h10",
@@ -206,7 +297,13 @@
                                                                         "foto":  "assets/img/prod-hamburguesas-nuevo-1792107819973.jpg",
                                                                         "badge":  "",
                                                                         "activo":  true,
-                                                                        "orden":  6
+                                                                        "orden":  6,
+                                                                        "media":  [
+                                                                                      {
+                                                                                          "tipo":  "foto",
+                                                                                          "src":  "assets/img/prod-hamburguesas-nuevo-1792107819973.jpg"
+                                                                                      }
+                                                                                  ]
                                                                     },
                                                                     {
                                                                         "id":  "h13",
@@ -216,7 +313,13 @@
                                                                         "foto":  "assets/img/prod-hamburguesas-pollo-nuevo-1792253177235.jpg",
                                                                         "badge":  "nuevo",
                                                                         "activo":  true,
-                                                                        "orden":  9
+                                                                        "orden":  9,
+                                                                        "media":  [
+                                                                                      {
+                                                                                          "tipo":  "foto",
+                                                                                          "src":  "assets/img/prod-hamburguesas-pollo-nuevo-1792253177235.jpg"
+                                                                                      }
+                                                                                  ]
                                                                     }
                                                                 ]
                                               }

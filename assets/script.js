@@ -794,8 +794,7 @@
       });
     }
 
-    fetch('assets/menu.json')
-      .then(function (r) { return r.json(); })
+    (window.MENU ? Promise.resolve(window.MENU) : fetch('assets/menu.json').then(function(r){return r.json()}))
       .then(function (data) {
         menuData = data;
         actualizarTextoBotonPago();
