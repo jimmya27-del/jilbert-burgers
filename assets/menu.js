@@ -1,4 +1,4 @@
-﻿// Generado desde menu.json — no editar a mano
+// Generado desde menu.json - no editar a mano
 window.MENU = {
     "negocio":  {
                     "moneda":  "USD",
@@ -22,7 +22,7 @@ window.MENU = {
                                  "instrucciones":  "Efectivo"
                              },
                     "whatsapp":  "04124409025",
-                    "direccion":  "Barrio San Luis, calle Juan Borges N├é┬░ 11-B, Maracay, Aragua",
+                    "direccion":  "Barrio San Luis, calle Juan Borges N° 11-B, Maracay, Aragua",
                     "facebook":  "https://www.facebook.com/profile.php?id=61577402302384",
                     "correo":  "jilbertburgers@gmail.com",
                     "logo":  "assets/img/logo.jpg",
@@ -33,7 +33,7 @@ window.MENU = {
                                  }
                 },
     "hero":  {
-                 "titulo":  "Comida R├ípida, pero Bien Hecha...",
+                 "titulo":  "Comida Rápida, pero Bien Hecha...",
                  "subtitulo":  "TODAS NUESTRAS BURGERS VAN CON RACION DE PAPAS GRATIS"
              },
     "categorias":  {
@@ -51,7 +51,7 @@ window.MENU = {
                                                              {
                                                                  "id":  "s4",
                                                                  "nombre":  "Salchipapas normal grande",
-                                                                 "desc":  "┬┐Un antojo cl├ísico?  ┬íNuestra Salchipapa Cl├ísica es para ti!  Papas fritas doradas  Salchichas jugosas  Salsas secretas Queso de a├▒o gratinado  Peso Aprox: 400 gr  ┬íPuro sabor tradicional!",
+                                                                 "desc":  "¿Un antojo clásico?  ¡Nuestra Salchipapa Clásica es para ti!  Papas fritas doradas  Salchichas jugosas  Salsas secretas Queso de año gratinado  Peso Aprox: 400 gr  ¡Puro sabor tradicional!",
                                                                  "precio":  8,
                                                                  "foto":  "assets/img/prod-salchipapas-s4.jpg",
                                                                  "badge":  "",
@@ -69,8 +69,8 @@ window.MENU = {
                                                              },
                                                              {
                                                                  "id":  "s5",
-                                                                 "nombre":  "Salchipapas normal peque├▒o",
-                                                                 "desc":  "┬┐Un antojo cl├ísico?  ┬íNuestra Salchipapa Cl├ísica Peque├▒a es para ti!  Papas fritas doradas  Salchichas jugosas  Salsas secretas, Queso de a├▒o gratinado, Peso Aprox: 250 gr  ┬íPuro sabor tradicional!",
+                                                                 "nombre":  "Salchipapas normal pequeño",
+                                                                 "desc":  "¿Un antojo clásico?  ¡Nuestra Salchipapa Clásica Pequeña es para ti!  Papas fritas doradas  Salchichas jugosas  Salsas secretas, Queso de año gratinado, Peso Aprox: 250 gr  ¡Puro sabor tradicional!",
                                                                  "precio":  5.5,
                                                                  "foto":  "assets/img/prod-salchipapas-s5.jpg",
                                                                  "badge":  "",
@@ -85,7 +85,7 @@ window.MENU = {
                                                              {
                                                                  "id":  "h12",
                                                                  "nombre":  "SALCHIPAPA CRISPY ESPECIAL",
-                                                                 "desc":  "Salchipapa Crispy Especial\nPapas fritas doraditas y crujientes, salchichas, pollo crispy, cheddar y mozzarella derretidos, ba├▒ada con nuestras salsas de la casa. El antojo que s├¡ vale la pena.",
+                                                                 "desc":  "Salchipapa Crispy Especial\nPapas fritas doraditas y crujientes, salchichas, pollo crispy, cheddar y mozzarella derretidos, bañada con nuestras salsas de la casa. El antojo que sí vale la pena.",
                                                                  "precio":  11.5,
                                                                  "foto":  "assets/img/prod-bebidas-h12.jpg",
                                                                  "badge":  "nuevo",
@@ -118,7 +118,7 @@ window.MENU = {
                                                          {
                                                              "id":  "b5",
                                                              "nombre":  "Refresco Coca cola de lata",
-                                                             "desc":  "Refresco Coca-Cola en presentaci├│n de lata.",
+                                                             "desc":  "Refresco Coca-Cola en presentación de lata.",
                                                              "precio":  1.5,
                                                              "foto":  "assets/img/prod-bebidas-b6.jpg",
                                                              "badge":  "",
@@ -134,7 +134,7 @@ window.MENU = {
                                                          {
                                                              "id":  "b6",
                                                              "nombre":  "Refresco Coca-Cola de 1 Litro",
-                                                             "desc":  "Refresco Coca-Cola en presentaci├│n de 1 Litro.",
+                                                             "desc":  "Refresco Coca-Cola en presentación de 1 Litro.",
                                                              "precio":  2,
                                                              "foto":  "assets/img/prod-bebidas-b6.jpg",
                                                              "badge":  "",
@@ -149,7 +149,7 @@ window.MENU = {
                                                          {
                                                              "id":  "h14",
                                                              "nombre":  "CREMITOS DE FRUTA",
-                                                             "desc":  "≡ƒìô≡ƒìº≡ƒÑñ≡ƒì╣ Cremitos de Fruta\n\nNuestros heladitos cremosos de la casa, servidos en su vasito con tapita, listos para llevar y disfrutar donde quieras. S├║per cremositos, pero con el sabor real de la fruta. Elige tu favorito: fresa, durazno, pi├▒a o parchita. Un postre rico, refrescante y del tama├▒o perfecto para consentirte.",
+                                                             "desc":  "🍓🍧🥤🍹 Cremitos de Fruta\n\nNuestros heladitos cremosos de la casa, servidos en su vasito con tapita, listos para llevar y disfrutar donde quieras. Súper cremositos, pero con el sabor real de la fruta. Elige tu favorito: fresa, durazno, piña o parchita. Un postre rico, refrescante y del tamaño perfecto para consentirte.",
                                                              "precio":  1,
                                                              "foto":  "assets/img/prod-bebidas-h14.jpg",
                                                              "badge":  "nuevo",
@@ -192,8 +192,8 @@ window.MENU = {
                                                                   },
                                                                   {
                                                                       "id":  "h5",
-                                                                      "nombre":  "COMBO (1) CL├üSICO JILBERT",
-                                                                      "desc":  "Combo Clasico Jilbert  ┬íDos cl├ísicos llenos de sabor! Disfruta de:  1 Hamburguesa Normal  1 Salchipapa Normal Grande  1 Refresco de 1L. Precio Especial ~",
+                                                                      "nombre":  "COMBO (1) CLÁSICO JILBERT",
+                                                                      "desc":  "Combo Clasico Jilbert  ¡Dos clásicos llenos de sabor! Disfruta de:  1 Hamburguesa Normal  1 Salchipapa Normal Grande  1 Refresco de 1L. Precio Especial ~",
                                                                       "precio":  16.99,
                                                                       "foto":  "assets/img/prod-combo-0.jpg",
                                                                       "badge":  "",
@@ -207,8 +207,8 @@ window.MENU = {
                                                                   },
                                                                   {
                                                                       "id":  "h6",
-                                                                      "nombre":  "COMBO (6) NI├æOS",
-                                                                      "desc":  "┬íCombo Consentidos! Porque los m├ís peque├▒os merecen lo mejor, Incluye:  3 Salchipapas Normales peque├▒os,  1 Refresco Coca-Cola de 1L,  Precio Imperdible  ┬íSabor, diversi├│n y ahorro en un solo combo!",
+                                                                      "nombre":  "COMBO (6) NIÑOS",
+                                                                      "desc":  "¡Combo Consentidos! Porque los más pequeños merecen lo mejor, Incluye:  3 Salchipapas Normales pequeños,  1 Refresco Coca-Cola de 1L,  Precio Imperdible  ¡Sabor, diversión y ahorro en un solo combo!",
                                                                       "precio":  14.5,
                                                                       "foto":  "assets/img/prod-combos-descuento-h6.jpg",
                                                                       "badge":  "",
@@ -229,7 +229,7 @@ window.MENU = {
                                                                     {
                                                                         "id":  "h8",
                                                                         "nombre":  "BURGER DE CARNE NORMAL",
-                                                                        "desc":  "┬íSabor cl├ísico con el toque JB! Disfruta de 120g de nuestra jugosa carne, los quesos Mozzarella y Cheddar derretidos, lechuga y tomate fresco, todo en un suave pan brioche. Con papitas cabello de ├íngel, nuestras salsas secretas y ┬íde regalo! unas papas fritas premium.",
+                                                                        "desc":  "¡Sabor clásico con el toque JB! Disfruta de 120g de nuestra jugosa carne, los quesos Mozzarella y Cheddar derretidos, lechuga y tomate fresco, todo en un suave pan brioche. Con papitas cabello de ángel, nuestras salsas secretas y ¡de regalo! unas papas fritas premium.",
                                                                         "precio":  9.5,
                                                                         "foto":  "assets/img/prod-hamburguesas-carne-h8.jpg",
                                                                         "badge":  "",
@@ -244,7 +244,7 @@ window.MENU = {
                                                                     {
                                                                         "id":  "h11",
                                                                         "nombre":  "BURGER DE CARNE ESPECIAL",
-                                                                        "desc":  "┬íLa hamburguesa que no se guarda nada!\n\n120g de jugosa carne, huevo, jam├│n frito, tocineta ahumada y una doble capa de quesos mozzarella y cheddar derretidos. Con lechuga y tomate fresco en pan brioche, papitas cabello de ├íngel, nuestras salsas JB y ┬íde regalo! papas fritas de la mejor calidad.",
+                                                                        "desc":  "¡La hamburguesa que no se guarda nada!\n\n120g de jugosa carne, huevo, jamón frito, tocineta ahumada y una doble capa de quesos mozzarella y cheddar derretidos. Con lechuga y tomate fresco en pan brioche, papitas cabello de ángel, nuestras salsas JB y ¡de regalo! papas fritas de la mejor calidad.",
                                                                         "precio":  11.5,
                                                                         "foto":  "assets/img/prod-hamburguesas-nuevo-1792108148609.jpg",
                                                                         "badge":  "",
@@ -266,7 +266,7 @@ window.MENU = {
                                                                     {
                                                                         "id":  "h9",
                                                                         "nombre":  "BURGER CRISPY DE POLLO",
-                                                                        "desc":  "┬íLa hamburguesa que lo tiene TODO! Pan brioche, pollo crispy de 150g, y una doble mezcla de quesos mozzarella y cheddar derretidos. Acompa├▒ada de papitas cabello de ├íngel, nuestras salsas secretas de JB y, ┬íde regalo!, una raci├│n de papas fritas premium.",
+                                                                        "desc":  "¡La hamburguesa que lo tiene TODO! Pan brioche, pollo crispy de 150g, y una doble mezcla de quesos mozzarella y cheddar derretidos. Acompañada de papitas cabello de ángel, nuestras salsas secretas de JB y, ¡de regalo!, una ración de papas fritas premium.",
                                                                         "precio":  9.5,
                                                                         "foto":  "assets/img/prod-hamburguesas-pollo-h9.jpg",
                                                                         "badge":  "top",
@@ -293,7 +293,7 @@ window.MENU = {
                                                                     {
                                                                         "id":  "h10",
                                                                         "nombre":  "BURGER CRISPY ESPECIAL",
-                                                                        "desc":  "El Crispy Deluxe: Una experiencia de lujo.\nDisfruta de un esponjoso  pan brioche con lechuga y tomate frescos, coronada con 150g de nuestro jugoso pollo crispy. Acompa├▒amos este  cl├ísico mejorado con: huevo frito, jam├│n de espalda y tocineta ahumada de primera calidad.\nLa mezcla de quesos mozzarella y cheddar derretidos une todos los sabores, mientras las crujientes papitas cabello de ├íngel a├▒aden textura, todo acompa├▒ado de nuestras salsas JB.\nY como cortes├¡a de la casa, una raci├│n de papas fritas",
+                                                                        "desc":  "El Crispy Deluxe: Una experiencia de lujo.\nDisfruta de un esponjoso  pan brioche con lechuga y tomate frescos, coronada con 150g de nuestro jugoso pollo crispy. Acompañamos este  clásico mejorado con: huevo frito, jamón de espalda y tocineta ahumada de primera calidad.\nLa mezcla de quesos mozzarella y cheddar derretidos une todos los sabores, mientras las crujientes papitas cabello de ángel añaden textura, todo acompañado de nuestras salsas JB.\nY como cortesía de la casa, una ración de papas fritas",
                                                                         "precio":  11.5,
                                                                         "foto":  "assets/img/prod-hamburguesas-nuevo-1792107819973.jpg",
                                                                         "badge":  "",
@@ -309,7 +309,7 @@ window.MENU = {
                                                                     {
                                                                         "id":  "h13",
                                                                         "nombre":  "BURGERS MIXTA ESPECIAL",
-                                                                        "desc":  "La Consentida Mixta Premium.\n\nPan brioche premium horneado por un chef, salsa de la casa, lechuga, tomate, pollo, carne, mozzarella, cheddar, cabello de ├íngel, huevo, jam├│n, tocineta y su raci├│n de papas fritas.\n\nLa hamburguesa que se merece tu noviaΓÇª o t├║, que tambi├⌐n te lo mereces.",
+                                                                        "desc":  "La Consentida Mixta Premium.\n\nPan brioche premium horneado por un chef, salsa de la casa, lechuga, tomate, pollo, carne, mozzarella, cheddar, cabello de ángel, huevo, jamón, tocineta y su ración de papas fritas.\n\nLa hamburguesa que se merece tu novia… o tú, que también te lo mereces.",
                                                                         "precio":  14.5,
                                                                         "foto":  "assets/img/prod-hamburguesas-pollo-nuevo-1792253177235.jpg",
                                                                         "badge":  "nuevo",
@@ -328,4 +328,3 @@ window.MENU = {
     "upsell_id":  "h14",
     "upsell_id_2":  "b6"
 };
-
