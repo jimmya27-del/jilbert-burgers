@@ -2,7 +2,7 @@
 window.MENU = {
     "negocio":  {
                     "moneda":  "USD",
-                    "tasa_bcv":  "919.82",
+                    "tasa_bcv":  "922.56",
                     "descuento_contado":  0,
                     "texto_boton_pago":  "PAGAR AHORA",
                     "pago":  {
@@ -60,10 +60,6 @@ window.MENU = {
                                                                                {
                                                                                    "tipo":  "foto",
                                                                                    "src":  "assets/img/prod-salchipapas-s4.jpg"
-                                                                               },
-                                                                               {
-                                                                                   "tipo":  "foto",
-                                                                                   "src":  "assets/img/1795541720743-WhatsApp_Image_2026-10-11_at_9.18.04_PM20.jpeg"
                                                                                }
                                                                            ]
                                                              },
@@ -143,22 +139,6 @@ window.MENU = {
                                                                            {
                                                                                "tipo":  "foto",
                                                                                "src":  "assets/img/prod-bebidas-b6.jpg"
-                                                                           }
-                                                                       ]
-                                                         },
-                                                         {
-                                                             "id":  "h14",
-                                                             "nombre":  "CREMITOS DE FRUTA",
-                                                             "desc":  "🍓🍧🥤🍹 Cremitos de Fruta\n\nNuestros heladitos cremosos de la casa, servidos en su vasito con tapita, listos para llevar y disfrutar donde quieras. Súper cremositos, pero con el sabor real de la fruta. Elige tu favorito: fresa, durazno, piña o parchita. Un postre rico, refrescante y del tamaño perfecto para consentirte.",
-                                                             "precio":  1,
-                                                             "foto":  "assets/img/prod-bebidas-h14.jpg",
-                                                             "badge":  "nuevo",
-                                                             "activo":  false,
-                                                             "orden":  10,
-                                                             "media":  [
-                                                                           {
-                                                                               "tipo":  "foto",
-                                                                               "src":  "assets/img/prod-bebidas-h14.jpg"
                                                                            }
                                                                        ]
                                                          }
@@ -275,18 +255,6 @@ window.MENU = {
                                                                                       {
                                                                                           "tipo":  "foto",
                                                                                           "src":  "assets/img/prod-hamburguesas-pollo-h9.jpg"
-                                                                                      },
-                                                                                      {
-                                                                                          "tipo":  "video",
-                                                                                          "src":  "assets/video/1795525833967-WhatsApp_Video_2026-11-24_at_9.04.02_AM.mp4"
-                                                                                      },
-                                                                                      {
-                                                                                          "tipo":  "foto",
-                                                                                          "src":  "assets/img/1795525925713-WhatsApp_Image_2026-07-23_at_4.35.46_PM.jpeg"
-                                                                                      },
-                                                                                      {
-                                                                                          "tipo":  "foto",
-                                                                                          "src":  "assets/img/1795526346623-WhatsApp_Image_2026-08-31_at_11.27.49_PM.jpeg"
                                                                                       }
                                                                                   ]
                                                                     },
