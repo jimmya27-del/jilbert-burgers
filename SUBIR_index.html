@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jilbert Burgers &middot; Comida r&aacute;pida en Maracay</title>
+<link rel="icon" type="image/jpeg" href="assets/img/logo.jpg">
+<meta name="description" content="Hamburguesas, salchipapas, bebidas y combos. Pide por WhatsApp en Maracay, Aragua.">
+<link rel="stylesheet" href="assets/style.css?v=20261123133310">
+</head>
+<body data-vista="todos">
+
+<header class="cabecera">
+  <button class="btn-hamburguesa" id="btn-hamburguesa" aria-label="Abrir men&uacute;" aria-expanded="false">
+    <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true">
+      <rect x="3" y="6"  width="18" height="2" rx="1" fill="currentColor"/>
+      <rect x="3" y="11" width="18" height="2" rx="1" fill="currentColor"/>
+      <rect x="3" y="16" width="18" height="2" rx="1" fill="currentColor"/>
+    </svg>
+  </button>
+  <a href="index.html" class="logo" style="text-decoration:none;color:inherit;">
+    <span>Jilbert Burgers</span>
+  </a>
+</header>
+
+<aside class="menu-lateral" id="menu-lateral" aria-hidden="true">
+  <header class="menu-lateral-head">
+    <h3>Men&uacute;</h3>
+    <button id="menu-lateral-cerrar" aria-label="Cerrar men&uacute;">&times;</button>
+  </header>
+  <nav class="menu-lateral-lista" id="menu-lateral-lista"></nav>
+</aside>
+<div class="overlay" id="menu-overlay" aria-hidden="true"></div>
+
+<section class="logo-banda">
+  <img data-negocio="logo" alt="Jilbert Burgers" class="logo-banda-img">
+</section>
+
+<section class="hero">
+  <h1 id="hero-titulo"></h1>
+  <p id="hero-subtitulo"></p>
+</section>
+
+<h2 class="seccion-titulo">Nuestro Men&uacute;</h2>
+<section class="productos-todos" id="lista-productos"><div class="skeleton-grid"><div class="skeleton-card"><div class="sk-media"></div><div class="sk-line sk-titulo"></div><div class="sk-line sk-precio"></div><div class="sk-line sk-btn"></div><div class="sk-line sk-desc"></div></div><div class="skeleton-card"><div class="sk-media"></div><div class="sk-line sk-titulo"></div><div class="sk-line sk-precio"></div><div class="sk-line sk-btn"></div><div class="sk-line sk-desc"></div></div><div class="skeleton-card"><div class="sk-media"></div><div class="sk-line sk-titulo"></div><div class="sk-line sk-precio"></div><div class="sk-line sk-btn"></div><div class="sk-line sk-desc"></div></div><div class="skeleton-card"><div class="sk-media"></div><div class="sk-line sk-titulo"></div><div class="sk-line sk-precio"></div><div class="sk-line sk-btn"></div><div class="sk-line sk-desc"></div></div><div class="skeleton-card"><div class="sk-media"></div><div class="sk-line sk-titulo"></div><div class="sk-line sk-precio"></div><div class="sk-line sk-btn"></div><div class="sk-line sk-desc"></div></div><div class="skeleton-card"><div class="sk-media"></div><div class="sk-line sk-titulo"></div><div class="sk-line sk-precio"></div><div class="sk-line sk-btn"></div><div class="sk-line sk-desc"></div></div></div></section>
+
+<button class="carrito-btn" id="carrito-btn" aria-label="Ver carrito">
+  <span class="icono">&#128722;</span>
+  <span>Mi pedido</span>
+  <span class="badge" id="carrito-badge" style="display:none;">0</span>
+</button>
+
+<button class="share-btn" id="compartir-btn" aria-label="Compartir men&uacute; por WhatsApp" title="Compartir men&uacute;">
+  <svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true" fill="currentColor">
+    <path d="M16 3C9.4 3 4 8.4 4 15c0 2.4.7 4.7 2 6.6L4 29l7.6-2c1.9 1 3.9 1.5 6 1.5h.4C24.6 28.5 28 23.6 28 15 28 8.4 22.6 3 16 3zm0 22.5h-.4c-1.8 0-3.5-.5-5-1.4l-.4-.2-4.5 1.2 1.2-4.4-.2-.4C6 18.9 5.5 17 5.5 15 5.5 9.2 10.2 4.5 16 4.5S26.5 9.2 26.5 15 21.8 25.5 16 25.5zm5.7-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7.1c-.3-.2-1.3-.5-2.5-1.6-1-.9-1.6-1.9-1.8-2.2-.2-.3 0-.5.1-.6.1-.1.3-.4.5-.6.2-.2.3-.3.4-.5.1-.2 0-.4 0-.5s-.7-1.7-.9-2.3c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.2 5 4.5.7.3 1.2.5 1.7.6.7.2 1.3.2 1.8.1.6-.1 1.9-.8 2.2-1.6.3-.8.3-1.4.2-1.6-.1-.2-.3-.3-.6-.4z"/>
+  </svg>
+  <span>Compartir</span>
+</button>
+
+<aside class="carrito-panel" id="carrito-panel" aria-label="Carrito de compras">
+  <header>
+    <h2>Tu Pedido</h2>
+    <button id="carrito-cerrar" aria-label="Cerrar">&times;</button>
+  </header>
+  <div class="carrito-lista" id="carrito-lista"></div>
+  <div class="carrito-pie">
+    <div class="total"><span>Total</span><span id="carrito-total">&euro;0.00</span></div>
+    <button class="btn-wa" id="carrito-wa">Consultar por WhatsApp</button>
+    <button class="btn-contado" id="carrito-contado">Pagar ahora con 10% off</button>
+    <button class="btn-vaciar" id="carrito-vaciar">Vaciar carrito</button>
+  </div>
+</aside>
+
+<div class="upsell-modal" id="upsell-modal" aria-hidden="true" role="dialog" aria-labelledby="upsell-titulo">
+  <div class="upsell-dialog">
+    <h3 id="upsell-titulo">S&uacute;malo a tu pedido</h3>
+    <div class="upsell-cuerpo">
+      <img id="upsell-img" alt="" src="">
+      <div class="upsell-info">
+        <div id="upsell-nombre" class="upsell-nombre"></div>
+        <div id="upsell-desc" class="upsell-desc"></div>
+        <div id="upsell-precio" class="upsell-precio"></div>
+      </div>
+    </div>
+    <div class="upsell-acciones">
+      <button type="button" id="upsell-no" class="upsell-btn-no">No, gracias</button>
+      <button type="button" id="upsell-si" class="upsell-btn-si">Agregar</button>
+    </div>
+  </div>
+</div>
+
+
+<footer class="pie">
+  <strong>Jilbert Burgers</strong>
+  <p class="direccion" data-negocio="direccion">Barrio San Luis, calle Juan Borges N&deg; 11-B, Maracay, Aragua</p>
+  <p>WhatsApp <a href="https://wa.me/584124409025" target="_blank" rel="noopener" data-negocio="whatsapp">0412-440-9025</a></p>
+  <p>Facebook <a href="https://www.facebook.com/search/top?q=jilbert%20burgers" target="_blank" rel="noopener" data-negocio="facebook">Jilbert Burgers</a> &middot; <a href="mailto:jilbertburgers@gmail.com" data-negocio="correo">jilbertburgers@gmail.com</a></p>
+  <p class="copy">&copy; 2026 Jilbert Burgers. Todos los derechos reservados.</p>
+</footer>
+
+<script src="assets/menu.js?v=20261124170439"></script>
+<script src="assets/script.js?v=20261124170439"></script>
+</body>
+</html>
