@@ -43,6 +43,23 @@
   .add-row input[type=text] { flex:1 1 260px; min-width:180px; background:#0a0a0a; color:var(--txt); border:1px solid #444; border-radius:6px; padding:8px; font-size:13px; }
   .add-row select { background:#0a0a0a; color:var(--txt); border:1px solid #444; border-radius:6px; padding:8px; font-size:13px; }
   .aviso { background:#3a2f0a; color:var(--gold); padding:8px 12px; border-radius:6px; font-size:12px; margin:8px 0; }
+  /* T2: tarjetas de producto (look backup 170543, adaptado gold/dark) */
+  .tarjeta-producto { background:var(--panel); border:1px solid #333; border-radius:12px; padding:14px; display:flex; flex-direction:column; gap:8px; margin-top:8px; transition:border-color .2s, box-shadow .2s; }
+  .tarjeta-producto:hover { border-color:var(--gold); box-shadow:0 4px 14px rgba(0,0,0,.5); }
+  .tarjeta-producto .fila-sup { display:flex; align-items:center; gap:10px; }
+  .tarjeta-producto .nombre { font-weight:700; font-size:1rem; flex:1; word-break:break-word; color:var(--txt); }
+  .tarjeta-producto .precio { color:var(--gold); font-weight:800; font-size:1.05rem; }
+  .tarjeta-producto .descripcion { color:var(--muted); font-size:.88rem; line-height:1.4; min-height:2.4em; }
+  .tarjeta-producto .meta { display:flex; justify-content:space-between; align-items:center; font-size:.78rem; color:var(--muted); border-top:1px solid #333; padding-top:8px; margin-top:auto; }
+  .tarjeta-producto .meta .estado-activo { color:var(--green); font-weight:700; }
+  .tarjeta-producto .meta .estado-inactivo { color:var(--red); font-weight:700; }
+  .tarjeta-producto.inactivo { opacity:.55; }
+  .tarjeta-producto.editando { border:2px solid var(--red); box-shadow:0 6px 20px rgba(211,47,47,.15); }
+  .tarjeta-producto.editando .fila-sup,
+  .tarjeta-producto.editando .descripcion,
+  .tarjeta-producto.editando .meta,
+  .tarjeta-producto.editando .acciones-tarjeta { display:none; }
+  .acciones-tarjeta { display:flex; gap:8px; margin-top:12px; padding-top:12px; border-top:1px solid #333; }
 </style>
 </head>
 <body>
@@ -165,9 +182,10 @@
       html += '<section class="cat"><h2><span>' + esc(c.titulo || slug) + '</span><span>' + prods.length + ' productos</span></h2>';
       prods.forEach(function(p){
         var media = mediaDe(p);
-        html += '<div class="prod" data-cat="' + esc(slug) + '" data-id="' + esc(p.id) + '">';
-        html += '<h3>' + esc(p.nombre || '(sin nombre)') + '</h3>';
-        html += '<div class="meta">id: ' + esc(p.id) + ' · precio: ' + esc(p.precio) + ' · foto: ' + (p.foto ? esc(p.foto) : '<em>vacía</em>') + '</div>';
+        html += '<div class="prod tarjeta-producto" data-cat="' + esc(slug) + '" data-id="' + esc(p.id) + '">';
+        html += '<div class="fila-sup"><span class="nombre">' + esc(p.nombre || '(sin nombre)') + '</span><span class="precio">' + esc(p.precio != null ? p.precio : '') + '</span></div>';
+        html += '<div class="descripcion">' + esc(p.descripcion || '') + '</div>';
+        html += '<div class="meta"><span>id: ' + esc(p.id) + ' · foto: ' + (p.foto ? esc(p.foto) : '<em>vacía</em>') + '</span><span class="estado-activo">activo</span></div>';
         html += '<div class="media-list">';
         if (media.length === 0) { html += '<div class="media-item" style="width:auto;color:#999;">Sin media</div>'; }
         else {
@@ -253,7 +271,7 @@
       var f = files[i];
       var esVideo = (f.type && f.type.indexOf('video') === 0);
       var tipo = esVideo ? 'video' : (tipoPedido === 'video' ? 'video' : 'foto');
-      try { var src = await escribirArchivoEnAssets(f, tipo); p.media.push({ tipo: tipo, src: src }); subidos++; }
+      try { var src = await escribirArchivoEnAssets(f, tipo); p.media.push({ tipo: tipo, src: src }); p.foto = p.media[0].src; subidos++; }
       catch(e) { fallos++; msg('err','No se pudo escribir ' + f.name + ': ' + e.message); }
     }
     if (subidos) { msg('ok', subidos + ' archivo(s) agregado(s) a ' + (p.nombre||p.id) + '.'); render(); }
@@ -333,6 +351,7 @@
       var url = urlInp ? String(urlInp.value||'').trim() : '';
       if (!url) { msg('warn','Escribe una ruta o URL primero.'); return; }
       p.media.push({ tipo: (tipoSel && tipoSel.value === 'video') ? 'video' : 'foto', src: url });
+      p.foto = p.media[0].src;
       if (urlInp) urlInp.value = '';
       msg('ok','Medio agregado a ' + (p.nombre||p.id) + '.'); render(); marcarCambios(); return;
     }
