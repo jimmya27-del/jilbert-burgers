@@ -1,7 +1,7 @@
 {
     "negocio": {
         "moneda": "USD",
-        "tasa_bcv": "922.56",
+        "tasa_bcv": "926.36",
         "descuento_contado": 0,
         "texto_boton_pago": "PAGAR AHORA",
         "pago": {
@@ -37,12 +37,12 @@
     },
     "categorias": {
         "hamburguesas": {
-            "titulo": "Hamburguesas",
+            "titulo": "Hamburguesas jb",
             "imagen": "assets/img/cat-hamburguesas.jpg",
             "productos": []
         },
         "salchipapas": {
-            "titulo": "Salchipapas",
+            "titulo": "Salchipapas jb",
             "imagen": "assets/img/cat-salchipapas.jpg",
             "productos": [
                 {
@@ -103,7 +103,7 @@
             ]
         },
         "bebidas": {
-            "titulo": "Bebidas",
+            "titulo": "Bebidas jb",
             "imagen": "assets/img/cat-bebidas.jpg",
             "productos": [
                 {
@@ -140,12 +140,12 @@
             ]
         },
         "combos": {
-            "titulo": "Combos",
+            "titulo": "Combos jb",
             "imagen": "assets/img/cat-combos.jpg",
             "productos": []
         },
         "combos-descuento": {
-            "titulo": "Combos Descuento",
+            "titulo": "Combos Descuento jb",
             "imagen": "assets/img/cat-combos-descuento.jpg",
             "productos": [
                 {
@@ -196,7 +196,7 @@
             ]
         },
         "hamburguesas-carne": {
-            "titulo": "Hamburguesas de Carne",
+            "titulo": "Hamburguesas de Carne jb",
             "imagen": "assets/img/cat-hamburguesas-carne.jpg",
             "productos": [
                 {
@@ -233,7 +233,7 @@
             ]
         },
         "hamburguesas-pollo": {
-            "titulo": "Hamburguesas de Pollo",
+            "titulo": "Hamburguesas de Pollo jb",
             "imagen": "assets/img/cat-hamburguesas-pollo.jpg",
             "productos": [
                 {
