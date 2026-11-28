@@ -66,19 +66,6 @@
 </div>
 <div id="tab-media"><main id="contenido">
   <div class="aviso">Paso 1: pulsa "Cargar menu.json". Paso 2 (recomendado): autoriza la carpeta <code>assets/</code> con el botón que aparece tras cargar, para poder subir archivos reales. Paso 3: edita los medios y pulsa "Guardar en menu.json".</div>
-    <script>
-  (function(){
-    var el = document.getElementById('diagPanel');
-    var info = [
-      'UA: ' + navigator.userAgent,
-      'showOpenFilePicker:  ' + (typeof window.showOpenFilePicker),
-      'showSaveFilePicker:  ' + (typeof window.showSaveFilePicker),
-      'showDirectoryPicker: ' + (typeof window.showDirectoryPicker),
-      'isSecureContext:     ' + window.isSecureContext
-    ].join('\n');
-    el.textContent = info;
-  })();
-  </script>
 </main>
 </div>
 <div id="tab-config" style="display:none;padding:16px;">
