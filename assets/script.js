@@ -1,4 +1,4 @@
-﻿/* ============================================================
+/* ============================================================
    Jilbert Burgers - script.js
    Carrito (localStorage) + render de productos + WhatsApp
    UX: tarjeta toggle con contador y boton "-"
@@ -794,7 +794,7 @@
       });
     }
 
-    (window.MENU ? Promise.resolve(window.MENU) : fetch('assets/menu.json').then(function(r){return r.json()}))
+    (fetch('assets/menu.json').then(function(r){return r.arrayBuffer()}).then(function(b){return JSON.parse(new TextDecoder('utf-8').decode(b))}).catch(function(){ return window.MENU; }))
       .then(function (data) {
         menuData = data;
         actualizarTextoBotonPago();
